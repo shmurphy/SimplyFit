@@ -37,8 +37,10 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mNameView.setText(mValues.get(position).mName);
-        holder.mLocationView.setText(mValues.get(position).mLocation);
+//        holder.mTitleView.setText("New Workout");
+        holder.mNameView.setText("Workout name: " + mValues.get(position).mName);
+        holder.mLocationView.setText("Location: " + mValues.get(position).mLocation);
+        holder.mTimeView.setText("Time: " + mValues.get(position).mStart + " to " + mValues.get(position).mEnd);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,15 +61,19 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
+//        public final TextView mTitleView;
         public final TextView mNameView;
         public final TextView mLocationView;
+        public final TextView mTimeView;
         public Workout mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
+//            mTitleView = (TextView) view.findViewById(R.id.workout_title);
             mNameView = (TextView) view.findViewById(R.id.workout_name);
             mLocationView = (TextView) view.findViewById(R.id.workout_location);
+            mTimeView = (TextView) view.findViewById(R.id.workout_time);
         }
 
         @Override
