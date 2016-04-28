@@ -12,10 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-//import shmurphy.tacoma.uw.edu.simplyfitter.dummy.DummyContent;
-//import shmurphy.tacoma.uw.edu.simplyfitter.dummy.DummyContent.DummyItem;
-import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -24,29 +20,44 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
+//import shmurphy.tacoma.uw.edu.simplyfitter.model.dummy.DummyContent;
+//import shmurphy.tacoma.uw.edu.simplyfitter.model.dummy.DummyContent.DummyItem;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class CalendarListFragment extends Fragment {
-
-    // TODO: Customize parameters
+public class WorkoutListFragment extends Fragment  {
 
     private static final String WORKOUT_URL
             = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=workouts";
+
     private RecyclerView mRecyclerView;
 
+    // TODO: Customize parameters
     private int mColumnCount = 1;
 
     private OnListFragmentInteractionListener mListener;
+
+    public String mDay;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public CalendarListFragment() {
+    public WorkoutListFragment() {
+    }
+
+    /**
+     * Sets the day field so the workout list will be associated with one specific day.
+     * @param day
+     */
+    public void setDay(String day) {
+        mDay = day;
     }
 
     @Override
@@ -58,7 +69,7 @@ public class CalendarListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calendarday_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_workout_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -69,10 +80,10 @@ public class CalendarListFragment extends Fragment {
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-//            recyclerView.setAdapter(new MyCalendarDayRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+//            recyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
 
-        DownloadCalendarDaysTask task = new DownloadCalendarDaysTask();
+        DownloadWorkoutsTask task = new DownloadWorkoutsTask();
         task.execute(new String[]{WORKOUT_URL});
 
         return view;
@@ -96,22 +107,12 @@ public class CalendarListFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(CalendarDay item);
+        void onListFragmentInteraction(Workout item);
     }
 
-    private class DownloadCalendarDaysTask extends AsyncTask<String, Void, String> {
+    private class DownloadWorkoutsTask extends AsyncTask<String, Void, String> {
         @Override protected String doInBackground(String... urls) {
             String response = "";
             HttpURLConnection urlConnection = null;
@@ -126,7 +127,7 @@ public class CalendarListFragment extends Fragment {
                         response += s;
                     }
                 } catch (Exception e) {
-                    response = "Unable to download the list of days, Reason: "
+                    response = "Unable to download the list of workouts, Reason: "
                             + e.getMessage();
                 }
                 finally {
@@ -147,13 +148,10 @@ public class CalendarListFragment extends Fragment {
                         .show();
                 return;
             }
-            List<CalendarDay> dateList = new ArrayList<CalendarDay>(40);
-//            dateList.add(new CalendarDay("Date"));
-            for(int i = 0; i < 40; i++) {
-                dateList.add(new CalendarDay(String.valueOf(i)));
-            }
+            List<Workout> workoutList = new ArrayList<Workout>(40);
 
-            result = CalendarDay.parseWorkoutJSON(result, dateList);
+            result = Workout.parseWorkoutJSON(result, workoutList, mDay);
+            // sending the day to the parseJSON so that it can know which day to grab workouts for
 
 
             // Something wrong with the JSON returned.
@@ -163,12 +161,11 @@ public class CalendarListFragment extends Fragment {
                 return;
             }
             // Everything is good, show the list of courses.
-            if (!dateList.isEmpty()) {
+            if (!workoutList.isEmpty()) {
 //                Log.d("debug-listener", mListener.toString());
-                mRecyclerView.setAdapter(new MyCalendarDayRecyclerViewAdapter(dateList, mListener));
+                mRecyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(workoutList, mListener));
             }
         }
 
     }
-
 }

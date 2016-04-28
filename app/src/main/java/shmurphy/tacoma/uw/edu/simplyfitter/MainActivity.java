@@ -1,17 +1,16 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
-public class MainActivity extends AppCompatActivity implements CalendarListFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements CalendarListFragment.OnListFragmentInteractionListener,
+WorkoutListFragment.OnListFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +30,10 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
 
 
         if (savedInstanceState == null ||
-                getSupportFragmentManager().findFragmentById(R.id.list) == null) {
-            CalendarListFragment workoutListFragment = new CalendarListFragment();
+                getSupportFragmentManager().findFragmentById(R.id.calendarlist_fragment) == null) {
+            CalendarListFragment calendarListFragment = new CalendarListFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, workoutListFragment)
+                    .add(R.id.fragment_container, calendarListFragment)
                     .commit();
         }
     }
@@ -63,6 +62,22 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
 
     @Override
     public void onListFragmentInteraction(CalendarDay item) {
+        String day = item.mDay;
+
+        WorkoutListFragment workoutListFragment = new WorkoutListFragment();
+//        Bundle args = new Bundle();
+//        args.putSerializable(CourseDetailFragment.COURSE_ITEM_SELECTED, item);
+//        workoutListFragment.setArguments(args);
+        workoutListFragment.setDay(day);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, workoutListFragment)
+                .addToBackStack(null)
+                .commit();
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(Workout item) {
 
     }
 }
