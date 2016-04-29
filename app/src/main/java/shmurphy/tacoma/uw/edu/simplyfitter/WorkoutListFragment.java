@@ -3,6 +3,7 @@ package shmurphy.tacoma.uw.edu.simplyfitter;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -85,6 +86,10 @@ public class WorkoutListFragment extends Fragment  {
 
         DownloadWorkoutsTask task = new DownloadWorkoutsTask();
         task.execute(new String[]{WORKOUT_URL});
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.workout_fab);
+        floatingActionButton.show();
 
         return view;
     }

@@ -1,16 +1,19 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
 public class MainActivity extends AppCompatActivity implements CalendarListFragment.OnListFragmentInteractionListener,
-WorkoutListFragment.OnListFragmentInteractionListener {
+WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWorkoutListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,14 +22,18 @@ WorkoutListFragment.OnListFragmentInteractionListener {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.workout_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddWorkoutFragment addWorkoutFragment = new AddWorkoutFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, addWorkoutFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
 
 
         if (savedInstanceState == null ||
@@ -60,6 +67,11 @@ WorkoutListFragment.OnListFragmentInteractionListener {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * From CalendarListFragment
+     * Launches the WorkoutListFragment when a CalendarDay is selected
+     * @param item
+     */
     @Override
     public void onListFragmentInteraction(CalendarDay item) {
         String day = item.mDay;
@@ -76,8 +88,21 @@ WorkoutListFragment.OnListFragmentInteractionListener {
 
     }
 
+    /**
+     * From WorkoutListFragment
+     * @param item
+     */
     @Override
     public void onListFragmentInteraction(Workout item) {
+
+    }
+
+    /**
+     * From AddWorkoutFragment
+     * @param url
+     */
+    @Override
+    public void addWorkout(String url) {
 
     }
 }

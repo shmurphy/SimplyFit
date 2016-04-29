@@ -3,6 +3,7 @@ package shmurphy.tacoma.uw.edu.simplyfitter;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -71,6 +72,10 @@ public class CalendarListFragment extends Fragment {
             }
 //            recyclerView.setAdapter(new MyCalendarDayRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.workout_fab);
+        floatingActionButton.hide();
 
         DownloadCalendarDaysTask task = new DownloadCalendarDaysTask();
         task.execute(new String[]{WORKOUT_URL});

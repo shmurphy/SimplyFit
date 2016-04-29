@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="shmurphy.tacoma.uw.edu.simplyfitter.AddWorkoutFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_workout_date"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_workout_name"
+        android:hint="@string/workout_name_hint" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_workout_location"
+        android:hint="@string/workout_location_hint" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_workout_start"
+        android:hint="@string/workout_start_hint" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_workout_end"
+        android:hint="@string/workout_end_hint" />
+
+    <Button
+        android:layout_width= "wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_workout_button"
+        android:layout_gravity="right"
+        android:onClick="addWorkout" />
+
+</LinearLayout>
