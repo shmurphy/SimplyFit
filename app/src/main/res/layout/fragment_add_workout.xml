@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/add_workout_button"
         android:layout_gravity="right"
+        android:text="@string/add_workout_button"
         android:onClick="addWorkout" />
 
 </LinearLayout>

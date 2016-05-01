@@ -1,5 +1,6 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -8,12 +9,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
 public class MainActivity extends AppCompatActivity implements CalendarListFragment.OnListFragmentInteractionListener,
 WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWorkoutListener {
+
+    private String mDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +40,13 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
             @Override
             public void onClick(View view) {
                 AddWorkoutFragment addWorkoutFragment = new AddWorkoutFragment();
+                addWorkoutFragment.setDate(mDate);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, addWorkoutFragment)
                         .addToBackStack(null)
                         .commit();
             }
         });
-
-
 
         if (savedInstanceState == null ||
                 getSupportFragmentManager().findFragmentById(R.id.calendarlist_fragment) == null) {
@@ -43,6 +55,7 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
                     .add(R.id.fragment_container, calendarListFragment)
                     .commit();
         }
+
     }
 
     @Override
@@ -70,17 +83,18 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
     /**
      * From CalendarListFragment
      * Launches the WorkoutListFragment when a CalendarDay is selected
+     *
      * @param item
      */
     @Override
     public void onListFragmentInteraction(CalendarDay item) {
-        String day = item.mDay;
+        mDate = item.mDay;
 
         WorkoutListFragment workoutListFragment = new WorkoutListFragment();
 //        Bundle args = new Bundle();
 //        args.putSerializable(CourseDetailFragment.COURSE_ITEM_SELECTED, item);
 //        workoutListFragment.setArguments(args);
-        workoutListFragment.setDay(day);
+        workoutListFragment.setDay(mDate);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, workoutListFragment)
                 .addToBackStack(null)
@@ -90,6 +104,7 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
 
     /**
      * From WorkoutListFragment
+     *
      * @param item
      */
     @Override
@@ -99,10 +114,77 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
 
     /**
      * From AddWorkoutFragment
+     *
      * @param url
      */
     @Override
     public void addWorkout(String url) {
+        AddWorkoutTask task = new AddWorkoutTask();
+        task.execute(new String[]{url.toString()});
+          // Takes you back to the previous fragment by popping the current fragment out.
+          getSupportFragmentManager().popBackStackImmediate();
+    }
 
+    private class AddWorkoutTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            for (String url : urls) {
+                try {
+                    URL urlObject = new URL(url);
+                    urlConnection = (HttpURLConnection) urlObject.openConnection();
+                    InputStream content = urlConnection.getInputStream();
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+                } catch (Exception e) {
+                    response = "Unable to add workout, Reason: "
+                            + e.getMessage();
+                } finally {
+                    if (urlConnection != null) {
+                        urlConnection.disconnect();
+                    }
+                }
+            }
+            return response;
+        }
+
+        /**
+         * It checks to see if there was a problem with the URL(Network) which is when an
+         * exception is caught. It tries to call the parse Method and checks to see if it was successful.
+         * If not, it displays the exception.
+         *
+         * @param result
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            // Something wrong with the network or the URL.
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                String status = (String) jsonObject.get("result");
+                if (status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), "Workout successfully added!"
+                            , Toast.LENGTH_LONG)
+                            .show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Failed to add: "
+                            + jsonObject.get("error")
+                            , Toast.LENGTH_LONG)
+                            .show();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getApplicationContext(), "Something wrong with the data" +
+                        e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

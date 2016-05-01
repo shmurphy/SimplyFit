@@ -167,7 +167,7 @@ public class CalendarListFragment extends Fragment {
                         .show();
                 return;
             }
-            // Everything is good, show the list of courses.
+            // Everything is good, show the list of workouts.
             if (!dateList.isEmpty()) {
 //                Log.d("debug-listener", mListener.toString());
                 mRecyclerView.setAdapter(new MyCalendarDayRecyclerViewAdapter(dateList, mListener));

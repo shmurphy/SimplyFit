@@ -8,4 +8,5 @@
     <string name="workout_start_hint">Enter the start time</string>
     <string name="workout_end_hint">Enter the end time</string>
     <string name="add_workout_button">Add Workout</string>
+    <string name="workout_date_hint">Enter the day of the month</string>
 </resources>

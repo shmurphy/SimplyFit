@@ -14,19 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.app.Activity.*;
-
-import org.w3c.dom.Text;
-
-import java.net.URLEncoder;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AddWorkoutFragment extends Fragment {
 
-    private final static String COURSE_ADD_URL
+    private final static String WORKOUT_ADD_URL
             = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/addWorkout.php?";
 
     private EditText mNameEditText;
@@ -35,6 +29,7 @@ public class AddWorkoutFragment extends Fragment {
     private EditText mEndTimeEditText;
     private TextView mDateTextView;
 
+    private String mDate;
 
     private AddWorkoutListener mListener;
 
@@ -59,6 +54,8 @@ public class AddWorkoutFragment extends Fragment {
         mEndTimeEditText = (EditText) v.findViewById(R.id.add_workout_end);
         mDateTextView = (TextView) v.findViewById(R.id.add_workout_date);
 
+        mDateTextView.setText(mDate);
+
 
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)
@@ -70,7 +67,7 @@ public class AddWorkoutFragment extends Fragment {
         addWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = buildCourseURL(v);
+                String url = buildWorkoutURL(v);
                 mListener.addWorkout(url);
             }
         });
@@ -84,12 +81,12 @@ public class AddWorkoutFragment extends Fragment {
             mListener = (AddWorkoutListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement CourseAddListener");
+                    + " must implement AddWorkoutListener");
         }
     }
 
-    private String buildCourseURL(View v) {
-        StringBuilder sb = new StringBuilder(COURSE_ADD_URL);
+    private String buildWorkoutURL(View v) {
+        StringBuilder sb = new StringBuilder(WORKOUT_ADD_URL);
         try {
             String workoutName = mNameEditText.getText().toString();
             sb.append("name=");
@@ -107,9 +104,9 @@ public class AddWorkoutFragment extends Fragment {
             sb.append("&location=");
             sb.append(workoutLocation);
 
-            String date = mDateTextView.getText().toString();
+//            String date = mDateTextView.getText().toString();
             sb.append("&day=");
-            sb.append(date);
+            sb.append(mDate);
 
             Log.i("AddWorkoutFragment", sb.toString());
         }
@@ -122,5 +119,8 @@ public class AddWorkoutFragment extends Fragment {
     }
 
 
+    public void setDate(String date) {
+        mDate = date;
+    }
 
 }
