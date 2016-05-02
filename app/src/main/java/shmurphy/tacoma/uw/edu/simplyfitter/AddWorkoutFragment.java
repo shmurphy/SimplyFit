@@ -54,7 +54,7 @@ public class AddWorkoutFragment extends Fragment {
         mEndTimeEditText = (EditText) v.findViewById(R.id.add_workout_end);
         mDateTextView = (TextView) v.findViewById(R.id.add_workout_date);
 
-        mDateTextView.setText(mDate);
+        mDateTextView.setText("New Workout for April " + mDate + ", 2016");
 
 
 
