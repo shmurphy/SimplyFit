@@ -11,3 +11,5 @@
     app:layoutManager="LinearLayoutManager"
     tools:context=".WorkoutListFragment"
     tools:listitem="@layout/fragment_workout" />
+
+

@@ -38,7 +38,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 //        holder.mTitleView.setText("New Workout");
-        holder.mNameView.setText("Workout name: " + mValues.get(position).mName);
+
         holder.mLocationView.setText("Location: " + mValues.get(position).mLocation);
         holder.mTimeView.setText("Time: " + mValues.get(position).mStart + " to " + mValues.get(position).mEnd);
 

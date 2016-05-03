@@ -3,13 +3,16 @@ package shmurphy.tacoma.uw.edu.simplyfitter;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -37,9 +40,9 @@ public class WorkoutListFragment extends Fragment  {
             = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=workouts";
 
     private RecyclerView mRecyclerView;
-
-    // TODO: Customize parameters
     private int mColumnCount = 1;
+
+    private TextView mTitleTextView;
 
     private OnListFragmentInteractionListener mListener;
 
@@ -58,6 +61,7 @@ public class WorkoutListFragment extends Fragment  {
      */
     public void setDay(String day) {
         mDay = day;
+
     }
 
     @Override
@@ -85,6 +89,10 @@ public class WorkoutListFragment extends Fragment  {
 
         DownloadWorkoutsTask task = new DownloadWorkoutsTask();
         task.execute(new String[]{WORKOUT_URL});
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.workout_fab);
+        floatingActionButton.show();
 
         return view;
     }
