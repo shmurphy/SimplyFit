@@ -9,4 +9,13 @@
     <string name="workout_end_hint">Enter the end time</string>
     <string name="add_workout_button">Add Workout</string>
     <string name="workout_date_hint">Enter the day of the month</string>
+
+    <string name="title_activity_sign_in">SIGN IN</string>
+    <string name="userid">Enter your user ID</string>
+    <string name="password">Enter your password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="LOGIN_PREFS"> edu.uw.tacoma.shmurphy.webservicelab.PREFS</string>
+    <string name ="LOGGEDIN">logged in</string>
+    <string name="action_logout">Logout</string>
+    <string name="LOGIN_FILE"> edu.uw.tacoma.mmuppa.webservicelab.LOGIN_FILE</string>
 </resources>

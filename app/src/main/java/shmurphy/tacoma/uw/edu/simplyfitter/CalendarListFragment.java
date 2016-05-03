@@ -1,6 +1,8 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -60,8 +62,8 @@ public class CalendarListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendarday_list, container, false);
+;
 
-        // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             mRecyclerView = (RecyclerView) view;
@@ -76,6 +78,40 @@ public class CalendarListFragment extends Fragment {
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.workout_fab);
         floatingActionButton.hide();
+
+
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            DownloadCalendarDaysTask task = new DownloadCalendarDaysTask();
+            task.execute(new String[]{WORKOUT_URL});
+        } else {
+            Toast.makeText(view.getContext(),
+                    "No network connection available. Cannot display courses",
+                    Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+
+        try {
+            InputStream inputStream = getActivity().openFileInput(
+                    getString(R.string.LOGIN_FILE));
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(receiveString);
+                }
+                inputStream.close();
+                Toast.makeText(getActivity(), stringBuilder.toString(), Toast.LENGTH_SHORT)
+                        .show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         DownloadCalendarDaysTask task = new DownloadCalendarDaysTask();
         task.execute(new String[]{WORKOUT_URL});

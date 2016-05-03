@@ -1,5 +1,8 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +23,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import shmurphy.tacoma.uw.edu.simplyfitter.authenticate.SignInActivity;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
@@ -74,6 +78,18 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_logout) {
+            SharedPreferences sharedPreferences =
+                    getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                            Context.MODE_PRIVATE);
+            sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false)
+                    .commit();
+            Intent i = new Intent(this, SignInActivity.class);
+            startActivity(i);
+            finish();
             return true;
         }
 
@@ -187,4 +203,9 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
             }
         }
     }
+
+
+
+
+
 }
