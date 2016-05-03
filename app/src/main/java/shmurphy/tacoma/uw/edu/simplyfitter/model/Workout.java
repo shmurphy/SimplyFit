@@ -23,7 +23,8 @@ public class Workout {
     }
 
     public String toString() {
-        return "Workout- " + mName + " at " + mLocation + ", from " + mStart + " to " + mEnd;
+//        return mName + " at " + mLocation + ", from " + mStart + " to " + mEnd;
+        return mName + " at " + mLocation;
     }
 
     /**  * Parses the json string, returns an error message if unsuccessful.  * Returns workout list if success.

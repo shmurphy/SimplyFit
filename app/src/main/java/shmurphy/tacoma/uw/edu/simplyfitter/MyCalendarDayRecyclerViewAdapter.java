@@ -25,6 +25,7 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
     private final OnListFragmentInteractionListener mListener;
 
     public MyCalendarDayRecyclerViewAdapter(List<CalendarDay> items, OnListFragmentInteractionListener listener) {
+
         mValues = items; // this is a list of all of the days. each day has its own list of workouts
         mListener = listener;
     }
@@ -40,35 +41,38 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-
-//        if(mValues.get(position).getmDay() == null) {
-//            Log.d("DEBUG-NULL", "this was null");
-//        } else {
-//            Log.d("DEBUG-NOT NULL", "this wasn't null");
-//        }
-        holder.mIdView.setText(mValues.get(position).getmDay());
-
-//        Log.d("DEBUG-WORKOUTS", mValues.get(position).getMyWorkouts().toString());
-        if(mValues.get(position).getMyWorkouts().size() > 0) {
-            holder.mContentView.setText(mValues.get(position).getMyWorkouts().toString());
+        if(position == 0) {
+            holder.mIdView.setText("Day");
+            holder.mContentView.setText("Workouts");
         } else {
-            holder.mContentView.setText("");
+            holder.mIdView.setText(mValues.get(position).getmDay());
 
+            if (mValues.get(position).getMyWorkouts().size() > 0) {
+                String text = "";
+                text += mValues.get(position).getMyWorkouts().get(0).toString();
+
+                for (int i = 1; i < mValues.get(position).getMyWorkouts().size(); i++) {
+                    text += ", ";
+                    text += mValues.get(position).getMyWorkouts().get(i).toString();
+                }
+                holder.mContentView.setText(text);
+            } else {
+                holder.mContentView.setText("");
+
+            }
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (null != mListener) {
+                        // Notify the active callbacks interface (the activity, if the
+                        // fragment is attached to one) that an item has been selected.
+                        mListener.onListFragmentInteraction(holder.mItem);
+                    }
+                }
+            });
         }
 
-//        Log.d("DEBUG-SIZE", String.valueOf(mValues.get(position).getMyWorkouts().size()));
 
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
     }
 
     @Override

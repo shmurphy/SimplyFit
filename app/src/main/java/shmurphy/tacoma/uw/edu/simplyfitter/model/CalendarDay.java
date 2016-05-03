@@ -46,15 +46,7 @@ public class CalendarDay implements Serializable {
                             obj.getString(CalendarDay.WORKOUT_LOCATION));
 
                     int day = Integer.parseInt(calendarDay.mDay);
-                    Log.d("DEBUG - I ", String.valueOf(i));
-
-//                    if(calendarDayList.get(day).mDay == null) {
-////                        Log.d("debug-DAY", "IT WAS NULL");
-//                        calendarDay.myWorkouts.add(workout);
-//                        calendarDayList.set(day, calendarDay);
-//                    } else {
-//                        calendarDayList.get(day).myWorkouts.add(workout);
-//                    }
+//                    Log.d("DEBUG - I ", String.valueOf(i));
 
                     // if there are no workouts logged for this day yet, we add the new workout,
                     // and set that day's position accordingly.
@@ -69,20 +61,11 @@ public class CalendarDay implements Serializable {
                         tempDay.myWorkouts.add(workout);
                         calendarDayList.set(day, tempDay);
                     }
-
-
-
-//                    calendarDayList.add(calendarDay);
-
                 }
             } catch (JSONException e) {
                 reason =  "Unable to parse data, Reason: " + e.getMessage();
             }
         }
-//        Log.d("DEBUG-CALENDARDAY LIST", calendarDayList.toString());
-
-
-//        Collections.sort(calendarDayList);
         return reason;
     }
 

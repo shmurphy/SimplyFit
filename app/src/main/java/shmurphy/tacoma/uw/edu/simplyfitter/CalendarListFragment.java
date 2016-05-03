@@ -182,22 +182,18 @@ public class CalendarListFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-
-//            Log.d("debug!!", result);
             // Something wrong with the network or the URL.
             if (result.startsWith("Unable to")) {
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
                         .show();
                 return;
             }
-            List<CalendarDay> dateList = new ArrayList<CalendarDay>(40);
-//            dateList.add(new CalendarDay("Date"));
-            for(int i = 0; i < 40; i++) {
+            List<CalendarDay> dateList = new ArrayList<CalendarDay>(30);
+            for(int i = 0; i < 31; i++) {
                 dateList.add(new CalendarDay(String.valueOf(i)));
             }
 
             result = CalendarDay.parseWorkoutJSON(result, dateList);
-
 
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -207,11 +203,8 @@ public class CalendarListFragment extends Fragment {
             }
             // Everything is good, show the list of workouts.
             if (!dateList.isEmpty()) {
-//                Log.d("debug-listener", mListener.toString());
                 mRecyclerView.setAdapter(new MyCalendarDayRecyclerViewAdapter(dateList, mListener));
             }
         }
-
     }
-
 }
