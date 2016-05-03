@@ -43,7 +43,9 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
 
         if(position == 0) {
             holder.mIdView.setText("Day");
+            holder.mIdView.setTextSize(25);
             holder.mContentView.setText("Workouts");
+            holder.mContentView.setTextSize(25);
         } else {
             holder.mIdView.setText(mValues.get(position).getmDay());
 
