@@ -15,8 +15,10 @@
     <string name="userid">Enter your user ID</string>
     <string name="password">Enter your password</string>
     <string name="sign_in">Sign in</string>
+    <string name="register">Register</string>
+    <string name="add_user_register">Register</string>
     <string name="LOGIN_PREFS"> edu.uw.tacoma.shmurphy.webservicelab.PREFS</string>
-    <string name ="LOGGEDIN">logged in</string>
+    <string name="LOGGEDIN">logged in</string>
     <string name="action_logout">Logout</string>
     <string name="LOGIN_FILE"> edu.uw.tacoma.mmuppa.webservicelab.LOGIN_FILE</string>
 </resources>

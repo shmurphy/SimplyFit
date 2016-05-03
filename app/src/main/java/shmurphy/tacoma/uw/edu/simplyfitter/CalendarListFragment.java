@@ -61,8 +61,10 @@ public class CalendarListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        getActivity().setTitle("Workouts for April, 2016");
+
         View view = inflater.inflate(R.layout.fragment_calendarday_list, container, false);
-;
 
         if (view instanceof RecyclerView) {
             Context context = view.getContext();

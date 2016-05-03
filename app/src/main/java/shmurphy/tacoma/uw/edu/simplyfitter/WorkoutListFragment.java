@@ -73,6 +73,10 @@ public class WorkoutListFragment extends Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        getActivity().setTitle("Workouts for April " + mDay + ", 2016");
+
+
         View view = inflater.inflate(R.layout.fragment_workout_list, container, false);
 
         // Set the adapter
