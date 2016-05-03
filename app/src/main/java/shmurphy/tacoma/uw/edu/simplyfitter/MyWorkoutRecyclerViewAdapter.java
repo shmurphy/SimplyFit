@@ -1,6 +1,7 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         holder.mItem = mValues.get(position);
 //        holder.mTitleView.setText("New Workout");
 
+        holder.mNameView.setText(mValues.get(position).mName);
         holder.mLocationView.setText("Location: " + mValues.get(position).mLocation);
         holder.mTimeView.setText("Time: " + mValues.get(position).mStart + " to " + mValues.get(position).mEnd);
 

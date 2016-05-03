@@ -17,7 +17,6 @@ public class Workout {
 
     public Workout(String name, String start, String end, String location) {
         mName = name;
-
         mStart = start;
         mEnd = end;
         mLocation = location;
