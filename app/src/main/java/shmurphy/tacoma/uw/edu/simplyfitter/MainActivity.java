@@ -31,7 +31,7 @@ import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 public class MainActivity extends AppCompatActivity implements CalendarListFragment.OnListFragmentInteractionListener,
 WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWorkoutListener {
 
-    private String mDate;
+    private String mDate;   // used to keep track of the date we're on
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,8 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // add workout button. on click starts the add workout fragment
+        // we send the mDate field to the fragment so it knows which day we're adding a workout to
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.workout_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +55,7 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
             }
         });
 
+        // if we've already logged in, start the calendar list fragment
         if (savedInstanceState == null ||
                 getSupportFragmentManager().findFragmentById(R.id.calendarlist_fragment) == null) {
             CalendarListFragment calendarListFragment = new CalendarListFragment();
@@ -60,7 +63,6 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
                     .add(R.id.fragment_container, calendarListFragment)
                     .commit();
         }
-
     }
 
     @Override
@@ -82,12 +84,14 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
             return true;
         }
 
+        // logout button
         if (id == R.id.action_logout) {
             SharedPreferences sharedPreferences =
                     getSharedPreferences(getString(R.string.LOGIN_PREFS),
                             Context.MODE_PRIVATE);
             sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false)
                     .commit();
+            // takes us back to the sign in activity
             Intent i = new Intent(this, SignInActivity.class);
             startActivity(i);
             finish();
@@ -100,17 +104,15 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
     /**
      * From CalendarListFragment
      * Launches the WorkoutListFragment when a CalendarDay is selected
-     *
-     * @param item
+     * We send the mDate field to the WorkoutListFragment so that it knows which day to
+     * display workouts for.
+     * @param item the calendar day item
      */
     @Override
     public void onListFragmentInteraction(CalendarDay item) {
         mDate = item.mDay;
 
         WorkoutListFragment workoutListFragment = new WorkoutListFragment();
-//        Bundle args = new Bundle();
-//        args.putSerializable(CourseDetailFragment.COURSE_ITEM_SELECTED, item);
-//        workoutListFragment.setArguments(args);
         workoutListFragment.setDay(mDate);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, workoutListFragment)
@@ -122,6 +124,7 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
     /**
      * From WorkoutListFragment
      *
+     * Here we will implement the exercise list fragment (not implemented yet)
      * @param item
      */
     @Override
@@ -131,7 +134,9 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
 
     /**
      * From AddWorkoutFragment
-     *
+     * This is called when the add workout button is pushed on the AddWorkoutFragment.
+     * It executes the AddWorkoutTask to add the new workout and then returns back to the
+     * WorkoutListFragment by popping the stack.
      * @param url
      */
     @Override
@@ -142,6 +147,9 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
           getSupportFragmentManager().popBackStackImmediate();
     }
 
+    /**
+     * Add the new workout to our database table.
+     */
     private class AddWorkoutTask extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {

@@ -25,28 +25,22 @@ import java.util.List;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
-//import shmurphy.tacoma.uw.edu.simplyfitter.model.dummy.DummyContent;
-//import shmurphy.tacoma.uw.edu.simplyfitter.model.dummy.DummyContent.DummyItem;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
+ * Fragment to hold a list of Workouts.
  */
 public class WorkoutListFragment extends Fragment  {
 
+    /** Used to build the URL for the test.php file */
     private static final String WORKOUT_URL
             = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=workouts";
 
-    private RecyclerView mRecyclerView;
-    private int mColumnCount = 1;
-
-    private TextView mTitleTextView;
+    private RecyclerView mRecyclerView; // the recycler view used for this fragment
+    private int mColumnCount = 1;       // number of columns for the fragment
 
     private OnListFragmentInteractionListener mListener;
 
-    public String mDay;
+    public String mDay; // used to keep track of the current day
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -119,11 +113,19 @@ public class WorkoutListFragment extends Fragment  {
         mListener = null;
     }
 
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListFragmentInteraction(Workout item);
     }
 
+    /**
+     * Downloads the Workouts.
+     */
     private class DownloadWorkoutsTask extends AsyncTask<String, Void, String> {
         @Override protected String doInBackground(String... urls) {
             String response = "";
@@ -152,8 +154,6 @@ public class WorkoutListFragment extends Fragment  {
 
         @Override
         protected void onPostExecute(String result) {
-
-//            Log.d("debug!!", result);
             // Something wrong with the network or the URL.
             if (result.startsWith("Unable to")) {
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
@@ -174,7 +174,6 @@ public class WorkoutListFragment extends Fragment  {
             }
             // Everything is good, show the list of courses.
             if (!workoutList.isEmpty()) {
-//                Log.d("debug-listener", mListener.toString());
                 mRecyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(workoutList, mListener));
             }
         }

@@ -1,32 +1,29 @@
+/** TCSS 450 - Mobile Apps - Group 11 */
+
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.CalendarListFragment.OnListFragmentInteractionListener;
-//import shmurphy.tacoma.uw.edu.simplyfitter.dummy.DummyContent.DummyItem;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
 
-import java.util.Calendar;
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ * The RecyclerViewAdapter to manage the Calendar List view.
  */
 public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCalendarDayRecyclerViewAdapter.ViewHolder> {
 
-    private final List<CalendarDay> mValues;
+    private final List<CalendarDay> mCalDays; // list of all of the days. each day has its own list of workouts
     private final OnListFragmentInteractionListener mListener;
 
     public MyCalendarDayRecyclerViewAdapter(List<CalendarDay> items, OnListFragmentInteractionListener listener) {
 
-        mValues = items; // this is a list of all of the days. each day has its own list of workouts
+        mCalDays = items;
         mListener = listener;
     }
 
@@ -38,9 +35,13 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
     }
 
     @Override
+    /**
+     * This is where we set the text for all of the TextViews.
+     */
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
+        holder.mItem = mCalDays.get(position);
 
+        // this if statement is to set the very top row to be like column headers.
         if(position == 0) {
             holder.mIdView.setText("Day");
             holder.mIdView.setTextSize(25);
@@ -50,18 +51,20 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
             holder.mIdView.setTextSize(17);
             holder.mContentView.setTextSize(17);
 
-            holder.mIdView.setText(mValues.get(position).getmDay());
+            holder.mIdView.setText(mCalDays.get(position).getmDay());
 
-            if (mValues.get(position).getMyWorkouts().size() > 0) {
+            // this if statement checks to see if the calendar day we are setting has a list of
+            // workouts yet. if it does, we display it in the mContentView TextView
+            if (mCalDays.get(position).getMyWorkouts().size() > 0) {
                 String text = "";
-                text += mValues.get(position).getMyWorkouts().get(0).toString();
+                text += mCalDays.get(position).getMyWorkouts().get(0).toString();
 
-                for (int i = 1; i < mValues.get(position).getMyWorkouts().size(); i++) {
+                for (int i = 1; i < mCalDays.get(position).getMyWorkouts().size(); i++) {
                     text += ", ";
-                    text += mValues.get(position).getMyWorkouts().get(i).toString();
+                    text += mCalDays.get(position).getMyWorkouts().get(i).toString();
                 }
                 holder.mContentView.setText(text);
-            } else {
+            } else { // there are no workouts logged for this day yet, so we leave it blank
                 holder.mContentView.setText("");
 
             }
@@ -82,7 +85,7 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mCalDays.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

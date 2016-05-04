@@ -1,7 +1,8 @@
+/** TCSS 450 - Mobile Apps - Group 11 */
+
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,22 +10,19 @@ import android.widget.TextView;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.WorkoutListFragment.OnListFragmentInteractionListener;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
-//import shmurphy.tacoma.uw.edu.simplyfitter.model.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ * RecyclerViewAdapter to manage the Workout List view.
  */
 public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkoutRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Workout> mValues;
+    private final List<Workout> mWorkouts;      // list of workouts for the day
     private final OnListFragmentInteractionListener mListener;
 
     public MyWorkoutRecyclerViewAdapter(List<Workout> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+        mWorkouts = items;
         mListener = listener;
     }
 
@@ -36,17 +34,18 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
     }
 
     @Override
+    /**
+     * This is where we set the text of all of the TextView elements.
+     */
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-//        holder.mTitleView.setText("New Workout");
-
-        holder.mNameView.setText(mValues.get(position).mName);
-        holder.mLocationView.setText("Location: " + mValues.get(position).mLocation);
-        holder.mTimeView.setText("Time: " + mValues.get(position).mStart + " to " + mValues.get(position).mEnd);
+        holder.mItem = mWorkouts.get(position);
+        holder.mNameView.setText(mWorkouts.get(position).mName);
+        holder.mLocationView.setText("Location: " + mWorkouts.get(position).mLocation);
+        holder.mTimeView.setText("Time: " + mWorkouts.get(position).mStart + " to " + mWorkouts.get(position).mEnd);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {   // here we will implement an exercise fragment list to be invoked
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
@@ -58,21 +57,19 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mWorkouts.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-//        public final TextView mTitleView;
-        public final TextView mNameView;
-        public final TextView mLocationView;
-        public final TextView mTimeView;
+        public final TextView mNameView;        // name of the workout
+        public final TextView mLocationView;    // location of the workout
+        public final TextView mTimeView;        // time of the workout
         public Workout mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-//            mTitleView = (TextView) view.findViewById(R.id.workout_title);
             mNameView = (TextView) view.findViewById(R.id.workout_name);
             mLocationView = (TextView) view.findViewById(R.id.workout_location);
             mTimeView = (TextView) view.findViewById(R.id.workout_time);
