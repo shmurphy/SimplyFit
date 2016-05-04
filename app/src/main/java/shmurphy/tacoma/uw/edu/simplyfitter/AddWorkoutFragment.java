@@ -1,3 +1,5 @@
+/* TCSS 450 - Mobile Apps - Group 11 */
+
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 
@@ -16,31 +18,38 @@ import android.widget.Toast;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to add new workouts. Accesses each of the EditText elements from the .xml file.
  */
 public class AddWorkoutFragment extends Fragment {
 
+    /** Used to build the add workout URL for the addWorkout.php file */
     private final static String WORKOUT_ADD_URL
             = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/addWorkout.php?";
 
+    /** All of the EditText elements from the fragment_add_workout.xml file */
     private EditText mNameEditText;
     private EditText mLocationEditText;
     private EditText mStartTimeEditText;
     private EditText mEndTimeEditText;
     private TextView mDateTextView;
 
-    private String mDate;
+    private String mDate; // used to keep track of the current date this workout will be added to
 
     private AddWorkoutListener mListener;
 
+    /**
+     * Required empty constructor
+     */
     public AddWorkoutFragment() {
-        // Required empty public constructor
+
     }
 
+    /**
+     * Listener for adding a new workout.
+     */
     public interface AddWorkoutListener {
         public void addWorkout(String url);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,21 +60,22 @@ public class AddWorkoutFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_add_workout, container, false);
 
+        // access all of the EditText elements from the layout file
         mNameEditText = (EditText) v.findViewById(R.id.add_workout_name);
         mLocationEditText = (EditText) v.findViewById(R.id.add_workout_location);
         mStartTimeEditText = (EditText) v.findViewById(R.id.add_workout_start);
         mEndTimeEditText = (EditText) v.findViewById(R.id.add_workout_end);
         mDateTextView = (TextView) v.findViewById(R.id.add_workout_date);
 
+        // Set the date TextView to display the date we are adding to
         mDateTextView.setText("New Workout for April " + mDate + ", 2016");
 
-
-
+        // hide the floating action button
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.workout_fab);
         floatingActionButton.hide();
 
-
+        // add workout button
         Button addWorkoutButton = (Button) v.findViewById(R.id.add_workout_button);
         addWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,11 +84,11 @@ public class AddWorkoutFragment extends Fragment {
                 mListener.addWorkout(url);
             }
         });
-
         return v;
     }
 
-    @Override public void onAttach(Context context) {
+    @Override
+    public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof AddWorkoutListener) {
             mListener = (AddWorkoutListener) context;
@@ -88,6 +98,12 @@ public class AddWorkoutFragment extends Fragment {
         }
     }
 
+    /**
+     * Used to build the URL String for the PHP file.
+     *
+     * @param v the View
+     * @return a String of the URL
+     */
     private String buildWorkoutURL(View v) {
         StringBuilder sb = new StringBuilder(WORKOUT_ADD_URL);
         try {
@@ -107,7 +123,6 @@ public class AddWorkoutFragment extends Fragment {
             sb.append("&location=");
             sb.append(workoutLocation);
 
-//            String date = mDateTextView.getText().toString();
             sb.append("&day=");
             sb.append(mDate);
 
@@ -122,6 +137,11 @@ public class AddWorkoutFragment extends Fragment {
     }
 
 
+    /**
+     * Sets the date field to be the specified date.
+     *
+     * @param date
+     */
     public void setDate(String date) {
         mDate = date;
     }

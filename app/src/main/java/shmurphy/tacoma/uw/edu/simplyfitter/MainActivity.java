@@ -1,3 +1,5 @@
+/* TCSS 450 - Mobile Apps - Group 11 */
+
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.content.Context;
@@ -11,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import org.json.JSONException;

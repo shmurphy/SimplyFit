@@ -14,11 +14,11 @@ import android.widget.Toast;
 import shmurphy.tacoma.uw.edu.simplyfitter.R;
 
 /**
- * The fragmnet for logging in.
+ * The fragment for logging in.
  */
 public class LoginFragment extends Fragment {
 
-    /** Used to build the login URL for the .php file */
+    /** Used to build the login URL for the login.php file */
     private static final String LOGIN_URL =
             "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/login.php?";
 

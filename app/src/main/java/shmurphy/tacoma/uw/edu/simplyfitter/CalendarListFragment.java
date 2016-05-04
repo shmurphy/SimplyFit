@@ -1,3 +1,5 @@
+/* TCSS 450 - Mobile Apps - Group 11 */
+
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.content.Context;
@@ -15,8 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-//import shmurphy.tacoma.uw.edu.simplyfitter.dummy.DummyContent;
-//import shmurphy.tacoma.uw.edu.simplyfitter.dummy.DummyContent.DummyItem;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
 
 import java.io.BufferedReader;
@@ -28,15 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
+ * A fragment representing a list of Calendar Days.
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
 public class CalendarListFragment extends Fragment {
 
-    // TODO: Customize parameters
-
+    /** Used to build the Workout URL for the test.php file */
     private static final String WORKOUT_URL
             = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=workouts";
     private RecyclerView mRecyclerView;
@@ -74,14 +72,13 @@ public class CalendarListFragment extends Fragment {
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-//            recyclerView.setAdapter(new MyCalendarDayRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.workout_fab);
         floatingActionButton.hide();
 
-
+        // check for connection
         ConnectivityManager connMgr = (ConnectivityManager)
                 getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -115,8 +112,8 @@ public class CalendarListFragment extends Fragment {
             e.printStackTrace();
         }
 
-        DownloadCalendarDaysTask task = new DownloadCalendarDaysTask();
-        task.execute(new String[]{WORKOUT_URL});
+        DownloadCalendarDaysTask task = new DownloadCalendarDaysTask(); // starts the task to download
+        task.execute(new String[]{WORKOUT_URL});                        // all of the calendar days
 
         return view;
     }
@@ -150,10 +147,12 @@ public class CalendarListFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListFragmentInteraction(CalendarDay item);
     }
 
+    /**
+     * Task to download all of the Calendar Days to add to the list fragment.
+     */
     private class DownloadCalendarDaysTask extends AsyncTask<String, Void, String> {
         @Override protected String doInBackground(String... urls) {
             String response = "";

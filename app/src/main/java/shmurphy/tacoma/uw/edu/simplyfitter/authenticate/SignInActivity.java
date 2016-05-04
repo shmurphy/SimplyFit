@@ -50,57 +50,48 @@ public class SignInActivity extends AppCompatActivity implements LoginFragment.L
         }
     }
 
+    /**
+     * Launches the login task to start the login process.
+     *
+     * @param userID the userId entered
+     * @param pwd the password entered
+     * @param url the URL built from the userId and password
+     */
     @Override
     public void login(String userID, String pwd, String url) {
-
-//        buildLoginURL(userID, pwd);
-
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             //Check if the login and password are valid
-            // new LoginTask().execute(url);
 
-
-            try {
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
-                        openFileOutput(getString(R.string.LOGIN_FILE)
-                                , Context.MODE_PRIVATE));
-                outputStreamWriter.write("email = " + userID + ";");
-                outputStreamWriter.write("password = " + pwd);
-                outputStreamWriter.close();
+//            try {
+//                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+//                        openFileOutput(getString(R.string.LOGIN_FILE)
+//                                , Context.MODE_PRIVATE));
+//                outputStreamWriter.write("email = " + userID + ";");
+//                outputStreamWriter.write("password = " + pwd);
+//                outputStreamWriter.close();
 //                Toast.makeText(this, "Stored in File Successfully!", Toast.LENGTH_LONG)
 //                        .show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
         } else {
             Toast.makeText(this, "No network connection available. Cannot authenticate user",
                     Toast.LENGTH_SHORT) .show();
             return;
         }
 
-//        mSharedPreferences.edit()
-//                .putBoolean(getString(R.string.LOGGEDIN), true)
-//                .commit();
-
         LoginTask task = new LoginTask();
         task.execute(new String[]{url.toString()});
-
         task.setIntent(this);
-
-//        mSharedPreferences.edit()
-//                .putBoolean(getString(R.string.LOGGEDIN), true)
-//                .commit();
-//
-//        Intent i = new Intent(this, MainActivity.class);
-//        startActivity(i);
-//        finish();
     }
 
+    /**
+     * Executes the login function.
+     */
     private class LoginTask extends AsyncTask<String, Void, String> {
 
         public boolean mSuccess;
@@ -152,12 +143,10 @@ public class SignInActivity extends AppCompatActivity implements LoginFragment.L
                 JSONObject jsonObject = new JSONObject(result);
                 String status = (String) jsonObject.get("result");
                 if (status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), "Logged in successfully!"
-                            , Toast.LENGTH_LONG)
-                            .show();
+//                    Toast.makeText(getApplicationContext(), "Logged in successfully!"
+//                            , Toast.LENGTH_LONG)
+//                            .show();
                     mSuccess = true;
-//                    Log.d("Debug-login", Boolean.toString(mSuccess));
-
                     mSharedPreferences.edit()
                             .putBoolean(getString(R.string.LOGGEDIN), true)
                             .commit();
@@ -172,7 +161,7 @@ public class SignInActivity extends AppCompatActivity implements LoginFragment.L
                             .show();
 
                     mSuccess = false;
-                    Log.d("Debug-login", Boolean.toString(mSuccess));
+//                    Log.d("Debug-login", Boolean.toString(mSuccess));
 
                 }
             } catch (JSONException e) {

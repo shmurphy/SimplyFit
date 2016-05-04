@@ -1,6 +1,6 @@
-package shmurphy.tacoma.uw.edu.simplyfitter.model;
+/* TCSS 450 - Mobile Apps - Group 11 */
 
-import android.util.Log;
+package shmurphy.tacoma.uw.edu.simplyfitter.model;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -8,28 +8,34 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by shmurphy on 4/27/16.
+ * Represents a day on the Calendar. Each day holds a list of workouts from that day.
  */
 public class CalendarDay implements Serializable {
 
-    public String mDay;
+    public String mDay;     // the day of the month
     public List<Workout> myWorkouts; // array of this day's workouts
 
+    // used to access the database table
     public static final String DAY = "day", WORKOUT_NAME = "name", WORKOUT_START = "start",
                                 WORKOUT_END = "end", WORKOUT_LOCATION = "location";
 
+    /**
+     * Constructs a new CalendarDay based on the day of the month.
+     *
+     * @param day the day of the month
+     */
     public CalendarDay(String day) {
-
         mDay = day;
         myWorkouts = new ArrayList<>();
     }
 
 
-    /**  * Parses the json string, returns an error message if unsuccessful.  * Returns workout list if success.
+    /**
+     * Parses the json string, returns an error message if unsuccessful.
+     * Returns workout list if success.
      * @param workoutJSON  * @return reason or null if successful.
      */
     public static String parseWorkoutJSON(String workoutJSON, List<CalendarDay> calendarDayList) {
@@ -46,7 +52,6 @@ public class CalendarDay implements Serializable {
                             obj.getString(CalendarDay.WORKOUT_LOCATION));
 
                     int day = Integer.parseInt(calendarDay.mDay);
-//                    Log.d("DEBUG - I ", String.valueOf(i));
 
                     // if there are no workouts logged for this day yet, we add the new workout,
                     // and set that day's position accordingly.
@@ -70,18 +75,38 @@ public class CalendarDay implements Serializable {
     }
 
 
+    /**
+     * Returns the day
+     *
+     * @return the day field
+     */
     public String getmDay() {
         return mDay;
     }
 
+    /**
+     * Sets the day of the month field to be a new day
+     *
+     * @param mDay the new day of the month to set
+     */
     public void setmDay(String mDay) {
         this.mDay = mDay;
     }
 
+    /**
+     * Returns the list of workouts for this day.
+     *
+     * @return an ArrayList of Workouts
+     */
     public List<Workout> getMyWorkouts() {
         return myWorkouts;
     }
 
+    /**
+     * Returns a String representation of the CalendarDay.
+     *
+     * @return A String containing the Date of this day.
+     */
     public String toString() {
         return "Date: " + mDay;
     }

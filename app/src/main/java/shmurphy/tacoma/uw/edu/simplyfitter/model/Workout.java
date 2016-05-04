@@ -1,6 +1,6 @@
-package shmurphy.tacoma.uw.edu.simplyfitter.model;
+/* TCSS 450 - Mobile Apps - Group 11 */
 
-import android.util.Log;
+package shmurphy.tacoma.uw.edu.simplyfitter.model;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,12 +9,22 @@ import org.json.JSONObject;
 import java.util.List;
 
 /**
- * Created by shmurphy on 4/27/16.
+ * Represents a workout. Each workout contains its name, start time, end time, and location of
+ * the workout.
  */
 public class Workout {
 
+    /** Used to hold the information about the workout */
     public String mName, mStart, mEnd, mLocation;
 
+    /**
+     * Creates a new Workout with the specified name, start time, end time, and location.
+     *
+     * @param name the name of the workout
+     * @param start the start time of the workout
+     * @param end the end time of the workout
+     * @param location the location of the workout
+     */
     public Workout(String name, String start, String end, String location) {
         mName = name;
         mStart = start;
@@ -22,12 +32,18 @@ public class Workout {
         mLocation = location;
     }
 
+    /**
+     * Returns a String representation of the Workout.
+     *
+     * @return a String containing the name and the location.
+     */
     public String toString() {
-//        return mName + " at " + mLocation + ", from " + mStart + " to " + mEnd;
         return mName + " at " + mLocation;
     }
 
-    /**  * Parses the json string, returns an error message if unsuccessful.  * Returns workout list if success.
+    /**
+     * Parses the json string, returns an error message if unsuccessful.
+     * Returns workout list if success.
      * @param workoutJSON  * @return reason or null if successful.
      */
     public static String parseWorkoutJSON(String workoutJSON, List<Workout> workoutList, String day) {
@@ -39,31 +55,22 @@ public class Workout {
                 JSONArray arr = new JSONArray(workoutJSON);
                 for (int i = 0; i < arr.length(); i++) {
                     JSONObject obj = arr.getJSONObject(i);
+
+                    // constructs a new calendar day using the information stored in the databse
                     CalendarDay calendarDay = new CalendarDay(obj.getString(CalendarDay.DAY));
+
+                    // constructs a new workout using the information from the database
                     Workout workout = new Workout(obj.getString(CalendarDay.WORKOUT_NAME),
                             obj.getString(CalendarDay.WORKOUT_START), obj.getString(CalendarDay.WORKOUT_END),
                             obj.getString(CalendarDay.WORKOUT_LOCATION));
-
-
-
-//                    Log.d("DEBUG-CALENDARDAY", calendarDay.mDay);
-//                    Log.d("DEBUG-DAY", day);
-
                     if(calendarDay.mDay.equals(day)) {
                         workoutList.add(workout);
                     }
-
-//                    workoutList.add(workout);
-
                 }
             } catch (JSONException e) {
                 reason =  "Unable to parse data, Reason: " + e.getMessage();
             }
         }
-//        Log.d("DEBUG-CALENDARDAY LIST", calendarDayList.toString());
-
-
-//        Collections.sort(calendarDayList);
         return reason;
     }
 
