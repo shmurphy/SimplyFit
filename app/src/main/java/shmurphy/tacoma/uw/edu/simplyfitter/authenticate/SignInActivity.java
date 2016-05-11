@@ -29,6 +29,8 @@ import shmurphy.tacoma.uw.edu.simplyfitter.R;
 
 public class SignInActivity extends AppCompatActivity implements LoginFragment.LoginInteractionListener {
 
+    private String mUserID;
+//    private MainActivity mMain = new MainActivity();
     private SharedPreferences mSharedPreferences;
 
     @Override
@@ -44,9 +46,11 @@ public class SignInActivity extends AppCompatActivity implements LoginFragment.L
                     .add(R.id.login_fragment_container, new LoginFragment())
                     .commit();
         } else {
+//            mMain.setmUserID(mUserID);
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
             finish();
+
         }
     }
 
@@ -59,6 +63,10 @@ public class SignInActivity extends AppCompatActivity implements LoginFragment.L
      */
     @Override
     public void login(String userID, String pwd, String url) {
+        mUserID = userID;       // set correctly here
+
+        Log.d("LOGIN,", mUserID);
+
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -149,7 +157,9 @@ public class SignInActivity extends AppCompatActivity implements LoginFragment.L
                     mSuccess = true;
                     mSharedPreferences.edit()
                             .putBoolean(getString(R.string.LOGGEDIN), true)
-                            .commit();
+                            .putString("username",mUserID)      // add the username to the shared preferences
+                            .commit();                          // so we can access it in MainActivity
+
                     startActivity(mIntent);
                     finish();
 
@@ -175,6 +185,7 @@ public class SignInActivity extends AppCompatActivity implements LoginFragment.L
         }
 
         protected void setIntent(SignInActivity activity) {
+            Log.d("HERE", mUserID);
             mIntent = new Intent(activity, MainActivity.class);
 
         }

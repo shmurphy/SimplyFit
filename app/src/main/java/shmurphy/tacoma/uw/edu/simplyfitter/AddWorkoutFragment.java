@@ -35,6 +35,8 @@ public class AddWorkoutFragment extends Fragment {
 
     private String mDate; // used to keep track of the current date this workout will be added to
 
+    private String mUserID;
+
     private AddWorkoutListener mListener;
 
     /**
@@ -128,6 +130,11 @@ public class AddWorkoutFragment extends Fragment {
 
             sb.append("&day=");
             sb.append(mDate);
+
+            sb.append("&userID=");
+            sb.append(mUserID);
+
+
 
             Log.i("AddWorkoutFragment", sb.toString());
         }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
 WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWorkoutListener {
 
     private String mDate;   // used to keep track of the date we're on
+    private String mUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,15 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
         // if we've already logged in, start the calendar list fragment
         if (savedInstanceState == null ||
                 getSupportFragmentManager().findFragmentById(R.id.calendarlist_fragment) == null) {
+            
+            // get the username from the user that just logged in.
+            SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                    Context.MODE_PRIVATE);
+            mUserID = sharedPreferences.getString("username","");
+
+//            Log.d("debug, userID", "NOW the user ID is " + mUserID);
+
+
             CalendarListFragment calendarListFragment = new CalendarListFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, calendarListFragment)
@@ -213,6 +224,9 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
         }
     }
 
+    public void setmUserID(String userID) {
+        mUserID = userID;
+    }
 
 
 
