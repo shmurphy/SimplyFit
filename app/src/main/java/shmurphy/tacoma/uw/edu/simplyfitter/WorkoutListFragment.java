@@ -41,6 +41,7 @@ public class WorkoutListFragment extends Fragment  {
     private OnListFragmentInteractionListener mListener;
 
     public String mDay; // used to keep track of the current day
+    public String mUserID;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -55,7 +56,10 @@ public class WorkoutListFragment extends Fragment  {
      */
     public void setDay(String day) {
         mDay = day;
+    }
 
+    public void setmUserID(String userID) {
+        mUserID = userID;
     }
 
     @Override
@@ -162,7 +166,7 @@ public class WorkoutListFragment extends Fragment  {
             }
             List<Workout> workoutList = new ArrayList<Workout>(40);
 
-            result = Workout.parseWorkoutJSON(result, workoutList, mDay);
+            result = Workout.parseWorkoutJSON(result, workoutList, mDay, mUserID);
             // sending the day to the parseJSON so that it can know which day to grab workouts for
 
 

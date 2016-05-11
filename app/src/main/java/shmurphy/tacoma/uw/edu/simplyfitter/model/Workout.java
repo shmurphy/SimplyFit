@@ -33,7 +33,7 @@ public class Workout {
         mStart = start;
         mEnd = end;
         mLocation = location;
-        mUserID = userID;
+//        mUserID = userID;
     }
 
     /**
@@ -50,9 +50,9 @@ public class Workout {
      * Returns workout list if success.
      * @param workoutJSON  * @return reason or null if successful.
      */
-    public static String parseWorkoutJSON(String workoutJSON, List<Workout> workoutList, String day) {
+    public static String parseWorkoutJSON(String workoutJSON, List<Workout> workoutList, String day, String userID) {
         // added day param to keep track of which day this workout is for
-
+        mUserID = userID;
         String reason = null;
         if (workoutJSON != null) {
             try {
@@ -69,7 +69,7 @@ public class Workout {
                     Workout workout = new Workout(obj.getString(CalendarDay.WORKOUT_NAME),
                             obj.getString(CalendarDay.WORKOUT_START), obj.getString(CalendarDay.WORKOUT_END),
                             obj.getString(CalendarDay.WORKOUT_LOCATION), obj.getString(CalendarDay.USER_ID));
-                    if(calendarDay.mDay.equals(day)) {
+                    if(calendarDay.mDay.equals(day) && mUserID.equals(username)) {
                         workoutList.add(workout);
                     }
                 }

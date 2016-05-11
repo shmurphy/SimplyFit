@@ -127,6 +127,7 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
 
         WorkoutListFragment workoutListFragment = new WorkoutListFragment();
         workoutListFragment.setDay(mDate);
+        workoutListFragment.setmUserID(mUserID);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, workoutListFragment)
                 .addToBackStack(null)
