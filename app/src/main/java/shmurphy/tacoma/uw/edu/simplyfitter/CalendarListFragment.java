@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,7 @@ public class CalendarListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        getActivity().setTitle("Workouts for April, 2016");
+        getActivity().setTitle("Workouts for May 2016");
 
         View view = inflater.inflate(R.layout.fragment_calendarday_list, container, false);
 
@@ -178,14 +179,15 @@ public class CalendarListFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
+            Log.d("debug", "were here");
             // Something wrong with the network or the URL.
             if (result.startsWith("Unable to")) {
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
                         .show();
                 return;
             }
-            List<CalendarDay> dateList = new ArrayList<CalendarDay>(30);
-            for(int i = 0; i < 31; i++) {
+            List<CalendarDay> dateList = new ArrayList<CalendarDay>(31);
+            for(int i = 0; i < 32; i++) {
                 dateList.add(new CalendarDay(String.valueOf(i)));
             }
 
@@ -193,12 +195,17 @@ public class CalendarListFragment extends Fragment {
 
             // Something wrong with the JSON returned.
             if (result != null) {
+
+                Log.d("debug", "something wrong with the JSON...");
+
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
                         .show();
                 return;
             }
             // Everything is good, show the list of workouts.
             if (!dateList.isEmpty()) {
+                Log.d("debug", "everything is good");
+
                 mRecyclerView.setAdapter(new MyCalendarDayRecyclerViewAdapter(dateList, mListener));
             }
         }
