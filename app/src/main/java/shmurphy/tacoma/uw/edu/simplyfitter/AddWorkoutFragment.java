@@ -156,4 +156,8 @@ public class AddWorkoutFragment extends Fragment {
         mDate = date;
     }
 
+    public void setUserID(String userID) {
+        mUserID = userID;
+    }
+
 }

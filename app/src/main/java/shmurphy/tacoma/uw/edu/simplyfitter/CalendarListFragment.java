@@ -27,6 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * A fragment representing a list of Calendar Days.
@@ -41,6 +42,8 @@ public class CalendarListFragment extends Fragment {
     private RecyclerView mRecyclerView;
 
     private int mColumnCount = 1;
+
+    private String mUserID;
 
     private OnListFragmentInteractionListener mListener;
 
@@ -148,6 +151,10 @@ public class CalendarListFragment extends Fragment {
         void onListFragmentInteraction(CalendarDay item);
     }
 
+    public void setmUserID(String userID) {
+        mUserID = userID;
+    }
+
     /**
      * Task to download all of the Calendar Days to add to the list fragment.
      */
@@ -191,7 +198,7 @@ public class CalendarListFragment extends Fragment {
                 dateList.add(new CalendarDay(String.valueOf(i)));
             }
 
-            result = CalendarDay.parseWorkoutJSON(result, dateList);
+            result = CalendarDay.parseWorkoutJSON(result, dateList, mUserID);
 
             // Something wrong with the JSON returned.
             if (result != null) {

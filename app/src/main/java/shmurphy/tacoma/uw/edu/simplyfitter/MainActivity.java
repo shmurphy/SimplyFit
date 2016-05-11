@@ -42,6 +42,14 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        // get the username from the user that just logged in.
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                Context.MODE_PRIVATE);
+        mUserID = sharedPreferences.getString("username","");
+
+            Log.d("debug, userID", "NOW the user ID is " + mUserID);
+
         // add workout button. on click starts the add workout fragment
         // we send the mDate field to the fragment so it knows which day we're adding a workout to
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.workout_fab);
@@ -50,6 +58,7 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
             public void onClick(View view) {
                 AddWorkoutFragment addWorkoutFragment = new AddWorkoutFragment();
                 addWorkoutFragment.setDate(mDate);
+                addWorkoutFragment.setUserID(mUserID);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, addWorkoutFragment)
                         .addToBackStack(null)
@@ -60,16 +69,9 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
         // if we've already logged in, start the calendar list fragment
         if (savedInstanceState == null ||
                 getSupportFragmentManager().findFragmentById(R.id.calendarlist_fragment) == null) {
-            
-            // get the username from the user that just logged in.
-            SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
-                    Context.MODE_PRIVATE);
-            mUserID = sharedPreferences.getString("username","");
-
-//            Log.d("debug, userID", "NOW the user ID is " + mUserID);
-
 
             CalendarListFragment calendarListFragment = new CalendarListFragment();
+            calendarListFragment.setmUserID(mUserID);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, calendarListFragment)
                     .commit();
