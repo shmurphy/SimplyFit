@@ -42,12 +42,12 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
         holder.mItem = mCalDays.get(position);
 
         // this if statement is to set the very top row to be like column headers.
-//        if(position == 0) {
-//            holder.mIdView.setText("Day");
-//            holder.mIdView.setTextSize(25);
-//            holder.mContentView.setText("Workouts");
-//            holder.mContentView.setTextSize(25);
-//        } else {
+        if(position == 0) {
+            holder.mIdView.setText("Day");
+            holder.mIdView.setTextSize(25);
+            holder.mContentView.setText("Workouts");
+            holder.mContentView.setTextSize(25);
+        } else {
             holder.mIdView.setTextSize(17);
             holder.mContentView.setTextSize(17);
 
@@ -78,7 +78,7 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
                     }
                 }
             });
-//        }
+        }
 
 
     }

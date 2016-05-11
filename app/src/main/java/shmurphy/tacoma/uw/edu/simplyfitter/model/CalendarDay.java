@@ -48,7 +48,7 @@ public class CalendarDay implements Serializable {
         if (workoutJSON != null) {
             try {
                 JSONArray arr = new JSONArray(workoutJSON);
-                for (int i = 0; i < arr.length(); i++) {
+                for (int i = 1; i < arr.length(); i++) {        // this used to be i = 0
                     JSONObject obj = arr.getJSONObject(i);
                     CalendarDay calendarDay = new CalendarDay(obj.getString(CalendarDay.DAY));
 //                    Log.d("calendarday", "here");
