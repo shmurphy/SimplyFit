@@ -55,15 +55,17 @@ public class Exercise implements Serializable {
                             obj.getInt(Exercise.EXERCISE_HOURS), obj.getInt(Exercise.EXERCISE_MINUTES),
                             obj.getString(Exercise.EXERCISE_WORKOUT_ID));
 
-                    String objWorkoutID = obj.getString(Exercise.EXERCISE_WORKOUT_ID);
+                    int objWorkoutID = obj.getInt(Exercise.EXERCISE_WORKOUT_ID);
 
                     // check if the workoutID for this exercise matches the specific workout.
                     // if it does, add it. else, don't add it.
 
-                    Log.d("EXERCISE, obj workoutID", objWorkoutID);
-                    Log.d("EXERCISE, myWorkoutID", Integer.toString(mWorkoutID));
+//                    Log.d("EXERCISE, obj workoutID", objWorkoutID);
+//                    Log.d("EXERCISE, myWorkoutID", Integer.toString(mWorkoutID));
 
-                    exerciseList.add(exercise);
+                    if(objWorkoutID == mWorkoutID) {
+                        exerciseList.add(exercise);
+                    }
                 }
 
 
