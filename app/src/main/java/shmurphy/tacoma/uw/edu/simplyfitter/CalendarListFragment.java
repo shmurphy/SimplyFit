@@ -78,10 +78,15 @@ public class CalendarListFragment extends Fragment {
             }
         }
 
-        // hide the floating action button
-        FloatingActionButton floatingActionButton = (FloatingActionButton)
+        // hide the add workout floating action button
+        FloatingActionButton workoutFloatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.workout_fab);
-        floatingActionButton.hide();
+        workoutFloatingActionButton.hide();
+
+        // hide the add exercise floating action button
+        FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.add_exercise_fab);
+        exerciseFloatingActionButton.hide();
 
         // check for connection
         ConnectivityManager connMgr = (ConnectivityManager)

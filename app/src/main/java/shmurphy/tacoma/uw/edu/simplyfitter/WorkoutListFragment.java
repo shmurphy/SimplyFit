@@ -77,6 +77,11 @@ public class WorkoutListFragment extends Fragment  {
 
         View view = inflater.inflate(R.layout.fragment_workout_list, container, false);
 
+        // hide the add exercise floating action button
+        FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.add_exercise_fab);
+        exerciseFloatingActionButton.hide();
+
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -86,12 +91,12 @@ public class WorkoutListFragment extends Fragment  {
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-//            recyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
 
         DownloadWorkoutsTask task = new DownloadWorkoutsTask();
         task.execute(new String[]{WORKOUT_URL});
 
+        // show the add workout button
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.workout_fab);
         floatingActionButton.show();

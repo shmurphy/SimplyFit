@@ -54,8 +54,8 @@ ExerciseListFragment.OnListFragmentInteractionListener {
 
         // add workout button. on click starts the add workout fragment
         // we send the mDate field to the fragment so it knows which day we're adding a workout to
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.workout_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton workoutFAB = (FloatingActionButton) findViewById(R.id.workout_fab);
+        workoutFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AddWorkoutFragment addWorkoutFragment = new AddWorkoutFragment();
@@ -63,6 +63,19 @@ ExerciseListFragment.OnListFragmentInteractionListener {
                 addWorkoutFragment.setUserID(mUserID);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, addWorkoutFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        // add exercise button. on click starts the add exercise fragment
+        FloatingActionButton exerciseFAB = (FloatingActionButton) findViewById(R.id.add_exercise_fab);
+        exerciseFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ExerciseOptionFragment exerciseOptionFragment = new ExerciseOptionFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, exerciseOptionFragment)
                         .addToBackStack(null)
                         .commit();
             }
@@ -145,17 +158,17 @@ ExerciseListFragment.OnListFragmentInteractionListener {
      */
     @Override
     public void onListFragmentInteraction(Workout item) {
-//        ExerciseListFragment exerciseListFragment = new ExerciseListFragment();
-//        exerciseListFragment.setMWorkoutID(item.mID);
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.fragment_container, exerciseListFragment)
-//                .addToBackStack(null)
-//                .commit();
-        ExerciseOptionFragment exerciseOptionFragment = new ExerciseOptionFragment();
+        ExerciseListFragment exerciseListFragment = new ExerciseListFragment();
+        exerciseListFragment.setMWorkoutID(item.mID);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, exerciseOptionFragment)
+                .replace(R.id.fragment_container, exerciseListFragment)
                 .addToBackStack(null)
                 .commit();
+//        ExerciseOptionFragment exerciseOptionFragment = new ExerciseOptionFragment();
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_container, exerciseOptionFragment)
+//                .addToBackStack(null)
+//                .commit();
 
     }
 

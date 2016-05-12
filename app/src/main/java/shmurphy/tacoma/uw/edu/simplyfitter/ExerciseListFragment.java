@@ -77,11 +77,16 @@ public class ExerciseListFragment extends Fragment {
             }
         }
 
-        // hide the floating action button
-        // TODO another floating button for adding an exercise
+        // hide the add workout floating action button
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.workout_fab);
         floatingActionButton.hide();
+
+
+        // show the exercise floating action button
+        FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.add_exercise_fab);
+        exerciseFloatingActionButton.show();
 
         // check for connection
         ConnectivityManager connMgr = (ConnectivityManager)

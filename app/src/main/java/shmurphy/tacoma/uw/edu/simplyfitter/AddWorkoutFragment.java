@@ -75,10 +75,15 @@ public class AddWorkoutFragment extends Fragment {
         // Set the date TextView to display the date we are adding to
         mDateTextView.setText("New Workout for May " + mDate + ", 2016");
 
-        // hide the floating action button
+        // hide the add workout floating action button
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.workout_fab);
         floatingActionButton.hide();
+
+        // hide the add exercise floating action button
+        FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.add_exercise_fab);
+        exerciseFloatingActionButton.hide();
 
         // add workout button
         Button addWorkoutButton = (Button) v.findViewById(R.id.add_workout_button);
