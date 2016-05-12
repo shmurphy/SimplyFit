@@ -18,9 +18,10 @@ import java.util.List;
  */
 public class Exercise implements Serializable {
 
-    public static String mType, mName;
+    public String mType, mName;     // keep these NON static! made errors with adding to exercise list
     public static int mWorkoutID;
     public int mHours, mMinutes;
+    public static int mID;
 
     public static final String DAY = "day", EXERCISE_NAME = "name", EXERCISE_HOURS = "hours",
             EXERCISE_MINUTES = "minutes", EXERCISE_WORKOUT_ID = "workoutID";
@@ -51,23 +52,24 @@ public class Exercise implements Serializable {
 
                 for (int i = 0; i < arr.length(); i++) {
                     JSONObject obj = arr.getJSONObject(i);
+
                     Exercise exercise = new Exercise("Aerobic", obj.getString(Exercise.EXERCISE_NAME),
                             obj.getInt(Exercise.EXERCISE_HOURS), obj.getInt(Exercise.EXERCISE_MINUTES),
                             obj.getString(Exercise.EXERCISE_WORKOUT_ID));
 
                     int objWorkoutID = obj.getInt(Exercise.EXERCISE_WORKOUT_ID);
+                    mID = obj.getInt("id"); // gets the exercise ID
 
                     // check if the workoutID for this exercise matches the specific workout.
                     // if it does, add it. else, don't add it.
 
-//                    Log.d("EXERCISE, obj workoutID", objWorkoutID);
-//                    Log.d("EXERCISE, myWorkoutID", Integer.toString(mWorkoutID));
+                    Log.d("loop number", Integer.toString(i));
 
                     if(objWorkoutID == mWorkoutID) {
-                        exerciseList.add(exercise);
+//                        Log.d("EXERCISE", "should be added " + exercise.toString());
+                        exerciseList.add(i, exercise);
                     }
                 }
-
 
             } catch (JSONException e) {
                 reason =  "Unable to parse data, Reason: " + e.getMessage();
@@ -76,20 +78,20 @@ public class Exercise implements Serializable {
         return reason;
     }
 
-    public static String getmType() {
+    public String getmType() {
         return mType;
     }
 
-    public static void setmType(String mType) {
-        Exercise.mType = mType;
+    public void setmType(String type) {
+        mType = type;
     }
 
-    public static String getmName() {
+    public String getmName() {
         return mName;
     }
 
-    public static void setmName(String mName) {
-        Exercise.mName = mName;
+    public void setmName(String name) {
+        mName = name;
     }
 
     public static int getmWorkoutID() {
@@ -104,20 +106,20 @@ public class Exercise implements Serializable {
         return mHours;
     }
 
-    public void setmHours(int mHours) {
-        this.mHours = mHours;
+    public void setmHours(int hours) {
+        mHours = hours;
     }
 
     public int getmMinutes() {
         return mMinutes;
     }
 
-    public void setmMinutes(int mMinutes) {
-        this.mMinutes = mMinutes;
+    public void setmMinutes(int minutes) {
+        mMinutes = minutes;
     }
 
     public String toString() {
-        return mName;
+        return "name: " + mName + " ID: " + mID;
     }
 
 }
