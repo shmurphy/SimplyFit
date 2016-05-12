@@ -17,8 +17,12 @@ public class Workout {
     /** Used to hold the information about the workout */
     public String mName, mStart, mEnd, mLocation;
 
-    public static String mUserID;
+    public static final String WORKOUT_ID = "id";
 
+    public static String mUserID;
+    public int mID;
+
+// TODO will need a "myExercises" list
 
     /**
      * Creates a new Workout with the specified name, start time, end time, and location.
@@ -28,11 +32,12 @@ public class Workout {
      * @param end the end time of the workout
      * @param location the location of the workout
      */
-    public Workout(String name, String start, String end, String location, String userID) {
+    public Workout(String name, String start, String end, String location, String userID, int ID) {
         mName = name;
         mStart = start;
         mEnd = end;
         mLocation = location;
+        mID = ID;
 //        mUserID = userID;
     }
 
@@ -68,7 +73,8 @@ public class Workout {
                     // constructs a new workout using the information from the database
                     Workout workout = new Workout(obj.getString(CalendarDay.WORKOUT_NAME),
                             obj.getString(CalendarDay.WORKOUT_START), obj.getString(CalendarDay.WORKOUT_END),
-                            obj.getString(CalendarDay.WORKOUT_LOCATION), obj.getString(CalendarDay.USER_ID));
+                            obj.getString(CalendarDay.WORKOUT_LOCATION), obj.getString(CalendarDay.USER_ID),
+                            obj.getInt(WORKOUT_ID));
                     if(calendarDay.mDay.equals(day) && mUserID.equals(username)) {
                         workoutList.add(workout);
                     }

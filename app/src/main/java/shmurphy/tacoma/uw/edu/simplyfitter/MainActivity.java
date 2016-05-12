@@ -27,10 +27,12 @@ import java.net.URL;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.authenticate.SignInActivity;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Exercise;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
 public class MainActivity extends AppCompatActivity implements CalendarListFragment.OnListFragmentInteractionListener,
-WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWorkoutListener {
+WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWorkoutListener,
+ExerciseListFragment.OnListFragmentInteractionListener {
 
     private String mDate;   // used to keep track of the date we're on
     private String mUserID;
@@ -143,6 +145,28 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
      */
     @Override
     public void onListFragmentInteraction(Workout item) {
+
+//        Exercise exercise = new Exercise("Aerobic","run",1,20,"1");
+        ExerciseListFragment exerciseListFragment = new ExerciseListFragment();
+//        exerciseListFragment.setDay(mDate);
+//        exerciseListFragment.setmUserID(mUserID);
+        exerciseListFragment.setMWorkoutID(item.mID);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, exerciseListFragment)
+                .addToBackStack(null)
+                .commit();
+
+
+    }
+
+    /**
+     * From ExerciseListFragment
+     *
+     * @param item
+     */
+    @Override
+    public void onListFragmentInteraction(Exercise item) {
+
 
     }
 

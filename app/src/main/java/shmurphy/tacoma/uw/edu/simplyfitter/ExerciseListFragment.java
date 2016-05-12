@@ -1,5 +1,3 @@
-/* TCSS 450 - Mobile Apps - Group 11 */
-
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.content.Context;
@@ -18,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Exercise;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -27,23 +25,24 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
- * A fragment representing a list of Calendar Days.
+ * A fragment representing a list of Items.
+ * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class CalendarListFragment extends Fragment {
-
-    /** Used to build the Workout URL for the test.php file */
-    private static final String WORKOUT_URL
-            = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=workouts";
+public class ExerciseListFragment extends Fragment {
+    /**
+     * Used to build the Workout URL for the test.php file
+     */
+    private static final String EXERCISE_URL
+            = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=exercise";
     private RecyclerView mRecyclerView;
 
     private int mColumnCount = 1;
 
-    private String mUserID;
+    private int mWorkoutID;
 
     private OnListFragmentInteractionListener mListener;
 
@@ -51,7 +50,7 @@ public class CalendarListFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public CalendarListFragment() {
+    public ExerciseListFragment() {
     }
 
     @Override
@@ -64,9 +63,9 @@ public class CalendarListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        getActivity().setTitle("Workouts for May 2016");
+        getActivity().setTitle("Exercises");
 
-        View view = inflater.inflate(R.layout.fragment_calendarday_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_exercise_list, container, false);
 
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -79,6 +78,7 @@ public class CalendarListFragment extends Fragment {
         }
 
         // hide the floating action button
+        // TODO another floating button for adding an exercise
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.workout_fab);
         floatingActionButton.hide();
@@ -88,11 +88,11 @@ public class CalendarListFragment extends Fragment {
                 getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            DownloadCalendarDaysTask task = new DownloadCalendarDaysTask();
-            task.execute(new String[]{WORKOUT_URL});
+            DownloadExercisesTask task = new DownloadExercisesTask();
+            task.execute(new String[]{EXERCISE_URL});
         } else {
             Toast.makeText(view.getContext(),
-                    "No network connection available. Cannot display calendar days",
+                    "No network connection available. Cannot display exercises",
                     Toast.LENGTH_SHORT)
                     .show();
         }
@@ -117,8 +117,8 @@ public class CalendarListFragment extends Fragment {
             e.printStackTrace();
         }
 
-        DownloadCalendarDaysTask task = new DownloadCalendarDaysTask(); // starts the task to download
-        task.execute(new String[]{WORKOUT_URL});                        // all of the calendar days
+        DownloadExercisesTask task = new DownloadExercisesTask(); // starts the task to download
+        task.execute(new String[]{EXERCISE_URL});                        // all of the calendar days
 
         return view;
     }
@@ -148,18 +148,15 @@ public class CalendarListFragment extends Fragment {
      * activity.
      */
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(CalendarDay item);
-    }
-
-    public void setmUserID(String userID) {
-        mUserID = userID;
+        void onListFragmentInteraction(Exercise item);
     }
 
     /**
-     * Task to download all of the Calendar Days to add to the list fragment.
+     * Task to download all of the Exercise to add to the list fragment.
      */
-    private class DownloadCalendarDaysTask extends AsyncTask<String, Void, String> {
-        @Override protected String doInBackground(String... urls) {
+    private class DownloadExercisesTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
             String response = "";
             HttpURLConnection urlConnection = null;
             for (String url : urls) {
@@ -175,8 +172,7 @@ public class CalendarListFragment extends Fragment {
                 } catch (Exception e) {
                     response = "Unable to download the list of days, Reason: "
                             + e.getMessage();
-                }
-                finally {
+                } finally {
                     if (urlConnection != null)
                         urlConnection.disconnect();
                 }
@@ -193,13 +189,11 @@ public class CalendarListFragment extends Fragment {
                         .show();
                 return;
             }
-            List<CalendarDay> dateList = new ArrayList<CalendarDay>(31);
-            for(int i = 0; i < 32; i++) {
-                dateList.add(new CalendarDay(String.valueOf(i)));
-            }
+            List<Exercise> exerciseList = new ArrayList<Exercise>(30);
 
-            Log.d("CalendarListFragment", result);
-            result = CalendarDay.parseWorkoutJSON(result, dateList, mUserID);
+            result = Exercise.parseExerciseJSON(result, exerciseList, mWorkoutID);
+
+            Log.d("debug", exerciseList.toString());
 
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -211,11 +205,16 @@ public class CalendarListFragment extends Fragment {
                 return;
             }
             // Everything is good, show the list of workouts.
-            if (!dateList.isEmpty()) {
+            if (!exerciseList.isEmpty()) {
                 Log.d("debug", "everything is good");
 
-                mRecyclerView.setAdapter(new MyCalendarDayRecyclerViewAdapter(dateList, mListener));
+                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(exerciseList, mListener));
             }
         }
     }
+
+    public void setMWorkoutID(int theWorkoutID) {
+        mWorkoutID = theWorkoutID;
+    }
 }
+

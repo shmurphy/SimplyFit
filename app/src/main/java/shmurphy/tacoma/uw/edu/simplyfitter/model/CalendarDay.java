@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class CalendarDay implements Serializable {
 
-    public String mDay;     // the day of the month
+    public String mDay;     // the day of the months
     public List<Workout> myWorkouts; // array of this day's workouts
 
     public static String mUserID;
@@ -48,7 +48,7 @@ public class CalendarDay implements Serializable {
         if (workoutJSON != null) {
             try {
                 JSONArray arr = new JSONArray(workoutJSON);
-                for (int i = 1; i < arr.length(); i++) {        // this used to be i = 0
+                for (int i = 0; i < arr.length(); i++) {        // keep this at i = 0! workouts don't display with i = 1
                     JSONObject obj = arr.getJSONObject(i);
                     CalendarDay calendarDay = new CalendarDay(obj.getString(CalendarDay.DAY));
 //                    Log.d("calendarday", "here");
@@ -56,7 +56,9 @@ public class CalendarDay implements Serializable {
 
                     Workout workout = new Workout(obj.getString(CalendarDay.WORKOUT_NAME),
                             obj.getString(CalendarDay.WORKOUT_START), obj.getString(CalendarDay.WORKOUT_END),
-                            obj.getString(CalendarDay.WORKOUT_LOCATION), obj.getString(CalendarDay.USER_ID));
+                            obj.getString(CalendarDay.WORKOUT_LOCATION), obj.getString(CalendarDay.USER_ID),
+                            obj.getInt(Workout.WORKOUT_ID));
+//                    Log.d("calendarday", "after workout");
 
                     String username = obj.getString(CalendarDay.USER_ID);
                     int day = Integer.parseInt(calendarDay.mDay);
