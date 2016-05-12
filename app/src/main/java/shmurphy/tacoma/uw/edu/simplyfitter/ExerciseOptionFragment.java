@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class ExerciseOptionFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     public String mItem;
+    public int mWorkoutID;
 
     public ExerciseOptionFragment() {
         // Required empty public constructor
@@ -67,7 +68,12 @@ public class ExerciseOptionFragment extends Fragment implements AdapterView.OnIt
                 // launch add exercise fragment with the type from the spinner
 //            Log.d("spinner!", mItem);
             if(mItem.equals("Aerobic")) {
-
+                AddExerciseFragment addExerciseFragment = new AddExerciseFragment();
+                addExerciseFragment.setWorkoutID(mWorkoutID);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, addExerciseFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
             }
         });
@@ -87,6 +93,10 @@ public class ExerciseOptionFragment extends Fragment implements AdapterView.OnIt
 
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
+    }
+
+    public void setWorkoutID(int workoutID) {
+        mWorkoutID = workoutID;
     }
 
 }

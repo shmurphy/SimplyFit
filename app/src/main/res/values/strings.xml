@@ -11,6 +11,16 @@
     <string name="add_workout_button">Add Workout</string>
     <string name="workout_date_hint">Enter the day of the month</string>
 
+    <string name="exercise_name_hint">Enter name</string>
+    <string name="exercise_hours_hint">Enter Hours</string>
+    <string name="exercise_minutes_hint">Enter Minutes</string>
+    <string name="hours">hours</string>
+    <string name="duration">Duration</string>
+    <string name="minutes">minutes</string>
+    <string name="exercise_name">Name of Exercise</string>
+    <string name="add_exercise_button">Add Exercise</string>
+
+
     <string name="title_activity_sign_in">SIGN IN</string>
     <string name="userid">Enter your user ID</string>
     <string name="password">Enter your password</string>
