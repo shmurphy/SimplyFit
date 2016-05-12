@@ -145,17 +145,17 @@ ExerciseListFragment.OnListFragmentInteractionListener {
      */
     @Override
     public void onListFragmentInteraction(Workout item) {
-
-//        Exercise exercise = new Exercise("Aerobic","run",1,20,"1");
-        ExerciseListFragment exerciseListFragment = new ExerciseListFragment();
-//        exerciseListFragment.setDay(mDate);
-//        exerciseListFragment.setmUserID(mUserID);
-        exerciseListFragment.setMWorkoutID(item.mID);
+//        ExerciseListFragment exerciseListFragment = new ExerciseListFragment();
+//        exerciseListFragment.setMWorkoutID(item.mID);
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_container, exerciseListFragment)
+//                .addToBackStack(null)
+//                .commit();
+        ExerciseOptionFragment exerciseOptionFragment = new ExerciseOptionFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, exerciseListFragment)
+                .replace(R.id.fragment_container, exerciseOptionFragment)
                 .addToBackStack(null)
                 .commit();
-
 
     }
 

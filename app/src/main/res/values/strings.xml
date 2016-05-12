@@ -21,4 +21,10 @@
     <string name="LOGGEDIN">logged in</string>
     <string name="action_logout">Logout</string>
     <string name="LOGIN_FILE"> edu.uw.tacoma.mmuppa.webservicelab.LOGIN_FILE</string>
+
+    <string-array name="exercises_array">
+        <item>Aerobics</item>
+        <item>Weights</item>
+        <item>Meditation</item>
+    </string-array>
 </resources>
