@@ -10,4 +10,8 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="shmurphy.tacoma.uw.edu.simplyfitter.CalendarListFragment"
-    tools:listitem="@layout/fragment_calendarday" />
+    tools:listitem="@layout/fragment_calendarday" >
+
+
+
+</android.support.v7.widget.RecyclerView>

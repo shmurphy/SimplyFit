@@ -2,6 +2,7 @@
 
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,9 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_calendarday, parent, false);
+
+
+
         return new ViewHolder(view);
     }
 
