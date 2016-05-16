@@ -36,13 +36,19 @@ public class ExerciseListFragment extends Fragment {
     /**
      * Used to build the Workout URL for the test.php file
      */
-    private static final String EXERCISE_URL
-            = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=exercise";
+    private static final String AEROBICS_URL
+            = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=aerobics";
+
+    private static final String WEIGHTS_URL
+            = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=weights";
+
     private RecyclerView mRecyclerView;
 
     private int mColumnCount = 1;
 
     private int mWorkoutID;
+
+    List<Exercise> mExerciseList = new ArrayList<Exercise>(30);
 
     private OnListFragmentInteractionListener mListener;
 
@@ -93,8 +99,12 @@ public class ExerciseListFragment extends Fragment {
                 getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            DownloadExercisesTask task = new DownloadExercisesTask();
-            task.execute(new String[]{EXERCISE_URL});
+            DownloadAerobicsTask task = new DownloadAerobicsTask(); // downloads all aerobics
+            task.execute(new String[]{AEROBICS_URL});
+
+            DownloadWeightsTask weightsTask = new DownloadWeightsTask(); // downloads all weights
+            weightsTask.execute(new String[]{WEIGHTS_URL});
+
         } else {
             Toast.makeText(view.getContext(),
                     "No network connection available. Cannot display exercises",
@@ -122,8 +132,10 @@ public class ExerciseListFragment extends Fragment {
             e.printStackTrace();
         }
 
-        DownloadExercisesTask task = new DownloadExercisesTask(); // starts the task to download
-        task.execute(new String[]{EXERCISE_URL});                        // all of the calendar days
+//        DownloadAerobicsTask aerobicsTask = new DownloadAerobicsTask(); // starts the task to download
+//        aerobicsTask.execute(new String[]{AEROBICS_URL});                        // all of the aerobic workouts
+
+
 
         return view;
     }
@@ -157,9 +169,9 @@ public class ExerciseListFragment extends Fragment {
     }
 
     /**
-     * Task to download all of the Exercise to add to the list fragment.
+     * Task to download all of the aerobics exercises to add to the list fragment.
      */
-    private class DownloadExercisesTask extends AsyncTask<String, Void, String> {
+    private class DownloadAerobicsTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
             String response = "";
@@ -187,18 +199,14 @@ public class ExerciseListFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-//            Log.d("debug", "were here");
             // Something wrong with the network or the URL.
             if (result.startsWith("Unable to")) {
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
                         .show();
                 return;
             }
-            List<Exercise> exerciseList = new ArrayList<Exercise>(30);
 
-            result = Exercise.parseExerciseJSON(result, exerciseList, mWorkoutID);
-
-            Log.d("debug", exerciseList.toString());
+            result = Exercise.parseExerciseJSON("aerobic", result, mExerciseList, mWorkoutID);
 
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -210,10 +218,70 @@ public class ExerciseListFragment extends Fragment {
                 return;
             }
             // Everything is good, show the list of workouts.
-            if (!exerciseList.isEmpty()) {
-                Log.d("debug", "everything is good");
+            if (!mExerciseList.isEmpty()) {
+                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
+            }
+        }
+    }
 
-                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(exerciseList, mListener));
+    /**
+     * Task to download all of the Exercise to add to the list fragment.
+     */
+    private class DownloadWeightsTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            for (String url : urls) {
+                try {
+                    URL urlObject = new URL(url);
+                    urlConnection = (HttpURLConnection) urlObject.openConnection();
+                    InputStream content = urlConnection.getInputStream();
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+                } catch (Exception e) {
+                    response = "Unable to download the list of days, Reason: "
+                            + e.getMessage();
+                } finally {
+                    if (urlConnection != null)
+                        urlConnection.disconnect();
+                }
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+
+
+            // Something wrong with the network or the URL.
+            if (result.startsWith("Unable to")) {
+                Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
+                        .show();
+                return;
+            }
+
+
+
+
+            result = Exercise.parseExerciseJSON("weight", result, mExerciseList, mWorkoutID);
+
+            // Something wrong with the JSON returned.
+            if (result != null) {
+
+                Log.d("debug", "something wrong with the JSON...");
+
+                Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
+                        .show();
+                return;
+            }
+            // Everything is good, show the list of workouts.
+            if (!mExerciseList.isEmpty()) {
+                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
             }
         }
     }

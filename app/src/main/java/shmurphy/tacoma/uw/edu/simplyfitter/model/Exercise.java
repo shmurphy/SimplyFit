@@ -26,6 +26,13 @@ public class Exercise implements Serializable {
     public static final String DAY = "day", EXERCISE_NAME = "name", EXERCISE_HOURS = "hours",
             EXERCISE_MINUTES = "minutes", EXERCISE_WORKOUT_ID = "workoutID";
 
+    // constructor for Weights workout
+    public Exercise(String type, String name, String workoutID) {
+        mType = type;
+        mName = name;
+    }
+
+    // constructor for Aerobics workout
     public Exercise(String type, String name, int hours, int minutes, String workoutID) {
         mType = type;
         mName = name;
@@ -40,8 +47,10 @@ public class Exercise implements Serializable {
      * Returns exercis list if success.
      * @param exerciseJSON  * @return reason or null if successful.
      */
-    public static String parseExerciseJSON(String exerciseJSON, List<Exercise> exerciseList, int workoutID) {
+    public static String parseExerciseJSON(String type, String exerciseJSON, List<Exercise> exerciseList, int workoutID) {
         String reason = null;
+
+        Log.d("debug", "exerciseJSON" + exerciseJSON);
 
         mWorkoutID = workoutID;
 
@@ -49,25 +58,30 @@ public class Exercise implements Serializable {
 
             try {
                 JSONArray arr = new JSONArray(exerciseJSON);
-
+                Exercise exercise = null;
                 for (int i = 0; i < arr.length(); i++) {
                     JSONObject obj = arr.getJSONObject(i);
 
-                    Exercise exercise = new Exercise("Aerobic", obj.getString(Exercise.EXERCISE_NAME),
-                            obj.getInt(Exercise.EXERCISE_HOURS), obj.getInt(Exercise.EXERCISE_MINUTES),
-                            obj.getString(Exercise.EXERCISE_WORKOUT_ID));
+                    if(type.equals("aerobic")) {
+//                        Log.d("debug", "new aerobic");
+
+                        exercise = new Exercise("Aerobic", obj.getString(Exercise.EXERCISE_NAME),
+                                obj.getInt(Exercise.EXERCISE_HOURS), obj.getInt(Exercise.EXERCISE_MINUTES),
+                                obj.getString(Exercise.EXERCISE_WORKOUT_ID));
+                    } else if (type.equals("weight")) {
+//                        Log.d("debug", "new weight");
+                        exercise = new Exercise("Weight", obj.getString(Exercise.EXERCISE_NAME),
+                                obj.getString(Exercise.EXERCISE_WORKOUT_ID));
+                    }
 
                     int objWorkoutID = obj.getInt(Exercise.EXERCISE_WORKOUT_ID);
                     mID = obj.getInt("id"); // gets the exercise ID
 
                     // check if the workoutID for this exercise matches the specific workout.
                     // if it does, add it. else, don't add it.
-
-                    Log.d("loop number", Integer.toString(i));
-
                     if(objWorkoutID == mWorkoutID) {
-//                        Log.d("EXERCISE", "should be added " + exercise.toString());
-                        exerciseList.add(i, exercise);
+                        Log.d("debug", "this should be added " + exercise.toString());
+                        exerciseList.add(exercise);
                     }
                 }
 

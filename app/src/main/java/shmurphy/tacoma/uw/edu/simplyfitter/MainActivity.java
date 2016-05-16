@@ -308,7 +308,7 @@ ExerciseListFragment.OnListFragmentInteractionListener {
                         response += s;
                     }
                 } catch (Exception e) {
-                    response = "Unable to add workout, Reason: "
+                    response = "Unable to add exercise, Reason: "
                             + e.getMessage();
                 } finally {
                     if (urlConnection != null) {
