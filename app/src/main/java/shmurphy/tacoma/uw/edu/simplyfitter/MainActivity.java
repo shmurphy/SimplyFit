@@ -38,6 +38,7 @@ ExerciseListFragment.OnListFragmentInteractionListener {
     private String mDate;   // used to keep track of the date we're on
     private String mUserID;
     private int mWorkoutID;
+    private int mExerciseID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,7 +184,8 @@ ExerciseListFragment.OnListFragmentInteractionListener {
      */
     @Override
     public void onListFragmentInteraction(Exercise item) {
-
+        mExerciseID = item.mID;
+        Log.d("ExerciseID", Integer.toString(mExerciseID));
 
     }
 
@@ -346,13 +348,14 @@ ExerciseListFragment.OnListFragmentInteractionListener {
             // Something wrong with the network or the URL.
             try {
                 JSONObject jsonObject = new JSONObject(result);
-                String status = (String) jsonObject.get("result");
-                if (status.equals("success")) {
+                String weightStatus = (String) jsonObject.get("weights result");
+
+                if (weightStatus.equals("success")) {   // check that the weights exercise was added
                     Toast.makeText(getApplicationContext(), "Exercise successfully added!"
                             , Toast.LENGTH_LONG)
                             .show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Failed to add: "
+                    Toast.makeText(getApplicationContext(), "Failed to add weights exercise: "
                                     + jsonObject.get("error")
                             , Toast.LENGTH_LONG)
                             .show();

@@ -26,6 +26,13 @@ public class AddWeightsFragment extends Fragment {
 
     /** All of the EditText elements from the fragment_add_workout.xml file */
     private EditText mNameEditText;
+    private EditText mReps1;
+    private EditText mWeight1;
+    private EditText mReps2;
+    private EditText mWeight2;
+    private EditText mReps3;
+    private EditText mWeight3;
+
     private AddWeightsListener mListener;
 
     public int mWorkoutID;
@@ -54,6 +61,17 @@ public class AddWeightsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_add_weights, container, false);
 
         mNameEditText = (EditText) v.findViewById(R.id.add_weights_name);
+
+        mReps1 = (EditText) v.findViewById(R.id.weights_reps_1);
+        mReps2 = (EditText) v.findViewById(R.id.weights_reps_2);
+        mReps3 = (EditText) v.findViewById(R.id.weights_reps_3);
+
+        mWeight1 = (EditText) v.findViewById(R.id.weights_weight_1);
+        mWeight2 = (EditText) v.findViewById(R.id.weights_weight_2);
+        mWeight3 = (EditText) v.findViewById(R.id.weights_weight_3);
+
+
+        // TODO need to get sets from the edit texts
 
         // hide the add workout floating action button
         FloatingActionButton floatingActionButton = (FloatingActionButton)
@@ -104,6 +122,27 @@ public class AddWeightsFragment extends Fragment {
 
             sb.append("&workoutID=");
             sb.append(mWorkoutID);
+
+            sb.append("&reps1=");
+            sb.append(mReps1.getText().toString());
+
+            sb.append("&reps2=");
+            sb.append(mReps2.getText().toString());
+
+            sb.append("&reps3=");
+            sb.append(mReps3.getText().toString());
+
+            sb.append("&weight1=");
+            sb.append(mWeight1.getText().toString());
+
+            sb.append("&weight2=");
+            sb.append(mWeight2.getText().toString());
+
+            sb.append("&weight3=");
+            sb.append(mWeight3.getText().toString());
+
+//            sb.append("&weightsID");
+//            sb.append(20); // TODO this needs to be changed to the actual weights id.
 
             Log.i("AddWeightsFragment", sb.toString());
         }
