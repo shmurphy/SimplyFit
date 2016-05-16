@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/add_exercise_fragment"
-    tools:context="shmurphy.tacoma.uw.edu.simplyfitter.AddExerciseFragment"
+    android:id="@+id/add_aerobic_fragment"
+    tools:context=".AddAerobicFragment"
     android:weightSum="1">
 
 
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/exercise_name_hint"
-        android:id="@+id/add_exercise_name" />
+        android:id="@+id/add_aerobic_name" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,14 +40,14 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/add_exercise_hours"
+            android:id="@+id/add_aerobic_hours"
             android:layout_gravity="center|left"
             android:hint="@string/exercise_hours_hint" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/add_exercise_minutes"
+            android:id="@+id/add_aerobic_minutes"
             android:hint="@string/exercise_minutes_hint"
             android:layout_gravity="right|center_vertical" />
 
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="and"
-            android:id="@+id/exercise_and_text"
+            android:id="@+id/aerobic_and_text"
             android:layout_gravity="center" />
 
     </FrameLayout>
@@ -63,9 +63,9 @@
     <Button
         android:layout_width= "wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/add_exercise_button"
+        android:id="@+id/add_aerobic_button"
         android:layout_gravity="right"
         android:text="@string/add_exercise_button"
-        android:onClick="addExercise" />
+        android:onClick="addAerobicExercise" />
 
 </LinearLayout>

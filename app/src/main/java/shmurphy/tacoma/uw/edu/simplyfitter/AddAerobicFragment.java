@@ -11,14 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddExerciseFragment extends Fragment {
+public class AddAerobicFragment extends Fragment {
 
 
     /** Used to build the add exercise URL for the addWorkout.php file */
@@ -30,12 +29,12 @@ public class AddExerciseFragment extends Fragment {
     private EditText mHoursEditText;
     private EditText mMinutesEditText;
 
-    private AddExerciseListener mListener;
+    private AddAerobicListener mListener;
 
     public int mWorkoutID;
 //    public String mDay;
 
-    public AddExerciseFragment() {
+    public AddAerobicFragment() {
         // Required empty public constructor
     }
 
@@ -45,8 +44,8 @@ public class AddExerciseFragment extends Fragment {
      * to the activity and potentially other fragments contained in that
      * activity.
      */
-    public interface AddExerciseListener {
-        public void addExercise(String url);
+    public interface AddAerobicListener {
+        public void addAerobicExercise(String url);
     }
 
     @Override
@@ -56,11 +55,11 @@ public class AddExerciseFragment extends Fragment {
 
         getActivity().setTitle("Add a New Workout");
 
-        View v = inflater.inflate(R.layout.fragment_add_exercise, container, false);
+        View v = inflater.inflate(R.layout.fragment_add_aerobic, container, false);
 
-        mNameEditText = (EditText) v.findViewById(R.id.add_exercise_name);
-        mHoursEditText = (EditText) v.findViewById(R.id.add_exercise_hours);
-        mMinutesEditText = (EditText) v.findViewById(R.id.add_exercise_minutes);
+        mNameEditText = (EditText) v.findViewById(R.id.add_aerobic_name);
+        mHoursEditText = (EditText) v.findViewById(R.id.add_aerobic_hours);
+        mMinutesEditText = (EditText) v.findViewById(R.id.add_aerobic_minutes);
 
         // hide the add workout floating action button
         FloatingActionButton floatingActionButton = (FloatingActionButton)
@@ -74,12 +73,12 @@ public class AddExerciseFragment extends Fragment {
 
 
         // add exercise button
-        Button addExerciseButton = (Button) v.findViewById(R.id.add_exercise_button);
+        Button addExerciseButton = (Button) v.findViewById(R.id.add_aerobic_button);
         addExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String url = buildExerciseURL(v);
-                mListener.addExercise(url);
+                mListener.addAerobicExercise(url);
             }
         });
 
@@ -89,11 +88,11 @@ public class AddExerciseFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof AddExerciseListener) {
-            mListener = (AddExerciseListener) context;
+        if (context instanceof AddAerobicListener) {
+            mListener = (AddAerobicListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement AddWorkoutListener");
+                    + " must implement AddAerobicListener");
         }
     }
 
@@ -121,7 +120,7 @@ public class AddExerciseFragment extends Fragment {
             sb.append("&workoutID=");
             sb.append(mWorkoutID);
 
-            Log.i("AddExerciseFragment", sb.toString());
+            Log.i("AddAerobicFragment", sb.toString());
         }
         catch(Exception e) {
             Toast.makeText(v.getContext(),

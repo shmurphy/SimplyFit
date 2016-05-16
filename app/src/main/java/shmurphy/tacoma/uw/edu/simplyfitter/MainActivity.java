@@ -32,7 +32,7 @@ import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
 public class MainActivity extends AppCompatActivity implements CalendarListFragment.OnListFragmentInteractionListener,
 WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWorkoutListener,
-        AddExerciseFragment.AddExerciseListener,
+        AddAerobicFragment.AddAerobicListener, AddWeightsFragment.AddWeightsListener,
 ExerciseListFragment.OnListFragmentInteractionListener {
 
     private String mDate;   // used to keep track of the date we're on
@@ -203,6 +203,36 @@ ExerciseListFragment.OnListFragmentInteractionListener {
     }
 
     /**
+     * From AddAerobicFragment
+     * This is called when the add exercise button is pushed on the AddExerciseFragment.
+     * It executes the AddExerciseTask to add the new exercise and then returns back to the
+     * ExerciseListFragment by popping the stack.
+     * @param url
+     */
+    @Override
+    public void addAerobicExercise(String url) {
+        AddExerciseTask task = new AddExerciseTask();
+        task.execute(new String[]{url.toString()});
+        // Takes you back to the previous fragment by popping the current fragment out.
+        getSupportFragmentManager().popBackStackImmediate();
+    }
+
+    /**
+     * From AddWeightsFragment
+     * This is called when the add exercise button is pushed on the AddExerciseFragment.
+     * It executes the AddExerciseTask to add the new exercise and then returns back to the
+     * ExerciseListFragment by popping the stack.
+     * @param url
+     */
+    @Override
+    public void addWeightsExercise(String url) {
+        AddExerciseTask task = new AddExerciseTask();
+        task.execute(new String[]{url.toString()});
+        // Takes you back to the previous fragment by popping the current fragment out.
+        getSupportFragmentManager().popBackStackImmediate();
+    }
+
+    /**
      * Add the new workout to our database table.
      */
     private class AddWorkoutTask extends AsyncTask<String, Void, String> {
@@ -266,21 +296,6 @@ ExerciseListFragment.OnListFragmentInteractionListener {
                         e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
-    }
-
-    /**
-     * From AddExerciseFragment
-     * This is called when the add exercise button is pushed on the AddWorkoutFragment.
-     * It executes the AddExerciseTask to add the new exercise and then returns back to the
-     * ExerciseListFragment by popping the stack.
-     * @param url
-     */
-    @Override
-    public void addExercise(String url) {
-        AddExerciseTask task = new AddExerciseTask();
-        task.execute(new String[]{url.toString()});
-        // Takes you back to the previous fragment by popping the current fragment out.
-        getSupportFragmentManager().popBackStackImmediate();
     }
 
     /**

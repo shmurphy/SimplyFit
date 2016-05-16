@@ -4,7 +4,6 @@ package shmurphy.tacoma.uw.edu.simplyfitter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,17 +60,24 @@ public class ExerciseOptionFragment extends Fragment implements AdapterView.OnIt
 
 
         // button in the exercise option fragment
-        Button addExerciseButton = (Button) view.findViewById(R.id.exercise_option_button);
+        final Button addExerciseButton = (Button) view.findViewById(R.id.exercise_option_button);
         addExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // launch add exercise fragment with the type from the spinner
 //            Log.d("spinner!", mItem);
             if(mItem.equals("Aerobic")) {
-                AddExerciseFragment addExerciseFragment = new AddExerciseFragment();
+                AddAerobicFragment addExerciseFragment = new AddAerobicFragment();
                 addExerciseFragment.setWorkoutID(mWorkoutID);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, addExerciseFragment)
+                        .addToBackStack(null)
+                        .commit();
+            } else if(mItem.equals("Weights")) {
+                AddWeightsFragment addWeightsFragment = new AddWeightsFragment();
+                addWeightsFragment.setWorkoutID(mWorkoutID);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, addWeightsFragment)
                         .addToBackStack(null)
                         .commit();
             }
