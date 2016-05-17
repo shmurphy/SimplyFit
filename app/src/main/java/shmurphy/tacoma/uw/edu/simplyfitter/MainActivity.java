@@ -279,8 +279,6 @@ ExerciseListFragment.OnListFragmentInteractionListener {
          */
         @Override
         protected void onPostExecute(String result) {
-//            Log.d("MAIN STATUS", result);
-
             // Something wrong with the network or the URL.
             try {
                 JSONObject jsonObject = new JSONObject(result);
@@ -348,6 +346,8 @@ ExerciseListFragment.OnListFragmentInteractionListener {
         @Override
         protected void onPostExecute(String result) {
             // Something wrong with the network or the URL.
+//             Log.d("EXERCISE", result);
+
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 String exerciseStatus = (String) jsonObject.get("result");
