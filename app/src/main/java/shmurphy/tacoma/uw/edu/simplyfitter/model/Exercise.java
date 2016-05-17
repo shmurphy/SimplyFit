@@ -21,7 +21,9 @@ public class Exercise implements Serializable {
     public String mType, mName;     // keep these NON static! made errors with adding to exercise list
     public static int mWorkoutID;
     public int mHours, mMinutes;
-    public static int mID;
+    public int mID;
+
+    public ArrayList<WeightSet> mWeightSets = new ArrayList<>();
 
     public static final String DAY = "day", EXERCISE_NAME = "name", EXERCISE_HOURS = "hours",
             EXERCISE_MINUTES = "minutes", EXERCISE_WORKOUT_ID = "workoutID";
@@ -30,6 +32,7 @@ public class Exercise implements Serializable {
     public Exercise(String type, String name, String workoutID) {
         mType = type;
         mName = name;
+
     }
 
     // constructor for Aerobics workout
@@ -75,8 +78,8 @@ public class Exercise implements Serializable {
                     }
 
                     int objWorkoutID = obj.getInt(Exercise.EXERCISE_WORKOUT_ID);
-                    mID = obj.getInt("id"); // gets the exercise ID
-
+//                    mID = obj.getInt("id"); // gets the exercise ID
+                    exercise.setmID(obj.getInt("id"));
                     // check if the workoutID for this exercise matches the specific workout.
                     // if it does, add it. else, don't add it.
                     if(objWorkoutID == mWorkoutID) {
@@ -132,8 +135,16 @@ public class Exercise implements Serializable {
         mMinutes = minutes;
     }
 
+    public int getmID() {
+        return mID;
+    }
+
+    public void setmID(int id) {
+        mID = id;
+    }
+
     public String toString() {
-        return "name: " + mName + " ID: " + mID;
+        return "name: " + mName;
     }
 
 }

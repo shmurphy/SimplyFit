@@ -1,5 +1,6 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,6 +43,10 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
 //        Log.d("debug holders", mValues.get(position).mName);
 
         holder.mIdView.setText(mValues.get(position).mName);
+
+        if(holder.mItem.getmType().equals("Weight")) {
+            holder.mContentView.setText(holder.mItem.mWeightSets.toString());
+        }
 //        holder.mContentView.setText(mValues.get(position).mHours);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
