@@ -29,6 +29,8 @@ public class AddAerobicFragment extends Fragment {
     private EditText mHoursEditText;
     private EditText mMinutesEditText;
 
+    public String mType; // either aerobic or flexibility, because these use the same fragment
+
     private AddAerobicListener mListener;
 
     public int mWorkoutID;
@@ -53,7 +55,8 @@ public class AddAerobicFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        getActivity().setTitle("Add a New Workout");
+        if(mType.equals("Aerobic")) getActivity().setTitle("Add an Aerobic Exercise");
+        else if(mType.equals("Flexibility")) getActivity().setTitle("Add a Flexibility Exercise");
 
         View v = inflater.inflate(R.layout.fragment_add_aerobic, container, false);
 
@@ -106,8 +109,19 @@ public class AddAerobicFragment extends Fragment {
         StringBuilder sb = new StringBuilder(AEROBIC_ADD_URL);
         try {
             String exerciseName = mNameEditText.getText().toString();
+            String formatted = "";
             sb.append("name=");
-            sb.append(exerciseName);
+            // format the name so that if it contains any spaces it can be added to the table correctly
+            if(exerciseName.contains(" ")) {
+                int space = exerciseName.indexOf(" ");
+                formatted = exerciseName.substring(0, space);
+                formatted += "%20";
+                formatted += exerciseName.substring(space+1, exerciseName.length());
+                Log.d("AddAerobicFragment", formatted);
+                sb.append(formatted);
+            } else {
+                sb.append(exerciseName);
+            }
 
             String hours = mHoursEditText.getText().toString();
             sb.append("&hour=");
@@ -119,6 +133,9 @@ public class AddAerobicFragment extends Fragment {
 
             sb.append("&workoutID=");
             sb.append(mWorkoutID);
+
+            sb.append("&type=");
+            sb.append(mType);
 
             Log.i("AddAerobicFragment", sb.toString());
         }
@@ -132,6 +149,10 @@ public class AddAerobicFragment extends Fragment {
 
     public void setWorkoutID(int workoutID) {
         mWorkoutID = workoutID;
+    }
+
+    public void setmType(String type) {
+        mType = type;
     }
 
 }

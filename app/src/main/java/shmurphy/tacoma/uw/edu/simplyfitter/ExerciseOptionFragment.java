@@ -46,8 +46,8 @@ public class ExerciseOptionFragment extends Fragment implements AdapterView.OnIt
 
         ArrayList<String> list = new ArrayList<>();
         list.add("Aerobic");
-        list.add("Weights");
-        list.add("Meditation");
+        list.add("Anaerobic");
+        list.add("Flexibility");
 
         Spinner spinner = (Spinner) view.findViewById(R.id.exercise_spinner);
         spinner.setOnItemSelectedListener(this);
@@ -69,15 +69,24 @@ public class ExerciseOptionFragment extends Fragment implements AdapterView.OnIt
             if(mItem.equals("Aerobic")) {
                 AddAerobicFragment addExerciseFragment = new AddAerobicFragment();
                 addExerciseFragment.setWorkoutID(mWorkoutID);
+                addExerciseFragment.setmType("Aerobic");
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, addExerciseFragment)
                         .addToBackStack(null)
                         .commit();
-            } else if(mItem.equals("Weights")) {
+            } else if(mItem.equals("Anaerobic")) {
                 AddWeightsFragment addWeightsFragment = new AddWeightsFragment();
                 addWeightsFragment.setWorkoutID(mWorkoutID);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, addWeightsFragment)
+                        .addToBackStack(null)
+                        .commit();
+            } else if (mItem.equals("Flexibility")) {
+                AddAerobicFragment addFlexibilityFragment = new AddAerobicFragment();
+                addFlexibilityFragment.setWorkoutID(mWorkoutID);
+                addFlexibilityFragment.setmType("Flexibility");
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, addFlexibilityFragment)
                         .addToBackStack(null)
                         .commit();
             }

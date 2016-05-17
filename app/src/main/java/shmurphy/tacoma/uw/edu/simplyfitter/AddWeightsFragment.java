@@ -117,8 +117,19 @@ public class AddWeightsFragment extends Fragment {
         StringBuilder sb = new StringBuilder(WEIGHTS_ADD_URL);
         try {
             String exerciseName = mNameEditText.getText().toString();
+            String formatted = "";
             sb.append("name=");
-            sb.append(exerciseName);
+            // format the name so that if it contains any spaces it can be added to the table correctly
+            if(exerciseName.contains(" ")) {
+                int space = exerciseName.indexOf(" ");
+                formatted = exerciseName.substring(0, space);
+                formatted += "%20";
+                formatted += exerciseName.substring(space+1, exerciseName.length());
+                Log.d("AddAerobicFragment", formatted);
+                sb.append(formatted);
+            } else {
+                sb.append(exerciseName);
+            }
 
             sb.append("&workoutID=");
             sb.append(mWorkoutID);

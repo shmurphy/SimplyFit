@@ -42,7 +42,7 @@
         android:layout_gravity="right|center_vertical" />
 
     <Spinner
-        android:layout_width="248dp"
+        android:layout_width="291dp"
         android:layout_height="wrap_content"
         android:id="@+id/exercise_spinner"
         android:layout_gravity="center" />

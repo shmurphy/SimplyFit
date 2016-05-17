@@ -279,6 +279,8 @@ ExerciseListFragment.OnListFragmentInteractionListener {
          */
         @Override
         protected void onPostExecute(String result) {
+//            Log.d("MAIN STATUS", result);
+
             // Something wrong with the network or the URL.
             try {
                 JSONObject jsonObject = new JSONObject(result);
@@ -348,9 +350,9 @@ ExerciseListFragment.OnListFragmentInteractionListener {
             // Something wrong with the network or the URL.
             try {
                 JSONObject jsonObject = new JSONObject(result);
-                String weightStatus = (String) jsonObject.get("weights result");
+                String exerciseStatus = (String) jsonObject.get("result");
 
-                if (weightStatus.equals("success")) {   // check that the weights exercise was added
+                if (exerciseStatus.equals("success")) {   // check that the weights exercise was added
                     Toast.makeText(getApplicationContext(), "Exercise successfully added!"
                             , Toast.LENGTH_LONG)
                             .show();
