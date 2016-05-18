@@ -6,8 +6,8 @@
 
     <string name="workout_name_hint">Enter the name of your workout </string>
     <string name="workout_location_hint">Enter the location of your workout</string>
-    <string name="workout_start_hint">Enter the start time</string>
-    <string name="workout_end_hint">Enter the end time</string>
+    <string name="workout_start_hint">Enter the start time (HH:MM)</string>
+    <string name="workout_end_hint">Enter the end time (HH:MM)</string>
     <string name="add_workout_button">Add Workout</string>
     <string name="workout_date_hint">Enter the day of the month</string>
 

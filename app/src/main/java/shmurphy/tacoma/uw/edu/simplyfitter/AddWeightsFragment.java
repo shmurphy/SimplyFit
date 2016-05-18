@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -70,6 +71,8 @@ public class AddWeightsFragment extends Fragment {
         mWeight2 = (EditText) v.findViewById(R.id.weights_weight_2);
         mWeight3 = (EditText) v.findViewById(R.id.weights_weight_3);
 
+        TextView exerciseNameTextView = (TextView) v.findViewById(R.id.exercise_name);
+        exerciseNameTextView.setText("New Anaerobic Exercise");
 
         // TODO need to get sets from the edit texts
 

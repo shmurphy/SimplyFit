@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -54,15 +55,27 @@ public class AddAerobicFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        if(mType.equals("Aerobic")) getActivity().setTitle("Add an Aerobic Exercise");
-        else if(mType.equals("Flexibility")) getActivity().setTitle("Add a Flexibility Exercise");
-
         View v = inflater.inflate(R.layout.fragment_add_aerobic, container, false);
-
         mNameEditText = (EditText) v.findViewById(R.id.add_aerobic_name);
         mHoursEditText = (EditText) v.findViewById(R.id.add_aerobic_hours);
         mMinutesEditText = (EditText) v.findViewById(R.id.add_aerobic_minutes);
+        TextView mDurationTextView = (TextView) v.findViewById(R.id.exercise_duration_text);
+        TextView mAndTextView = (TextView) v.findViewById(R.id.aerobic_and_text);
+        TextView nameTextView = (TextView) v.findViewById(R.id.exercise_name);
+
+        nameTextView.setText("New " + mType + " Exercise");
+        if(mType.equals("Flexibility")) {
+            getActivity().setTitle("Add a Flexibility Exercise");
+            mHoursEditText.setVisibility(View.GONE);        // hide the time text views
+            mMinutesEditText.setVisibility(View.GONE);
+            mDurationTextView.setVisibility(View.GONE);
+            mAndTextView.setVisibility(View.GONE);
+        } else if(mType.equals("Aerobic")) {
+            getActivity().setTitle("Add an Aerobic Exercise");
+        }
+
+
+
 
         // hide the add workout floating action button
         FloatingActionButton floatingActionButton = (FloatingActionButton)
@@ -123,11 +136,17 @@ public class AddAerobicFragment extends Fragment {
                 sb.append(exerciseName);
             }
 
-            String hours = mHoursEditText.getText().toString();
+            String hours = "";
+            if(mType.equals("Aerobic")) {
+                hours = mHoursEditText.getText().toString();
+            }
             sb.append("&hour=");
             sb.append(hours);
 
-            String minutes = mMinutesEditText.getText().toString();
+            String minutes = "";
+            if(mType.equals("Aerobic")) {
+                minutes = mMinutesEditText.getText().toString();
+            }
             sb.append("&minute=");
             sb.append(minutes);
 

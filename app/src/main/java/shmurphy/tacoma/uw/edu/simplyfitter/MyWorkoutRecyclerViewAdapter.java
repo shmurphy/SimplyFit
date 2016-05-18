@@ -45,7 +45,19 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         holder.mNameView.setText(mWorkouts.get(position).mName);
         holder.mLocationView.setText("Location: " + mWorkouts.get(position).mLocation);
         holder.mTimeView.setText("Time: " + mWorkouts.get(position).mStart + " to " + mWorkouts.get(position).mEnd);
-        holder.mExerciseView.setText(mWorkouts.get(position).mExercises.toString());
+//        holder.mExerciseView.setText(mWorkouts.get(position).mExercises.toString());
+
+        if(mWorkouts.get(position).mExercises.size() > 0) {
+            StringBuilder exerciseSB = new StringBuilder();
+            exerciseSB.append(mWorkouts.get(position).mExercises.get(0).toString());
+            for(int i = 1; i < mWorkouts.get(position).mExercises.size(); i++) {
+                exerciseSB.append(", ");
+                exerciseSB.append(mWorkouts.get(position).mExercises.get(i));
+            }
+            holder.mExerciseView.setText(exerciseSB.toString());
+        }
+
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +82,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         public final TextView mLocationView;    // location of the workout
         public final TextView mTimeView;        // time of the workout
         public final TextView mExerciseView;
+//        public final TextView mExerciseTitleView;
         public Workout mItem;
 
         public ViewHolder(View view) {
@@ -78,7 +91,8 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
             mNameView = (TextView) view.findViewById(R.id.workout_name);
             mLocationView = (TextView) view.findViewById(R.id.workout_location);
             mTimeView = (TextView) view.findViewById(R.id.workout_time);
-            mExerciseView = (TextView) view.findViewById(R.id.workout_fragment_exercises);
+            mExerciseView = (TextView) view.findViewById(R.id.workout_exercises);
+//            mExerciseTitleView = (TextView) view.findViewById(R.id.workout_fragment_exercise_title);
         }
 
         @Override

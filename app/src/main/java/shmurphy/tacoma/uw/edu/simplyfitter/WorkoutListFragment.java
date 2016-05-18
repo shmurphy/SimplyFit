@@ -252,7 +252,7 @@ public class WorkoutListFragment extends Fragment  {
 
             result = Exercise.parseExerciseJSON("aerobic", result, mWorkouts);
 
-            Log.d("WorkoutListFragment", "Aerobic " + mWorkouts.get(0).mExercises.toString());
+//            Log.d("WorkoutListFragment", "Aerobic " + mWorkouts.get(0).mExercises.toString());
 
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -309,7 +309,7 @@ public class WorkoutListFragment extends Fragment  {
             }
 
             result = Exercise.parseExerciseJSON("weight", result, mWorkouts);
-            Log.d("WorkoutListFragment", "weight " + mWorkouts.get(0).mExercises.toString());
+//            Log.d("WorkoutListFragment", "weight " + mWorkouts.get(0).mExercises.toString());
 
             // Something wrong with the JSON returned.
             if (result != null) {

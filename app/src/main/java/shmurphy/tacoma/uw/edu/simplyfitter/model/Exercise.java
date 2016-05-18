@@ -189,7 +189,7 @@ public class Exercise implements Serializable {
     }
 
     public String toString() {
-        return "name: " + mName;
+        return mName;
     }
 
 }
