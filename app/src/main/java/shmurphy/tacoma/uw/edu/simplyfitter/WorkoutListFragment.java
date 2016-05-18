@@ -40,7 +40,7 @@ public class WorkoutListFragment extends Fragment  {
 
     private OnListFragmentInteractionListener mListener;
 
-    public String mDay; // used to keep track of the current day
+    public int mDay; // used to keep track of the current day
     public String mUserID;
 
     /**
@@ -54,7 +54,7 @@ public class WorkoutListFragment extends Fragment  {
      * Sets the day field so the workout list will be associated with one specific day.
      * @param day
      */
-    public void setDay(String day) {
+    public void setDay(int day) {
         mDay = day;
     }
 
@@ -181,6 +181,9 @@ public class WorkoutListFragment extends Fragment  {
                         .show();
                 return;
             }
+
+            
+
             // Everything is good, show the list of courses.
             if (!workoutList.isEmpty()) {
                 mRecyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(workoutList, mListener));

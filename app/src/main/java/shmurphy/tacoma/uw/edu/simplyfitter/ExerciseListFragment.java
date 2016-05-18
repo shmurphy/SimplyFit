@@ -72,7 +72,6 @@ public class ExerciseListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         getActivity().setTitle("Exercises");
 
         View view = inflater.inflate(R.layout.fragment_exercise_list, container, false);
@@ -92,7 +91,6 @@ public class ExerciseListFragment extends Fragment {
                 getActivity().findViewById(R.id.workout_fab);
         floatingActionButton.hide();
 
-
         // show the exercise floating action button
         FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.add_exercise_fab);
@@ -108,7 +106,6 @@ public class ExerciseListFragment extends Fragment {
 
             DownloadWeightsTask weightsTask = new DownloadWeightsTask(); // downloads all weights
             weightsTask.execute(new String[]{WEIGHTS_URL});
-
 
 
         } else {
@@ -137,12 +134,6 @@ public class ExerciseListFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        DownloadAerobicsTask aerobicsTask = new DownloadAerobicsTask(); // starts the task to download
-//        aerobicsTask.execute(new String[]{AEROBICS_URL});                        // all of the aerobic workouts
-
-
-
         return view;
     }
 
@@ -217,7 +208,7 @@ public class ExerciseListFragment extends Fragment {
             // Something wrong with the JSON returned.
             if (result != null) {
 
-                Log.d("debug", "something wrong with the JSON...");
+                Log.d("debug", "something wrong with the Exercise JSON...");
 
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
                         .show();
@@ -249,7 +240,7 @@ public class ExerciseListFragment extends Fragment {
                         response += s;
                     }
                 } catch (Exception e) {
-                    response = "Unable to download the list of days, Reason: "
+                    response = "Unable to download the list of weight workouts, Reason: "
                             + e.getMessage();
                 } finally {
                     if (urlConnection != null)
@@ -261,9 +252,6 @@ public class ExerciseListFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-
-
-
             // Something wrong with the network or the URL.
             if (result.startsWith("Unable to")) {
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
@@ -276,7 +264,7 @@ public class ExerciseListFragment extends Fragment {
             // Something wrong with the JSON returned.
             if (result != null) {
 
-                Log.d("debug", "something wrong with the JSON...");
+                Log.d("debug", "something wrong with the Exercise JSON...");
 
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
                         .show();
@@ -311,7 +299,7 @@ public class ExerciseListFragment extends Fragment {
                         response += s;
                     }
                 } catch (Exception e) {
-                    response = "Unable to download the list of days, Reason: "
+                    response = "Unable to download the list of sets, Reason: "
                             + e.getMessage();
                 } finally {
                     if (urlConnection != null)
@@ -323,7 +311,6 @@ public class ExerciseListFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-
             // Something wrong with the network or the URL.
             if (result.startsWith("Unable to")) {
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
@@ -331,26 +318,20 @@ public class ExerciseListFragment extends Fragment {
                 return;
             }
 
-
             // send the exercise list to add the sets to each weight exercise
             result = WeightSet.parseWeightSetJSON(result, mExerciseList, mWorkoutID);
 
             // Something wrong with the JSON returned.
             if (result != null) {
 
-                Log.d("debug", "something wrong with the JSON...");
+                Log.d("debug", "something wrong with the WeightSet JSON...");
 
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
                         .show();
                 return;
             }
-            // Everything is good, show the list of workouts.
+            // Everything is good, show the list of exercises.
             if (!mExerciseList.isEmpty()) {
-
-                for(int i = 0; i < mExerciseList.size(); i++) {
-                    Log.d("exercise list", mExerciseList.get(i).mWeightSets.toString());
-                }
-
                 mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
             }
         }

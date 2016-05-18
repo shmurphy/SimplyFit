@@ -53,7 +53,7 @@ public class Exercise implements Serializable {
     public static String parseExerciseJSON(String type, String exerciseJSON, List<Exercise> exerciseList, int workoutID) {
         String reason = null;
 
-        Log.d("debug", "exerciseJSON" + exerciseJSON);
+//        Log.d("debug", "exerciseJSON" + exerciseJSON);
 
         mWorkoutID = workoutID;
 
@@ -64,32 +64,27 @@ public class Exercise implements Serializable {
                 Exercise exercise = null;
                 for (int i = 0; i < arr.length(); i++) {
                     JSONObject obj = arr.getJSONObject(i);
-
                     if(type.equals("aerobic")) {
-//                        Log.d("debug", "new aerobic");
-
                         exercise = new Exercise("Aerobic", obj.getString(Exercise.EXERCISE_NAME),
                                 obj.getInt(Exercise.EXERCISE_HOURS), obj.getInt(Exercise.EXERCISE_MINUTES),
                                 obj.getString(Exercise.EXERCISE_WORKOUT_ID));
                     } else if (type.equals("weight")) {
-//                        Log.d("debug", "new weight");
                         exercise = new Exercise("Weight", obj.getString(Exercise.EXERCISE_NAME),
                                 obj.getString(Exercise.EXERCISE_WORKOUT_ID));
                     }
 
                     int objWorkoutID = obj.getInt(Exercise.EXERCISE_WORKOUT_ID);
-//                    mID = obj.getInt("id"); // gets the exercise ID
                     exercise.setmID(obj.getInt("id"));
+
                     // check if the workoutID for this exercise matches the specific workout.
                     // if it does, add it. else, don't add it.
                     if(objWorkoutID == mWorkoutID) {
-                        Log.d("debug", "this should be added " + exercise.toString());
                         exerciseList.add(exercise);
                     }
                 }
 
             } catch (JSONException e) {
-                reason =  "Unable to parse data, Reason: " + e.getMessage();
+                reason =  "Unable to parse exercise data, Reason: " + e.getMessage();
             }
         }
         return reason;

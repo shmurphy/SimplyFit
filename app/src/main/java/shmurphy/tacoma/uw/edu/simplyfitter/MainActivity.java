@@ -35,7 +35,7 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
         AddAerobicFragment.AddAerobicListener, AddWeightsFragment.AddWeightsListener,
 ExerciseListFragment.OnListFragmentInteractionListener {
 
-    private String mDate;   // used to keep track of the date we're on
+    private int mDate;   // used to keep track of the date we're on
     private String mUserID;
     private int mWorkoutID;
     private int mExerciseID;
@@ -217,6 +217,7 @@ ExerciseListFragment.OnListFragmentInteractionListener {
         task.execute(new String[]{url.toString()});
         // Takes you back to the previous fragment by popping the current fragment out.
         getSupportFragmentManager().popBackStackImmediate();
+        getSupportFragmentManager().popBackStackImmediate(); // back to the exercise list fragment
     }
 
     /**
@@ -231,6 +232,7 @@ ExerciseListFragment.OnListFragmentInteractionListener {
         AddExerciseTask task = new AddExerciseTask();
         task.execute(new String[]{url.toString()});
         // Takes you back to the previous fragment by popping the current fragment out.
+        getSupportFragmentManager().popBackStackImmediate();
         getSupportFragmentManager().popBackStackImmediate();
     }
 

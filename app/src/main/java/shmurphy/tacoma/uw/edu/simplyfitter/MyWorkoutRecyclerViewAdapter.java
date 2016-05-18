@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import shmurphy.tacoma.uw.edu.simplyfitter.WorkoutListFragment.OnListFragmentInteractionListener;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
@@ -43,6 +45,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         holder.mLocationView.setText("Location: " + mWorkouts.get(position).mLocation);
         holder.mTimeView.setText("Time: " + mWorkouts.get(position).mStart + " to " + mWorkouts.get(position).mEnd);
 
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {   // here we will implement an exercise fragment list to be invoked
@@ -65,6 +68,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         public final TextView mNameView;        // name of the workout
         public final TextView mLocationView;    // location of the workout
         public final TextView mTimeView;        // time of the workout
+        public final TextView mExerciseView;
         public Workout mItem;
 
         public ViewHolder(View view) {
@@ -73,6 +77,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
             mNameView = (TextView) view.findViewById(R.id.workout_name);
             mLocationView = (TextView) view.findViewById(R.id.workout_location);
             mTimeView = (TextView) view.findViewById(R.id.workout_time);
+            mExerciseView = (TextView) view.findViewById(R.id.workout_fragment_exercises);
         }
 
         @Override

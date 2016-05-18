@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class CalendarDay implements Serializable {
 
-    public String mDay;     // the day of the months
+    public int mDay;     // the day of the months
     public List<Workout> myWorkouts; // array of this day's workouts
 
     public static String mUserID;
@@ -31,7 +31,7 @@ public class CalendarDay implements Serializable {
      *
      * @param day the day of the month
      */
-    public CalendarDay(String day) {
+    public CalendarDay(int day) {
         mDay = day;
         myWorkouts = new ArrayList<>();
     }
@@ -50,7 +50,7 @@ public class CalendarDay implements Serializable {
                 JSONArray arr = new JSONArray(workoutJSON);
                 for (int i = 0; i < arr.length(); i++) {        // keep this at i = 0! workouts don't display with i = 1
                     JSONObject obj = arr.getJSONObject(i);
-                    CalendarDay calendarDay = new CalendarDay(obj.getString(CalendarDay.DAY));
+                    CalendarDay calendarDay = new CalendarDay(obj.getInt(CalendarDay.DAY));
 //                    Log.d("calendarday", "here");
 //                    Log.d("calendarday", username);
 
@@ -61,7 +61,7 @@ public class CalendarDay implements Serializable {
 //                    Log.d("calendarday", "after workout");
 
                     String username = obj.getString(CalendarDay.USER_ID);
-                    int day = Integer.parseInt(calendarDay.mDay);
+                    int day = calendarDay.mDay;
 
                     // if there are no workouts logged for this day yet, we add the new workout,
                     // and set that day's position accordingly.
@@ -92,7 +92,7 @@ public class CalendarDay implements Serializable {
      *
      * @return the day field
      */
-    public String getmDay() {
+    public int getmDay() {
         return mDay;
     }
 
@@ -101,7 +101,7 @@ public class CalendarDay implements Serializable {
      *
      * @param mDay the new day of the month to set
      */
-    public void setmDay(String mDay) {
+    public void setmDay(int mDay) {
         this.mDay = mDay;
     }
 

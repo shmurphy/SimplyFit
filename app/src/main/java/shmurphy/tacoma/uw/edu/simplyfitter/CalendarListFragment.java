@@ -200,7 +200,7 @@ public class CalendarListFragment extends Fragment {
             }
             List<CalendarDay> dateList = new ArrayList<CalendarDay>(31);
             for(int i = 0; i < 32; i++) {
-                dateList.add(new CalendarDay(String.valueOf(i)));
+                dateList.add(new CalendarDay(i));
             }
 
             Log.d("CalendarListFragment", result);

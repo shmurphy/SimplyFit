@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
 
-    <!--<TextView-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top">
+
+        <!--<TextView-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:id="@+id/workout_title"-->
         <!--android:textAppearance="?attr/textAppearanceListItem"-->
         <!--android:layout_margin="@dimen/text_margin"-->
         <!--android:layout_gravity="right|top" />-->
+
+        <TextView
+            android:id="@+id/workout_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/workout_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/workout_name"
@@ -20,22 +42,13 @@
         android:textColor="@color/purple"
         android:textStyle="bold"
         android:textSize="30sp"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_gravity="left|top" />
 
     <TextView
-        android:id="@+id/workout_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:id="@+id/workout_fragment_exercises"
+        android:layout_gravity="center_horizontal|top" />
+</FrameLayout>
 
-    <TextView
-        android:id="@+id/workout_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
-
-    
-
-</LinearLayout>

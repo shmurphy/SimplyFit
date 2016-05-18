@@ -51,7 +51,7 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
             holder.mIdView.setTextSize(17);
             holder.mContentView.setTextSize(17);
 
-            holder.mIdView.setText(mCalDays.get(position).getmDay());
+            holder.mIdView.setText(Integer.toString(mCalDays.get(position).getmDay()));
 
             // this if statement checks to see if the calendar day we are setting has a list of
             // workouts yet. if it does, we display it in the mContentView TextView

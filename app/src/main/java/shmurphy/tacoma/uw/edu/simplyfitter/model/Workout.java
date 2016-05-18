@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +22,8 @@ public class Workout {
 
     public static String mUserID;
     public int mID;
+
+    public ArrayList<Exercise> mExercises = new ArrayList<>();
 
 // TODO will need a "myExercises" list
 
@@ -55,7 +58,7 @@ public class Workout {
      * Returns workout list if success.
      * @param workoutJSON  * @return reason or null if successful.
      */
-    public static String parseWorkoutJSON(String workoutJSON, List<Workout> workoutList, String day, String userID) {
+    public static String parseWorkoutJSON(String workoutJSON, List<Workout> workoutList, int day, String userID) {
         // added day param to keep track of which day this workout is for
         mUserID = userID;
         String reason = null;
@@ -66,7 +69,7 @@ public class Workout {
                     JSONObject obj = arr.getJSONObject(i);
 
                     // constructs a new calendar day using the information stored in the databse
-                    CalendarDay calendarDay = new CalendarDay(obj.getString(CalendarDay.DAY));
+                    CalendarDay calendarDay = new CalendarDay(obj.getInt(CalendarDay.DAY));
 
                     String username = obj.getString(CalendarDay.USER_ID);
 
@@ -75,7 +78,7 @@ public class Workout {
                             obj.getString(CalendarDay.WORKOUT_START), obj.getString(CalendarDay.WORKOUT_END),
                             obj.getString(CalendarDay.WORKOUT_LOCATION), obj.getString(CalendarDay.USER_ID),
                             obj.getInt(WORKOUT_ID));
-                    if(calendarDay.mDay.equals(day) && mUserID.equals(username)) {
+                    if(calendarDay.mDay == (day) && mUserID.equals(username)) {
                         workoutList.add(workout);
                     }
                 }

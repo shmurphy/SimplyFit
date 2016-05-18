@@ -33,7 +33,7 @@ public class AddWorkoutFragment extends Fragment {
     private EditText mEndTimeEditText;
     private TextView mDateTextView;
 
-    private String mDate; // used to keep track of the current date this workout will be added to
+    private int mDate; // used to keep track of the current date this workout will be added to
 
     private String mUserID;
 
@@ -169,7 +169,7 @@ public class AddWorkoutFragment extends Fragment {
      *
      * @param date
      */
-    public void setDate(String date) {
+    public void setDate(int date) {
         mDate = date;
     }
 
