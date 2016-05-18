@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -203,7 +204,7 @@ public class CalendarListFragment extends Fragment {
                 dateList.add(new CalendarDay(i));
             }
 
-            Log.d("CalendarListFragment", result);
+//            Log.d("CalendarListFragment", result);
             result = CalendarDay.parseWorkoutJSON(result, dateList, mUserID);
 
             // Something wrong with the JSON returned.

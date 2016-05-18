@@ -19,6 +19,17 @@
         <!--android:layout_gravity="right|top" />-->
 
         <TextView
+            android:id="@+id/workout_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:textColor="@color/purple"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:layout_gravity="left|top" />
+
+        <TextView
             android:id="@+id/workout_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,17 +44,6 @@
             android:textAppearance="?attr/textAppearanceListItem" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/workout_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textColor="@color/purple"
-        android:textStyle="bold"
-        android:textSize="30sp"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:layout_gravity="left|top" />
 
     <TextView
         android:layout_width="wrap_content"

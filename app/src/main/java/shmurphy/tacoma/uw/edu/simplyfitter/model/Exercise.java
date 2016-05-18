@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * Represents a day on the Calendar. Each day holds a list of workouts from that day.
@@ -50,7 +51,55 @@ public class Exercise implements Serializable {
      * Returns exercis list if success.
      * @param exerciseJSON  * @return reason or null if successful.
      */
-    public static String parseExerciseJSON(String type, String exerciseJSON, List<Exercise> exerciseList, int workoutID) {
+    public static String parseExerciseJSON(String type, String exerciseJSON, List<Workout> workoutList) {
+        String reason = null;
+
+//        Log.d("debug", "exerciseJSON" + exerciseJSON);
+
+//        mWorkoutID = workoutID;
+
+        if (exerciseJSON != null) {
+
+            try {
+                JSONArray arr = new JSONArray(exerciseJSON);
+                Exercise exercise = null;
+                for (int i = 0; i < arr.length(); i++) {
+                    JSONObject obj = arr.getJSONObject(i);
+                    if(type.equals("aerobic")) {
+                        exercise = new Exercise("Aerobic", obj.getString(Exercise.EXERCISE_NAME),
+                                obj.getInt(Exercise.EXERCISE_HOURS), obj.getInt(Exercise.EXERCISE_MINUTES),
+                                obj.getString(Exercise.EXERCISE_WORKOUT_ID));
+                    } else if (type.equals("weight")) {
+                        exercise = new Exercise("Weight", obj.getString(Exercise.EXERCISE_NAME),
+                                obj.getString(Exercise.EXERCISE_WORKOUT_ID));
+                    }
+
+                    int objWorkoutID = obj.getInt(Exercise.EXERCISE_WORKOUT_ID);
+                    exercise.setmID(obj.getInt("id"));
+
+                    for(int j = 0; j < workoutList.size(); j++) {
+//                        Log.d("debugExercise", workoutList.get(i).toString() + " " + Integer.toString(workoutList.get(i).mID));
+//                        Log.d("debugExercise", Integer.toString(objWorkoutID));
+                        if(workoutList.get(j).mID == objWorkoutID) {
+                            workoutList.get(j).mExercises.add(exercise);
+                        }
+                    }
+
+                    // check if the workoutID for this exercise matches the specific workout.
+                    // if it does, add it. else, don't add it.
+//                    if(objWorkoutID == mWorkoutID) {
+//                        exerciseList.add(exercise);
+//                    }
+                }
+
+            } catch (JSONException e) {
+                reason =  "Unable to parse exercise data, Reason: " + e.getMessage();
+            }
+        }
+        return reason;
+    }
+
+    public static String parseExerciseJSONForList(String type, String exerciseJSON, List<Exercise> exerciseList, int workoutID) {
         String reason = null;
 
 //        Log.d("debug", "exerciseJSON" + exerciseJSON);
@@ -75,6 +124,7 @@ public class Exercise implements Serializable {
 
                     int objWorkoutID = obj.getInt(Exercise.EXERCISE_WORKOUT_ID);
                     exercise.setmID(obj.getInt("id"));
+
 
                     // check if the workoutID for this exercise matches the specific workout.
                     // if it does, add it. else, don't add it.

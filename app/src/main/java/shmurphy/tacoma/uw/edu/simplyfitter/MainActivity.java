@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.authenticate.SignInActivity;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
@@ -95,6 +96,8 @@ ExerciseListFragment.OnListFragmentInteractionListener {
                     .add(R.id.fragment_container, calendarListFragment)
                     .commit();
         }
+
+
     }
 
     @Override

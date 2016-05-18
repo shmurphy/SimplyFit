@@ -3,6 +3,7 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         holder.mNameView.setText(mWorkouts.get(position).mName);
         holder.mLocationView.setText("Location: " + mWorkouts.get(position).mLocation);
         holder.mTimeView.setText("Time: " + mWorkouts.get(position).mStart + " to " + mWorkouts.get(position).mEnd);
-
+        holder.mExerciseView.setText(mWorkouts.get(position).mExercises.toString());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

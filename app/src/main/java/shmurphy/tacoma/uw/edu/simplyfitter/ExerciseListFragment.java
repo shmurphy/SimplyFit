@@ -203,7 +203,7 @@ public class ExerciseListFragment extends Fragment {
                 return;
             }
 
-            result = Exercise.parseExerciseJSON("aerobic", result, mExerciseList, mWorkoutID);
+            result = Exercise.parseExerciseJSONForList("aerobic", result, mExerciseList, mWorkoutID);
 
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -259,7 +259,7 @@ public class ExerciseListFragment extends Fragment {
                 return;
             }
 
-            result = Exercise.parseExerciseJSON("weight", result, mExerciseList, mWorkoutID);
+            result = Exercise.parseExerciseJSONForList("weight", result, mExerciseList, mWorkoutID);
 
             // Something wrong with the JSON returned.
             if (result != null) {

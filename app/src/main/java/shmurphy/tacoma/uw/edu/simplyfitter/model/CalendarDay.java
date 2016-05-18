@@ -18,7 +18,7 @@ import java.util.List;
 public class CalendarDay implements Serializable {
 
     public int mDay;     // the day of the months
-    public List<Workout> myWorkouts; // array of this day's workouts
+    public ArrayList<Workout> myWorkouts = new ArrayList<>(); // array of this day's workouts
 
     public static String mUserID;
 
@@ -33,7 +33,11 @@ public class CalendarDay implements Serializable {
      */
     public CalendarDay(int day) {
         mDay = day;
-        myWorkouts = new ArrayList<>();
+//        myWorkouts = new ArrayList<>();
+    }
+
+    public void setMyWorkouts(ArrayList<Workout> workoutList) {
+        myWorkouts = workoutList;
     }
 
 
@@ -44,6 +48,7 @@ public class CalendarDay implements Serializable {
      */
     public static String parseWorkoutJSON(String workoutJSON, List<CalendarDay> calendarDayList, String userID) {
         mUserID = userID;
+
         String reason = null;
         if (workoutJSON != null) {
             try {
@@ -53,7 +58,6 @@ public class CalendarDay implements Serializable {
                     CalendarDay calendarDay = new CalendarDay(obj.getInt(CalendarDay.DAY));
 //                    Log.d("calendarday", "here");
 //                    Log.d("calendarday", username);
-
                     Workout workout = new Workout(obj.getString(CalendarDay.WORKOUT_NAME),
                             obj.getString(CalendarDay.WORKOUT_START), obj.getString(CalendarDay.WORKOUT_END),
                             obj.getString(CalendarDay.WORKOUT_LOCATION), obj.getString(CalendarDay.USER_ID),
