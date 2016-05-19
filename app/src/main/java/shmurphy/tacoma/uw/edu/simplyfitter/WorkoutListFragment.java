@@ -92,6 +92,8 @@ public class WorkoutListFragment extends Fragment  {
                 getActivity().findViewById(R.id.workout_fab);
         floatingActionButton.show();
 
+        mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(getContext()));
+
         return view;
     }
 
