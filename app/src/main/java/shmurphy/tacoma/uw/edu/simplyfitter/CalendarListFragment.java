@@ -126,6 +126,8 @@ public class CalendarListFragment extends Fragment {
         DownloadCalendarDaysTask task = new DownloadCalendarDaysTask(); // starts the task to download
         task.execute(new String[]{WORKOUT_URL});                        // all of the calendar days
 
+        mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(getContext()));
+
         return view;
     }
 
