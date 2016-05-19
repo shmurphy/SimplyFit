@@ -158,9 +158,7 @@ public class AddWorkoutFragment extends Fragment {
                 sb.append(workoutName);
             }
 
-//            String startTime = mStartTimeEditText.getText().toString();
             sb.append("&start=");
-//            sb.append(startTime);
             sb.append(mStartTimePickerFragment.getmHour());
             sb.append(":");
             sb.append(mStartTimePickerFragment.getmMinute());
@@ -172,8 +170,21 @@ public class AddWorkoutFragment extends Fragment {
             sb.append(mEndTimePickerFragment.getmMinute());
 
             String workoutLocation = mLocationEditText.getText().toString();
-            String formattedLocation = "";
             sb.append("&location=");
+
+            // if the first character is lowercase, capitalize it
+            if(workoutLocation.charAt(0) > 96) {
+                StringBuilder nameSB = new StringBuilder();
+                int firstLetter = workoutLocation.charAt(0);
+                firstLetter = firstLetter - 32;
+                nameSB.append((char) firstLetter);
+                nameSB.append(workoutLocation.substring(1, workoutLocation.length()));
+
+                workoutLocation = nameSB.toString();
+            }
+            
+            String formattedLocation = "";
+
             // format the name so that if it contains any spaces it can be added to the table correctly
             if(workoutLocation.contains(" ")) {
                 int space = workoutLocation.indexOf(" ");
