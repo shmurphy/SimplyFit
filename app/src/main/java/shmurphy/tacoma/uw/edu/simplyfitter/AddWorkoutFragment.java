@@ -118,6 +118,16 @@ public class AddWorkoutFragment extends Fragment {
         StringBuilder sb = new StringBuilder(WORKOUT_ADD_URL);
         try {
             String workoutName = mNameEditText.getText().toString();
+            StringBuilder nameSB = new StringBuilder();
+            int firstLetter = workoutName.charAt(0);
+            firstLetter = firstLetter - 32;
+            nameSB.append((char) firstLetter);
+            nameSB.append(workoutName.substring(1, workoutName.length()));
+
+//            Log.d("Uppercase", nameSB.toString());
+
+            workoutName = nameSB.toString();
+
             String formatted = "";
             sb.append("name=");
             // format the name so that if it contains any spaces it can be added to the table correctly
