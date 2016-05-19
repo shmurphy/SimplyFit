@@ -10,9 +10,7 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".WorkoutListFragment"
-    tools:listitem="@layout/fragment_workout"
-    />
+    tools:listitem="@layout/fragment_workout" >
 
 
-
-
+</android.support.v7.widget.RecyclerView>
