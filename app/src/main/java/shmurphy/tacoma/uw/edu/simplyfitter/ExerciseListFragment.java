@@ -1,6 +1,7 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -72,9 +73,9 @@ public class ExerciseListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getActivity().setTitle("Exercises");
 
         View view = inflater.inflate(R.layout.fragment_exercise_list, container, false);
+        getActivity().setTitle("Exercises");
 
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -203,7 +204,12 @@ public class ExerciseListFragment extends Fragment {
                 return;
             }
 
+//            Log.d("ExerciseListFragment", "Before " + mExerciseList.toString());
+
+            mExerciseList.clear();
             result = Exercise.parseExerciseJSONForList("aerobic", result, mExerciseList, mWorkoutID);
+
+//            Log.d("ExerciseListFragment", "After " + mExerciseList.toString());
 
             // Something wrong with the JSON returned.
             if (result != null) {

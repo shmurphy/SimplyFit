@@ -1,8 +1,6 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,16 +36,24 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
+        holder.mExercise = mValues.get(position);
+        holder.mNameView.setText(mValues.get(position).mName);
 
-//        Log.d("debug holders", mValues.get(position).mName);
-
-        holder.mIdView.setText(mValues.get(position).mName);
-
-        if(holder.mItem.getmType().equals("Weight")) {
-            holder.mContentView.setText(holder.mItem.mWeightSets.toString());
+        if(holder.mExercise.getmType().equals("Weight")) {
+            StringBuilder setSB = new StringBuilder();
+            if(holder.mExercise.mWeightSets.size() > 1) {
+                setSB.append("SET 1: ");
+                setSB.append(holder.mExercise.mWeightSets.get(0).toString());
+            }
+            for(int i = 1; i < holder.mExercise.mWeightSets.size(); i++) {
+                setSB.append(System.getProperty("line.separator"));
+                setSB.append("SET ");
+                setSB.append(i + 1);
+                setSB.append(": ");
+                setSB.append(holder.mExercise.mWeightSets.get(i).toString());
+            }
+            holder.mSetsView.setText(setSB.toString());
         }
-//        holder.mContentView.setText(mValues.get(position).mHours);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +61,7 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentInteraction(holder.mExercise);
                 }
             }
         });
@@ -68,20 +74,20 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public Exercise mItem;
+        public final TextView mNameView;
+        public final TextView mSetsView;
+        public Exercise mExercise;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mNameView = (TextView) view.findViewById(R.id.exercise_fragment_name);
+            mSetsView = (TextView) view.findViewById(R.id.exercise_fragment_sets);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mSetsView.getText() + "'";
         }
     }
 }

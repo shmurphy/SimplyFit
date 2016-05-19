@@ -24,16 +24,26 @@
         android:layout_height="wrap_content"
         android:id="@+id/add_workout_location"
         android:hint="@string/workout_location_hint" />
-    <EditText
-        android:layout_width="match_parent"
+    <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/add_workout_start"-->
+        <!--android:inputType="time"-->
+        <!--android:hint="@string/workout_start_hint" />-->
+
+    <Button
+        android:id="@+id/start_time_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/add_workout_start"
-        android:hint="@string/workout_start_hint" />
-    <EditText
-        android:layout_width="match_parent"
+        android:text="@string/start_time_dialog"
+        android:onClick="launch"/>
+    <Button
+        android:id="@+id/end_time_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/add_workout_end"
-        android:hint="@string/workout_end_hint" />
+        android:text="@string/end_time_dialog"
+        android:onClick="launch"/>
+
 
     <Button
         android:layout_width= "wrap_content"

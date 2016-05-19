@@ -23,6 +23,7 @@ public class Exercise implements Serializable {
     public static int mWorkoutID;
     public int mHours, mMinutes;
     public int mID;
+    public Workout mWorkout;
 
     public ArrayList<WeightSet> mWeightSets = new ArrayList<>();
 
@@ -49,15 +50,13 @@ public class Exercise implements Serializable {
     /**
      * Parses the json string, returns an error message if unsuccessful.
      * Returns exercis list if success.
+     *
+     * This one is for the Workout list fragment to display its workouts and corresponding exercises.
+     *
      * @param exerciseJSON  * @return reason or null if successful.
      */
     public static String parseExerciseJSON(String type, String exerciseJSON, List<Workout> workoutList) {
         String reason = null;
-
-//        Log.d("debug", "exerciseJSON" + exerciseJSON);
-
-//        mWorkoutID = workoutID;
-
         if (exerciseJSON != null) {
 
             try {
@@ -78,18 +77,10 @@ public class Exercise implements Serializable {
                     exercise.setmID(obj.getInt("id"));
 
                     for(int j = 0; j < workoutList.size(); j++) {
-//                        Log.d("debugExercise", workoutList.get(i).toString() + " " + Integer.toString(workoutList.get(i).mID));
-//                        Log.d("debugExercise", Integer.toString(objWorkoutID));
                         if(workoutList.get(j).mID == objWorkoutID) {
                             workoutList.get(j).mExercises.add(exercise);
                         }
                     }
-
-                    // check if the workoutID for this exercise matches the specific workout.
-                    // if it does, add it. else, don't add it.
-//                    if(objWorkoutID == mWorkoutID) {
-//                        exerciseList.add(exercise);
-//                    }
                 }
 
             } catch (JSONException e) {
@@ -99,14 +90,20 @@ public class Exercise implements Serializable {
         return reason;
     }
 
+    /**
+     * This is for the exercise list view.
+     * @param type
+     * @param exerciseJSON
+     * @param exerciseList
+     * @param workoutID
+     * @return
+     */
     public static String parseExerciseJSONForList(String type, String exerciseJSON, List<Exercise> exerciseList, int workoutID) {
         String reason = null;
-
-//        Log.d("debug", "exerciseJSON" + exerciseJSON);
-
+//        exerciseList.clear();       // clear the exercise list to prevent duplicate items
         mWorkoutID = workoutID;
 
-        if (exerciseJSON != null) {
+        if (exerciseJSON != null && exerciseJSON.length() > 0) { // add > 0 to display even when no exercises yet
 
             try {
                 JSONArray arr = new JSONArray(exerciseJSON);
@@ -124,7 +121,6 @@ public class Exercise implements Serializable {
 
                     int objWorkoutID = obj.getInt(Exercise.EXERCISE_WORKOUT_ID);
                     exercise.setmID(obj.getInt("id"));
-
 
                     // check if the workoutID for this exercise matches the specific workout.
                     // if it does, add it. else, don't add it.

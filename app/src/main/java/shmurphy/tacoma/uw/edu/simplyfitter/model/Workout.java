@@ -2,6 +2,8 @@
 
 package shmurphy.tacoma.uw.edu.simplyfitter.model;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,8 +26,6 @@ public class Workout {
     public int mID;
 
     public ArrayList<Exercise> mExercises = new ArrayList<>();
-
-// TODO will need a "myExercises" list
 
     /**
      * Creates a new Workout with the specified name, start time, end time, and location.
@@ -62,7 +62,7 @@ public class Workout {
         // added day param to keep track of which day this workout is for
         mUserID = userID;
         String reason = null;
-        if (workoutJSON != null) {
+        if (workoutJSON != null && workoutJSON.length() > 1) {
             try {
                 JSONArray arr = new JSONArray(workoutJSON);
                 for (int i = 0; i < arr.length(); i++) {

@@ -8,12 +8,14 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -24,7 +26,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.authenticate.SignInActivity;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
@@ -40,6 +41,10 @@ ExerciseListFragment.OnListFragmentInteractionListener {
     private String mUserID;
     private int mWorkoutID;
     private int mExerciseID;
+
+    public AddWorkoutFragment mAddWorkoutFragment;
+
+//    public TimePickerFragment mTimePickerFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +67,11 @@ ExerciseListFragment.OnListFragmentInteractionListener {
         workoutFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddWorkoutFragment addWorkoutFragment = new AddWorkoutFragment();
-                addWorkoutFragment.setDate(mDate);
-                addWorkoutFragment.setUserID(mUserID);
+                mAddWorkoutFragment = new AddWorkoutFragment();
+                mAddWorkoutFragment.setDate(mDate);
+                mAddWorkoutFragment.setUserID(mUserID);
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, addWorkoutFragment)
+                        .replace(R.id.fragment_container, mAddWorkoutFragment)
                         .addToBackStack(null)
                         .commit();
             }
@@ -380,6 +385,19 @@ ExerciseListFragment.OnListFragmentInteractionListener {
     }
 
 
+    public void launch(View v) {
+        TimePickerFragment fragment = null;
 
+        if (v.getId() == R.id.start_time_button) {
+            fragment = new TimePickerFragment();
+            mAddWorkoutFragment.setStartTimePicker(fragment);
+        } else if (v.getId() == R.id.end_time_button) {
+            fragment = new TimePickerFragment();
+            mAddWorkoutFragment.setEndTimePickerFragment(fragment);
+        }
+        if (fragment != null)
+            fragment.show(getSupportFragmentManager(), "launch");
+
+    }
 
 }

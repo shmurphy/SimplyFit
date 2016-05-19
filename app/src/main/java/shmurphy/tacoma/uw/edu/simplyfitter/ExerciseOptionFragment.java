@@ -65,7 +65,7 @@ public class ExerciseOptionFragment extends Fragment implements AdapterView.OnIt
             @Override
             public void onClick(View v) {
                 // launch add exercise fragment with the type from the spinner
-//            Log.d("spinner!", mItem);
+//            Log.d("spinner!", mExercise);
             if(mItem.equals("Aerobic")) {
                 AddAerobicFragment addExerciseFragment = new AddAerobicFragment();
                 addExerciseFragment.setWorkoutID(mWorkoutID);

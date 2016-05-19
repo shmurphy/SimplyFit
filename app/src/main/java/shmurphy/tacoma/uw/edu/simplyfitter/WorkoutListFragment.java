@@ -182,8 +182,8 @@ public class WorkoutListFragment extends Fragment  {
                         .show();
                 return;
             }
-//            List<Workout> workoutList = new ArrayList<Workout>(40);
 
+            mWorkouts.clear();  // neccessary to avoid duplicate workouts
             result = Workout.parseWorkoutJSON(result, mWorkouts, mDay, mUserID);
             // sending the day to the parseJSON so that it can know which day to grab workouts for
 
@@ -193,19 +193,12 @@ public class WorkoutListFragment extends Fragment  {
             DownloadWeightsTask weightsTask = new DownloadWeightsTask(); // downloads all weights
             weightsTask.execute(new String[]{WEIGHTS_URL});
 
-//            Log.d("WorkoutExercises", mWorkouts.get(0).mExercises.toString());
-
             // Something wrong with the JSON returned.
             if (result != null) {
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
                         .show();
                 return;
             }
-
-            // Everything is good, show the list of courses.
-//            if (!mWorkouts.isEmpty()) {
-//                mRecyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(mWorkouts, mListener));
-//            }
         }
 
     }
@@ -248,7 +241,9 @@ public class WorkoutListFragment extends Fragment  {
                 return;
             }
 
-
+            for(int j = 0; j < mWorkouts.size(); j++) {     // clear the exercises
+                mWorkouts.get(j).mExercises.clear();        // necessary to avoid duplicate data bug
+            }
 
             result = Exercise.parseExerciseJSON("aerobic", result, mWorkouts);
 

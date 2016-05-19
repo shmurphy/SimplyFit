@@ -48,21 +48,26 @@ public class CalendarDay implements Serializable {
      */
     public static String parseWorkoutJSON(String workoutJSON, List<CalendarDay> calendarDayList, String userID) {
         mUserID = userID;
+        Log.d("calendarday", "HERE " +workoutJSON);
 
         String reason = null;
-        if (workoutJSON != null) {
+        if (workoutJSON != null && workoutJSON.length() > 0) {      // added length > 0 to display even when no workouts
+            Log.d("calendarday", "not null " +workoutJSON);
+
             try {
+
                 JSONArray arr = new JSONArray(workoutJSON);
+
                 for (int i = 0; i < arr.length(); i++) {        // keep this at i = 0! workouts don't display with i = 1
                     JSONObject obj = arr.getJSONObject(i);
                     CalendarDay calendarDay = new CalendarDay(obj.getInt(CalendarDay.DAY));
-//                    Log.d("calendarday", "here");
+                    Log.d("calendarday", "after calendar day created");
 //                    Log.d("calendarday", username);
                     Workout workout = new Workout(obj.getString(CalendarDay.WORKOUT_NAME),
                             obj.getString(CalendarDay.WORKOUT_START), obj.getString(CalendarDay.WORKOUT_END),
                             obj.getString(CalendarDay.WORKOUT_LOCATION), obj.getString(CalendarDay.USER_ID),
                             obj.getInt(Workout.WORKOUT_ID));
-//                    Log.d("calendarday", "after workout");
+                    Log.d("calendarday", "after workout");
 
                     String username = obj.getString(CalendarDay.USER_ID);
                     int day = calendarDay.mDay;

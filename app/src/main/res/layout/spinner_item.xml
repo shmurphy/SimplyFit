@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:textSize="50sp"
         android:gravity="left"
-        android:textColor="@color/purple"
+        android:textColor="@color/teal"
         android:padding="5dip"
         />
 

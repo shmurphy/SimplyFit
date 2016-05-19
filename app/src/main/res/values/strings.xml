@@ -37,4 +37,10 @@
         <item>Anaerobic</item>
         <item>Flexibility</item>
     </string-array>
+
+    <string name="start_time_dialog">Pick a Start Time</string>
+    <string name="end_time_dialog">Pick an End Time</string>
+
+
+
 </resources>
