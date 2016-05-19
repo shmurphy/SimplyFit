@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,15 +24,22 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.authenticate.SignInActivity;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Exercise;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
 public class MainActivity extends AppCompatActivity implements CalendarListFragment.OnListFragmentInteractionListener,
-WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWorkoutListener {
+WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWorkoutListener,
+        AddAerobicFragment.AddAerobicListener, AddWeightsFragment.AddWeightsListener,
+ExerciseListFragment.OnListFragmentInteractionListener {
 
-    private String mDate;   // used to keep track of the date we're on
+    private int mDate;   // used to keep track of the date we're on
+    private String mUserID;
+    private int mWorkoutID;
+    private int mExerciseID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +48,39 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        // get the username from the user that just logged in.
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                Context.MODE_PRIVATE);
+        mUserID = sharedPreferences.getString("username","");
+
+            Log.d("debug, userID", "NOW the user ID is " + mUserID);
+
         // add workout button. on click starts the add workout fragment
         // we send the mDate field to the fragment so it knows which day we're adding a workout to
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.workout_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton workoutFAB = (FloatingActionButton) findViewById(R.id.workout_fab);
+        workoutFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AddWorkoutFragment addWorkoutFragment = new AddWorkoutFragment();
                 addWorkoutFragment.setDate(mDate);
+                addWorkoutFragment.setUserID(mUserID);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, addWorkoutFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        // add exercise button. on click starts the add exercise fragment
+        FloatingActionButton exerciseFAB = (FloatingActionButton) findViewById(R.id.add_exercise_fab);
+        exerciseFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ExerciseOptionFragment exerciseOptionFragment = new ExerciseOptionFragment();
+                exerciseOptionFragment.setWorkoutID(mWorkoutID);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, exerciseOptionFragment)
                         .addToBackStack(null)
                         .commit();
             }
@@ -58,11 +89,15 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
         // if we've already logged in, start the calendar list fragment
         if (savedInstanceState == null ||
                 getSupportFragmentManager().findFragmentById(R.id.calendarlist_fragment) == null) {
+
             CalendarListFragment calendarListFragment = new CalendarListFragment();
+            calendarListFragment.setmUserID(mUserID);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, calendarListFragment)
                     .commit();
         }
+
+
     }
 
     @Override
@@ -114,6 +149,7 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
 
         WorkoutListFragment workoutListFragment = new WorkoutListFragment();
         workoutListFragment.setDay(mDate);
+        workoutListFragment.setmUserID(mUserID);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, workoutListFragment)
                 .addToBackStack(null)
@@ -129,6 +165,30 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
      */
     @Override
     public void onListFragmentInteraction(Workout item) {
+        mWorkoutID = item.mID;
+        ExerciseListFragment exerciseListFragment = new ExerciseListFragment();
+        exerciseListFragment.setMWorkoutID(item.mID);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, exerciseListFragment)
+                .addToBackStack(null)
+                .commit();
+//        ExerciseOptionFragment exerciseOptionFragment = new ExerciseOptionFragment();
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_container, exerciseOptionFragment)
+//                .addToBackStack(null)
+//                .commit();
+
+    }
+
+    /**
+     * From ExerciseListFragment
+     *
+     * @param item
+     */
+    @Override
+    public void onListFragmentInteraction(Exercise item) {
+        mExerciseID = item.mID;
+        Log.d("ExerciseID", Integer.toString(mExerciseID));
 
     }
 
@@ -145,6 +205,38 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
         task.execute(new String[]{url.toString()});
           // Takes you back to the previous fragment by popping the current fragment out.
           getSupportFragmentManager().popBackStackImmediate();
+    }
+
+    /**
+     * From AddAerobicFragment
+     * This is called when the add exercise button is pushed on the AddExerciseFragment.
+     * It executes the AddExerciseTask to add the new exercise and then returns back to the
+     * ExerciseListFragment by popping the stack.
+     * @param url
+     */
+    @Override
+    public void addAerobicExercise(String url) {
+        AddExerciseTask task = new AddExerciseTask();
+        task.execute(new String[]{url.toString()});
+        // Takes you back to the previous fragment by popping the current fragment out.
+        getSupportFragmentManager().popBackStackImmediate();
+        getSupportFragmentManager().popBackStackImmediate(); // back to the exercise list fragment
+    }
+
+    /**
+     * From AddWeightsFragment
+     * This is called when the add exercise button is pushed on the AddExerciseFragment.
+     * It executes the AddExerciseTask to add the new exercise and then returns back to the
+     * ExerciseListFragment by popping the stack.
+     * @param url
+     */
+    @Override
+    public void addWeightsExercise(String url) {
+        AddExerciseTask task = new AddExerciseTask();
+        task.execute(new String[]{url.toString()});
+        // Takes you back to the previous fragment by popping the current fragment out.
+        getSupportFragmentManager().popBackStackImmediate();
+        getSupportFragmentManager().popBackStackImmediate();
     }
 
     /**
@@ -213,6 +305,79 @@ WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWor
         }
     }
 
+    /**
+     * Add the new workout to our database table.
+     */
+    private class AddExerciseTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            for (String url : urls) {
+                try {
+                    URL urlObject = new URL(url);
+                    urlConnection = (HttpURLConnection) urlObject.openConnection();
+                    InputStream content = urlConnection.getInputStream();
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+                } catch (Exception e) {
+                    response = "Unable to add exercise, Reason: "
+                            + e.getMessage();
+                } finally {
+                    if (urlConnection != null) {
+                        urlConnection.disconnect();
+                    }
+                }
+            }
+            return response;
+        }
+
+        /**
+         * It checks to see if there was a problem with the URL(Network) which is when an
+         * exception is caught. It tries to call the parse Method and checks to see if it was successful.
+         * If not, it displays the exception.
+         *
+         * @param result
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            // Something wrong with the network or the URL.
+//             Log.d("EXERCISE", result);
+
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                String exerciseStatus = (String) jsonObject.get("result");
+
+                if (exerciseStatus.equals("success")) {   // check that the weights exercise was added
+                    Toast.makeText(getApplicationContext(), "Exercise successfully added!"
+                            , Toast.LENGTH_LONG)
+                            .show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Failed to add weights exercise: "
+                                    + jsonObject.get("error")
+                            , Toast.LENGTH_LONG)
+                            .show();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getApplicationContext(), "Something wrong with the data" +
+                        e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+    public void setmUserID(String userID) {
+        mUserID = userID;
+    }
 
 
 

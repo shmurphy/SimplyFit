@@ -33,7 +33,9 @@ public class AddWorkoutFragment extends Fragment {
     private EditText mEndTimeEditText;
     private TextView mDateTextView;
 
-    private String mDate; // used to keep track of the current date this workout will be added to
+    private int mDate; // used to keep track of the current date this workout will be added to
+
+    private String mUserID;
 
     private AddWorkoutListener mListener;
 
@@ -73,10 +75,15 @@ public class AddWorkoutFragment extends Fragment {
         // Set the date TextView to display the date we are adding to
         mDateTextView.setText("New Workout for May " + mDate + ", 2016");
 
-        // hide the floating action button
+        // hide the add workout floating action button
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.workout_fab);
         floatingActionButton.hide();
+
+        // hide the add exercise floating action button
+        FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.add_exercise_fab);
+        exerciseFloatingActionButton.hide();
 
         // add workout button
         Button addWorkoutButton = (Button) v.findViewById(R.id.add_workout_button);
@@ -111,8 +118,30 @@ public class AddWorkoutFragment extends Fragment {
         StringBuilder sb = new StringBuilder(WORKOUT_ADD_URL);
         try {
             String workoutName = mNameEditText.getText().toString();
+            StringBuilder nameSB = new StringBuilder();
+            int firstLetter = workoutName.charAt(0);
+            firstLetter = firstLetter - 32;
+            nameSB.append((char) firstLetter);
+            nameSB.append(workoutName.substring(1, workoutName.length()));
+
+//            Log.d("Uppercase", nameSB.toString());
+
+            workoutName = nameSB.toString();
+
+            String formatted = "";
             sb.append("name=");
-            sb.append(workoutName);
+            // format the name so that if it contains any spaces it can be added to the table correctly
+            if(workoutName.contains(" ")) {
+                int space = workoutName.indexOf(" ");
+                formatted = workoutName.substring(0, space);
+                formatted += "%20";
+                formatted += workoutName.substring(space+1, workoutName.length());
+                Log.d("AddAerobicFragment", formatted);
+                sb.append(formatted);
+
+            } else {
+                sb.append(workoutName);
+            }
 
             String startTime = mStartTimeEditText.getText().toString();
             sb.append("&start=");
@@ -128,6 +157,11 @@ public class AddWorkoutFragment extends Fragment {
 
             sb.append("&day=");
             sb.append(mDate);
+
+            sb.append("&userID=");
+            sb.append(mUserID);
+
+
 
             Log.i("AddWorkoutFragment", sb.toString());
         }
@@ -145,8 +179,12 @@ public class AddWorkoutFragment extends Fragment {
      *
      * @param date
      */
-    public void setDate(String date) {
+    public void setDate(int date) {
         mDate = date;
+    }
+
+    public void setUserID(String userID) {
+        mUserID = userID;
     }
 
 }

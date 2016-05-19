@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/add_aerobic_fragment"
+    tools:context=".AddAerobicFragment"
+    android:weightSum="1">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exercise_name"
+        android:textSize="30sp"
+        android:id="@+id/exercise_name"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/exercise_name_hint"
+        android:id="@+id/add_aerobic_name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/duration"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:id="@+id/exercise_duration_text"
+        android:layout_gravity="center_horizontal" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.10">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_aerobic_hours"
+            android:layout_gravity="center|left"
+            android:hint="@string/exercise_hours_hint" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_aerobic_minutes"
+            android:hint="@string/exercise_minutes_hint"
+            android:layout_gravity="right|center_vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="and"
+            android:id="@+id/aerobic_and_text"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <Button
+        android:layout_width= "wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_aerobic_button"
+        android:layout_gravity="right"
+        android:text="@string/add_exercise_button"
+        android:onClick="addAerobicExercise" />
+
+</LinearLayout>

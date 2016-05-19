@@ -6,10 +6,20 @@
 
     <string name="workout_name_hint">Enter the name of your workout </string>
     <string name="workout_location_hint">Enter the location of your workout</string>
-    <string name="workout_start_hint">Enter the start time</string>
-    <string name="workout_end_hint">Enter the end time</string>
+    <string name="workout_start_hint">Enter the start time (HH:MM)</string>
+    <string name="workout_end_hint">Enter the end time (HH:MM)</string>
     <string name="add_workout_button">Add Workout</string>
     <string name="workout_date_hint">Enter the day of the month</string>
+
+    <string name="exercise_name_hint">Enter name</string>
+    <string name="exercise_hours_hint">Enter Hours</string>
+    <string name="exercise_minutes_hint">Enter Minutes</string>
+    <string name="hours">hours</string>
+    <string name="duration">Duration</string>
+    <string name="minutes">minutes</string>
+    <string name="exercise_name">Name of Exercise</string>
+    <string name="add_exercise_button">Add Exercise</string>
+
 
     <string name="title_activity_sign_in">SIGN IN</string>
     <string name="userid">Enter your user ID</string>
@@ -21,4 +31,10 @@
     <string name="LOGGEDIN">logged in</string>
     <string name="action_logout">Logout</string>
     <string name="LOGIN_FILE"> edu.uw.tacoma.mmuppa.webservicelab.LOGIN_FILE</string>
+
+    <string-array name="exercises_array">
+        <item>Aerobics</item>
+        <item>Anaerobic</item>
+        <item>Flexibility</item>
+    </string-array>
 </resources>

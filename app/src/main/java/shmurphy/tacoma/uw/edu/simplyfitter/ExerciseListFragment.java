@@ -1,6 +1,8 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,8 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Exercise;
+import shmurphy.tacoma.uw.edu.simplyfitter.model.WeightSet;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -23,16 +27,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
-import shmurphy.tacoma.uw.edu.simplyfitter.model.Exercise;
-import shmurphy.tacoma.uw.edu.simplyfitter.model.WeightSet;
-import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
-
 /**
- * Fragment to hold a list of Workouts.
+ * A fragment representing a list of Items.
+ * <p/>
+ * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * interface.
  */
-public class WorkoutListFragment extends Fragment  {
-
+public class ExerciseListFragment extends Fragment {
+    /**
+     * Used to build the Workout URL for the test.php file
+     */
     private static final String AEROBICS_URL
             = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=aerobics";
 
@@ -42,37 +46,21 @@ public class WorkoutListFragment extends Fragment  {
     private static final String SETS_URL
             = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=weightSet";
 
-    /** Used to build the URL for the test.php file */
-    private static final String WORKOUT_URL
-            = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=workouts";
+    private RecyclerView mRecyclerView;
 
-    private RecyclerView mRecyclerView; // the recycler view used for this fragment
-    private int mColumnCount = 1;       // number of columns for the fragment
+    private int mColumnCount = 1;
+
+    private int mWorkoutID;
+
+    List<Exercise> mExerciseList = new ArrayList<Exercise>(30);
 
     private OnListFragmentInteractionListener mListener;
-
-    public int mDay; // used to keep track of the current day
-    public String mUserID;
-
-    public ArrayList<Workout> mWorkouts = new ArrayList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public WorkoutListFragment() {
-    }
-
-    /**
-     * Sets the day field so the workout list will be associated with one specific day.
-     * @param day
-     */
-    public void setDay(int day) {
-        mDay = day;
-    }
-
-    public void setmUserID(String userID) {
-        mUserID = userID;
+    public ExerciseListFragment() {
     }
 
     @Override
@@ -84,18 +72,10 @@ public class WorkoutListFragment extends Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle("Exercises");
 
-        getActivity().setTitle("Workouts for May " + mDay + ", 2016");
+        View view = inflater.inflate(R.layout.fragment_exercise_list, container, false);
 
-
-        View view = inflater.inflate(R.layout.fragment_workout_list, container, false);
-
-        // hide the add exercise floating action button
-        FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
-                getActivity().findViewById(R.id.add_exercise_fab);
-        exerciseFloatingActionButton.hide();
-
-        // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             mRecyclerView = (RecyclerView) view;
@@ -106,16 +86,54 @@ public class WorkoutListFragment extends Fragment  {
             }
         }
 
-        DownloadWorkoutsTask task = new DownloadWorkoutsTask();
-        task.execute(new String[]{WORKOUT_URL});
-
-        // show the add workout button
+        // hide the add workout floating action button
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.workout_fab);
-        floatingActionButton.show();
+        floatingActionButton.hide();
 
-        mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(getContext()));
+        // show the exercise floating action button
+        FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.add_exercise_fab);
+        exerciseFloatingActionButton.show();
 
+        // check for connection
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            DownloadAerobicsTask task = new DownloadAerobicsTask(); // downloads all aerobics
+            task.execute(new String[]{AEROBICS_URL});
+
+            DownloadWeightsTask weightsTask = new DownloadWeightsTask(); // downloads all weights
+            weightsTask.execute(new String[]{WEIGHTS_URL});
+
+
+        } else {
+            Toast.makeText(view.getContext(),
+                    "No network connection available. Cannot display exercises",
+                    Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+
+        try {
+            InputStream inputStream = getActivity().openFileInput(
+                    getString(R.string.LOGIN_FILE));
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(receiveString);
+                }
+                inputStream.close();
+                Toast.makeText(getActivity(), stringBuilder.toString(), Toast.LENGTH_SHORT)
+                        .show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return view;
     }
 
@@ -144,72 +162,7 @@ public class WorkoutListFragment extends Fragment  {
      * activity.
      */
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Workout item);
-    }
-
-    /**
-     * Downloads the Workouts.
-     */
-    private class DownloadWorkoutsTask extends AsyncTask<String, Void, String> {
-        @Override protected String doInBackground(String... urls) {
-            String response = "";
-            HttpURLConnection urlConnection = null;
-            for (String url : urls) {
-                try {
-                    URL urlObject = new URL(url);
-                    urlConnection = (HttpURLConnection) urlObject.openConnection();
-                    InputStream content = urlConnection.getInputStream();
-                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                    String s = "";
-                    while ((s = buffer.readLine()) != null) {
-                        response += s;
-                    }
-                } catch (Exception e) {
-                    response = "Unable to download the list of workouts, Reason: "
-                            + e.getMessage();
-                }
-                finally {
-                    if (urlConnection != null)
-                        urlConnection.disconnect();
-                }
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            // Something wrong with the network or the URL.
-            if (result.startsWith("Unable to")) {
-                Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
-                        .show();
-                return;
-            }
-//            List<Workout> workoutList = new ArrayList<Workout>(40);
-
-            result = Workout.parseWorkoutJSON(result, mWorkouts, mDay, mUserID);
-            // sending the day to the parseJSON so that it can know which day to grab workouts for
-
-            DownloadAerobicsTask task = new DownloadAerobicsTask(); // downloads all aerobics
-            task.execute(new String[]{AEROBICS_URL});
-
-            DownloadWeightsTask weightsTask = new DownloadWeightsTask(); // downloads all weights
-            weightsTask.execute(new String[]{WEIGHTS_URL});
-
-//            Log.d("WorkoutExercises", mWorkouts.get(0).mExercises.toString());
-
-            // Something wrong with the JSON returned.
-            if (result != null) {
-                Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
-                        .show();
-                return;
-            }
-
-            // Everything is good, show the list of courses.
-//            if (!mWorkouts.isEmpty()) {
-//                mRecyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(mWorkouts, mListener));
-//            }
-        }
-
+        void onListFragmentInteraction(Exercise item);
     }
 
     /**
@@ -250,11 +203,7 @@ public class WorkoutListFragment extends Fragment  {
                 return;
             }
 
-
-
-            result = Exercise.parseExerciseJSON("aerobic", result, mWorkouts);
-
-//            Log.d("WorkoutListFragment", "Aerobic " + mWorkouts.get(0).mExercises.toString());
+            result = Exercise.parseExerciseJSONForList("aerobic", result, mExerciseList, mWorkoutID);
 
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -266,9 +215,9 @@ public class WorkoutListFragment extends Fragment  {
                 return;
             }
             // Everything is good, show the list of workouts.
-//            if (!mExerciseList.isEmpty()) {
-//                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
-//            }
+            if (!mExerciseList.isEmpty()) {
+                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
+            }
         }
     }
 
@@ -310,8 +259,7 @@ public class WorkoutListFragment extends Fragment  {
                 return;
             }
 
-            result = Exercise.parseExerciseJSON("weight", result, mWorkouts);
-//            Log.d("WorkoutListFragment", "weight " + mWorkouts.get(0).mExercises.toString());
+            result = Exercise.parseExerciseJSONForList("weight", result, mExerciseList, mWorkoutID);
 
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -323,15 +271,11 @@ public class WorkoutListFragment extends Fragment  {
                 return;
             }
             // Everything is good, show the list of workouts.
-//            if (!mExerciseList.isEmpty()) {
-//                DownloadSetsTask setsTask = new DownloadSetsTask(); // downloads all sets
-//                setsTask.execute(new String[]{SETS_URL});
-//
-////                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
-//            }
+            if (!mExerciseList.isEmpty()) {
+                DownloadSetsTask setsTask = new DownloadSetsTask(); // downloads all sets
+                setsTask.execute(new String[]{SETS_URL});
 
-            if (!mWorkouts.isEmpty()) {
-                mRecyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(mWorkouts, mListener));
+//                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
             }
         }
     }
@@ -375,7 +319,7 @@ public class WorkoutListFragment extends Fragment  {
             }
 
             // send the exercise list to add the sets to each weight exercise
-//            result = WeightSet.parseWeightSetJSON(result, mExerciseList, mWorkoutID);
+            result = WeightSet.parseWeightSetJSON(result, mExerciseList, mWorkoutID);
 
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -387,9 +331,14 @@ public class WorkoutListFragment extends Fragment  {
                 return;
             }
             // Everything is good, show the list of exercises.
-//            if (!mExerciseList.isEmpty()) {
-//                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
-//            }
+            if (!mExerciseList.isEmpty()) {
+                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
+            }
         }
     }
+
+    public void setMWorkoutID(int theWorkoutID) {
+        mWorkoutID = theWorkoutID;
+    }
 }
+

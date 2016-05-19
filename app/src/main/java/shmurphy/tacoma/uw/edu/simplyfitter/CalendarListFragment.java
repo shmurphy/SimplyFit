@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -27,6 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * A fragment representing a list of Calendar Days.
@@ -41,6 +43,8 @@ public class CalendarListFragment extends Fragment {
     private RecyclerView mRecyclerView;
 
     private int mColumnCount = 1;
+
+    private String mUserID;
 
     private OnListFragmentInteractionListener mListener;
 
@@ -75,10 +79,15 @@ public class CalendarListFragment extends Fragment {
             }
         }
 
-        // hide the floating action button
-        FloatingActionButton floatingActionButton = (FloatingActionButton)
+        // hide the add workout floating action button
+        FloatingActionButton workoutFloatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.workout_fab);
-        floatingActionButton.hide();
+        workoutFloatingActionButton.hide();
+
+        // hide the add exercise floating action button
+        FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
+                getActivity().findViewById(R.id.add_exercise_fab);
+        exerciseFloatingActionButton.hide();
 
         // check for connection
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -89,7 +98,7 @@ public class CalendarListFragment extends Fragment {
             task.execute(new String[]{WORKOUT_URL});
         } else {
             Toast.makeText(view.getContext(),
-                    "No network connection available. Cannot display courses",
+                    "No network connection available. Cannot display calendar days",
                     Toast.LENGTH_SHORT)
                     .show();
         }
@@ -150,6 +159,10 @@ public class CalendarListFragment extends Fragment {
         void onListFragmentInteraction(CalendarDay item);
     }
 
+    public void setmUserID(String userID) {
+        mUserID = userID;
+    }
+
     /**
      * Task to download all of the Calendar Days to add to the list fragment.
      */
@@ -181,7 +194,7 @@ public class CalendarListFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-            Log.d("debug", "were here");
+//            Log.d("debug", "were here");
             // Something wrong with the network or the URL.
             if (result.startsWith("Unable to")) {
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
@@ -190,10 +203,11 @@ public class CalendarListFragment extends Fragment {
             }
             List<CalendarDay> dateList = new ArrayList<CalendarDay>(31);
             for(int i = 0; i < 32; i++) {
-                dateList.add(new CalendarDay(String.valueOf(i)));
+                dateList.add(new CalendarDay(i));
             }
 
-            result = CalendarDay.parseWorkoutJSON(result, dateList);
+//            Log.d("CalendarListFragment", result);
+            result = CalendarDay.parseWorkoutJSON(result, dateList, mUserID);
 
             // Something wrong with the JSON returned.
             if (result != null) {

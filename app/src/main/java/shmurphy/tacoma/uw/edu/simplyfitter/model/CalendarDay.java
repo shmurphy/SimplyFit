@@ -2,6 +2,8 @@
 
 package shmurphy.tacoma.uw.edu.simplyfitter.model;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,21 +17,27 @@ import java.util.List;
  */
 public class CalendarDay implements Serializable {
 
-    public String mDay;     // the day of the month
-    public List<Workout> myWorkouts; // array of this day's workouts
+    public int mDay;     // the day of the months
+    public ArrayList<Workout> myWorkouts = new ArrayList<>(); // array of this day's workouts
+
+    public static String mUserID;
 
     // used to access the database table
     public static final String DAY = "day", WORKOUT_NAME = "name", WORKOUT_START = "start",
-                                WORKOUT_END = "end", WORKOUT_LOCATION = "location";
+                                WORKOUT_END = "end", WORKOUT_LOCATION = "location", USER_ID = "userID";
 
     /**
      * Constructs a new CalendarDay based on the day of the month.
      *
      * @param day the day of the month
      */
-    public CalendarDay(String day) {
+    public CalendarDay(int day) {
         mDay = day;
-        myWorkouts = new ArrayList<>();
+//        myWorkouts = new ArrayList<>();
+    }
+
+    public void setMyWorkouts(ArrayList<Workout> workoutList) {
+        myWorkouts = workoutList;
     }
 
 
@@ -38,33 +46,41 @@ public class CalendarDay implements Serializable {
      * Returns workout list if success.
      * @param workoutJSON  * @return reason or null if successful.
      */
-    public static String parseWorkoutJSON(String workoutJSON, List<CalendarDay> calendarDayList) {
+    public static String parseWorkoutJSON(String workoutJSON, List<CalendarDay> calendarDayList, String userID) {
+        mUserID = userID;
 
         String reason = null;
         if (workoutJSON != null) {
             try {
                 JSONArray arr = new JSONArray(workoutJSON);
-                for (int i = 0; i < arr.length(); i++) {
+                for (int i = 0; i < arr.length(); i++) {        // keep this at i = 0! workouts don't display with i = 1
                     JSONObject obj = arr.getJSONObject(i);
-                    CalendarDay calendarDay = new CalendarDay(obj.getString(CalendarDay.DAY));
+                    CalendarDay calendarDay = new CalendarDay(obj.getInt(CalendarDay.DAY));
+//                    Log.d("calendarday", "here");
+//                    Log.d("calendarday", username);
                     Workout workout = new Workout(obj.getString(CalendarDay.WORKOUT_NAME),
                             obj.getString(CalendarDay.WORKOUT_START), obj.getString(CalendarDay.WORKOUT_END),
-                            obj.getString(CalendarDay.WORKOUT_LOCATION));
+                            obj.getString(CalendarDay.WORKOUT_LOCATION), obj.getString(CalendarDay.USER_ID),
+                            obj.getInt(Workout.WORKOUT_ID));
+//                    Log.d("calendarday", "after workout");
 
-                    int day = Integer.parseInt(calendarDay.mDay);
+                    String username = obj.getString(CalendarDay.USER_ID);
+                    int day = calendarDay.mDay;
 
                     // if there are no workouts logged for this day yet, we add the new workout,
                     // and set that day's position accordingly.
                     // if there is already a workout logged for this day, we fetch that day from the list,
                     // add in the new workout, and reset the day's position.
 
-                    if(calendarDayList.get(day).myWorkouts.size() < 1) {
-                        calendarDay.myWorkouts.add(workout);
-                        calendarDayList.set(day, calendarDay);
-                    } else {
-                        CalendarDay tempDay = calendarDayList.get(day);
-                        tempDay.myWorkouts.add(workout);
-                        calendarDayList.set(day, tempDay);
+                    if(username.equals(mUserID)) {
+                        if (calendarDayList.get(day).myWorkouts.size() < 1) {
+                            calendarDay.myWorkouts.add(workout);
+                            calendarDayList.set(day, calendarDay);
+                        } else {
+                            CalendarDay tempDay = calendarDayList.get(day);
+                            tempDay.myWorkouts.add(workout);
+                            calendarDayList.set(day, tempDay);
+                        }
                     }
                 }
             } catch (JSONException e) {
@@ -80,7 +96,7 @@ public class CalendarDay implements Serializable {
      *
      * @return the day field
      */
-    public String getmDay() {
+    public int getmDay() {
         return mDay;
     }
 
@@ -89,7 +105,7 @@ public class CalendarDay implements Serializable {
      *
      * @param mDay the new day of the month to set
      */
-    public void setmDay(String mDay) {
+    public void setmDay(int mDay) {
         this.mDay = mDay;
     }
 

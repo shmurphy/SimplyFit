@@ -1,0 +1,147 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/fragment_add_weights"
+    tools:context=".AddAerobicFragment"
+    android:weightSum="1">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exercise_name"
+        android:textSize="30sp"
+        android:id="@+id/exercise_name"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/exercise_name_hint"
+        android:id="@+id/add_weights_name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set 1"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:id="@+id/weights_set_1"
+        android:layout_gravity="center_horizontal" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.10">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weights_reps_1"
+            android:layout_gravity="center|left"
+            android:hint="Reps" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weights_weight_1"
+            android:hint="Weight"
+            android:layout_gravity="right|center_vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="x"
+            android:id="@+id/weights_by_1"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set 2"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:id="@+id/weights_set_2"
+        android:layout_gravity="center_horizontal" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.10">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weights_reps_2"
+            android:layout_gravity="center|left"
+            android:hint="Reps" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weights_weight_2"
+            android:hint="Weight"
+            android:layout_gravity="right|center_vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="x"
+            android:id="@+id/weights_by_2"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set 3"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:id="@+id/weights_set_3"
+        android:layout_gravity="center_horizontal" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.10">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weights_reps_3"
+            android:layout_gravity="center|left"
+            android:hint="Reps" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weights_weight_3"
+            android:hint="Weight"
+            android:layout_gravity="right|center_vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="x"
+            android:id="@+id/weights_by_3"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+
+    <Button
+        android:layout_width= "wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_weights_button"
+        android:layout_gravity="right"
+        android:text="@string/add_exercise_button"
+        android:onClick="addAerobicExercise" />
+
+</LinearLayout>

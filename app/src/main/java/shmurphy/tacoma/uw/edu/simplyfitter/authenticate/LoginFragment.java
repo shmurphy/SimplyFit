@@ -22,6 +22,8 @@ public class LoginFragment extends Fragment {
     private static final String LOGIN_URL =
             "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/login.php?";
 
+    private static String mUserID;
+
     /**
      * Required empty public constructor
      */
@@ -44,6 +46,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String userId = userIdText.getText().toString();
+                mUserID = userId;
                 String pwd = pwdText.getText().toString();
                 String url = buildLoginURL(v, userId, pwd);
 
