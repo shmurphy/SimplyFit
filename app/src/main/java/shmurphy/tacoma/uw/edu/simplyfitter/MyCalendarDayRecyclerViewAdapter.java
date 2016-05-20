@@ -24,7 +24,6 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
     private final OnListFragmentInteractionListener mListener;
 
     public MyCalendarDayRecyclerViewAdapter(List<CalendarDay> items, OnListFragmentInteractionListener listener) {
-
         mCalDays = items;
         mListener = listener;
     }
