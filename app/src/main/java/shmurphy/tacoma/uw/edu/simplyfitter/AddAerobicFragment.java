@@ -122,19 +122,20 @@ public class AddAerobicFragment extends Fragment {
         StringBuilder sb = new StringBuilder(AEROBIC_ADD_URL);
         try {
             String exerciseName = mNameEditText.getText().toString();
-            String formatted = "";
+//            String formatted = "";
             sb.append("name=");
+            sb.append(formatString(exerciseName));
             // format the name so that if it contains any spaces it can be added to the table correctly
-            if(exerciseName.contains(" ")) {
-                int space = exerciseName.indexOf(" ");
-                formatted = exerciseName.substring(0, space);
-                formatted += "%20";
-                formatted += exerciseName.substring(space+1, exerciseName.length());
-                Log.d("AddAerobicFragment", formatted);
-                sb.append(formatted);
-            } else {
-                sb.append(exerciseName);
-            }
+//            if(exerciseName.contains(" ")) {
+//                int space = exerciseName.indexOf(" ");
+//                formatted = exerciseName.substring(0, space);
+//                formatted += "%20";
+//                formatted += exerciseName.substring(space+1, exerciseName.length());
+//                Log.d("AddAerobicFragment", formatted);
+//                sb.append(formatted);
+//            } else {
+//                sb.append(exerciseName);
+//            }
 
             String hours = "";
             if(mType.equals("Aerobic")) {
@@ -172,6 +173,36 @@ public class AddAerobicFragment extends Fragment {
 
     public void setmType(String type) {
         mType = type;
+    }
+
+    /**
+     * Helper method to format user input.
+     * Capitalizes and replaces spaces in the string to allow for insertion into the database.
+     *
+     * @param s the String to format.
+     */
+    private String formatString(String s) {
+        // if the first character is lowercase, capitalize it
+        if(s.charAt(0) > 96) {
+            StringBuilder nameSB = new StringBuilder();
+            int firstLetter = s.charAt(0);
+            firstLetter = firstLetter - 32;
+            nameSB.append((char) firstLetter);
+            nameSB.append(s.substring(1, s.length()));
+
+            s = nameSB.toString();
+        }
+
+        // format the name so that if it contains any spaces it can be added to the table correctly
+        if(s.contains(" ")) {
+            String formatted = "";
+            int space = s.indexOf(" ");
+            formatted = s.substring(0, space);
+            formatted += "%20";
+            formatted += s.substring(space+1, s.length());
+            s = formatted;
+        }
+        return s;
     }
 
 }

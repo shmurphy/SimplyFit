@@ -131,32 +131,6 @@ public class AddWorkoutFragment extends Fragment {
     private String buildWorkoutURL(View v) {
         StringBuilder sb = new StringBuilder(WORKOUT_ADD_URL);
         try {
-            // if the first character is lowercase, capitalize it
-//            if(workoutName.charAt(0) > 96) {
-//                StringBuilder nameSB = new StringBuilder();
-//                int firstLetter = workoutName.charAt(0);
-//                firstLetter = firstLetter - 32;
-//                nameSB.append((char) firstLetter);
-//                nameSB.append(workoutName.substring(1, workoutName.length()));
-//
-//                workoutName = nameSB.toString();
-//            }
-//
-//            String formatted = "";
-//            sb.append("name=");
-//            // format the name so that if it contains any spaces it can be added to the table correctly
-//            if(workoutName.contains(" ")) {
-//                int space = workoutName.indexOf(" ");
-//                formatted = workoutName.substring(0, space);
-//                formatted += "%20";
-//                formatted += workoutName.substring(space+1, workoutName.length());
-//                Log.d("AddAerobicFragment", formatted);
-//                sb.append(formatted);
-//
-//            } else {
-//                sb.append(workoutName);
-//            }
-
             String workoutName = mNameEditText.getText().toString();
             sb.append("name=");
             sb.append(formatString(workoutName));
@@ -174,39 +148,12 @@ public class AddWorkoutFragment extends Fragment {
             String workoutLocation = mLocationEditText.getText().toString();
             sb.append("&location=");
             sb.append(formatString(workoutLocation));
-//
-//            // if the first character is lowercase, capitalize it
-//            if(workoutLocation.charAt(0) > 96) {
-//                StringBuilder nameSB = new StringBuilder();
-//                int firstLetter = workoutLocation.charAt(0);
-//                firstLetter = firstLetter - 32;
-//                nameSB.append((char) firstLetter);
-//                nameSB.append(workoutLocation.substring(1, workoutLocation.length()));
-//
-//                workoutLocation = nameSB.toString();
-//            }
-//
-//            String formattedLocation = "";
-//
-//            // format the name so that if it contains any spaces it can be added to the table correctly
-//            if(workoutLocation.contains(" ")) {
-//                int space = workoutLocation.indexOf(" ");
-//                formattedLocation = workoutLocation.substring(0, space);
-//                formattedLocation += "%20";
-//                formattedLocation += workoutLocation.substring(space+1, workoutLocation.length());
-//                sb.append(formattedLocation);
-//
-//            } else {
-//                sb.append(workoutLocation);
-//            }
 
             sb.append("&day=");
             sb.append(mDate);
 
             sb.append("&userID=");
             sb.append(mUserID);
-
-
 
             Log.i("AddWorkoutFragment", sb.toString());
         }

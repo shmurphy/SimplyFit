@@ -65,7 +65,7 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
                 text += mCalDays.get(position).getMyWorkouts().get(0).toString();
 
                 for (int i = 1; i < mCalDays.get(position).getMyWorkouts().size(); i++) {
-                    text += ", ";
+                    text += "\n";
                     text += mCalDays.get(position).getMyWorkouts().get(i).toString();
                 }
                 holder.mContentView.setText(text);
