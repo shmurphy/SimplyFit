@@ -131,39 +131,41 @@ public class AddWorkoutFragment extends Fragment {
     private String buildWorkoutURL(View v) {
         StringBuilder sb = new StringBuilder(WORKOUT_ADD_URL);
         try {
-            String workoutName = mNameEditText.getText().toString();
             // if the first character is lowercase, capitalize it
-            if(workoutName.charAt(0) > 96) {
-                StringBuilder nameSB = new StringBuilder();
-                int firstLetter = workoutName.charAt(0);
-                firstLetter = firstLetter - 32;
-                nameSB.append((char) firstLetter);
-                nameSB.append(workoutName.substring(1, workoutName.length()));
+//            if(workoutName.charAt(0) > 96) {
+//                StringBuilder nameSB = new StringBuilder();
+//                int firstLetter = workoutName.charAt(0);
+//                firstLetter = firstLetter - 32;
+//                nameSB.append((char) firstLetter);
+//                nameSB.append(workoutName.substring(1, workoutName.length()));
+//
+//                workoutName = nameSB.toString();
+//            }
+//
+//            String formatted = "";
+//            sb.append("name=");
+//            // format the name so that if it contains any spaces it can be added to the table correctly
+//            if(workoutName.contains(" ")) {
+//                int space = workoutName.indexOf(" ");
+//                formatted = workoutName.substring(0, space);
+//                formatted += "%20";
+//                formatted += workoutName.substring(space+1, workoutName.length());
+//                Log.d("AddAerobicFragment", formatted);
+//                sb.append(formatted);
+//
+//            } else {
+//                sb.append(workoutName);
+//            }
 
-                workoutName = nameSB.toString();
-            }
-
-            String formatted = "";
+            String workoutName = mNameEditText.getText().toString();
             sb.append("name=");
-            // format the name so that if it contains any spaces it can be added to the table correctly
-            if(workoutName.contains(" ")) {
-                int space = workoutName.indexOf(" ");
-                formatted = workoutName.substring(0, space);
-                formatted += "%20";
-                formatted += workoutName.substring(space+1, workoutName.length());
-                Log.d("AddAerobicFragment", formatted);
-                sb.append(formatted);
-
-            } else {
-                sb.append(workoutName);
-            }
+            sb.append(formatString(workoutName));
 
             sb.append("&start=");
             sb.append(mStartTimePickerFragment.getmHour());
             sb.append(":");
             sb.append(mStartTimePickerFragment.getmMinute());
 
-//            String endTime = mEndTimeEditText.getText().toString();
             sb.append("&end=");
             sb.append(mEndTimePickerFragment.getmHour());
             sb.append(":");
@@ -171,31 +173,32 @@ public class AddWorkoutFragment extends Fragment {
 
             String workoutLocation = mLocationEditText.getText().toString();
             sb.append("&location=");
-
-            // if the first character is lowercase, capitalize it
-            if(workoutLocation.charAt(0) > 96) {
-                StringBuilder nameSB = new StringBuilder();
-                int firstLetter = workoutLocation.charAt(0);
-                firstLetter = firstLetter - 32;
-                nameSB.append((char) firstLetter);
-                nameSB.append(workoutLocation.substring(1, workoutLocation.length()));
-
-                workoutLocation = nameSB.toString();
-            }
-            
-            String formattedLocation = "";
-
-            // format the name so that if it contains any spaces it can be added to the table correctly
-            if(workoutLocation.contains(" ")) {
-                int space = workoutLocation.indexOf(" ");
-                formattedLocation = workoutLocation.substring(0, space);
-                formattedLocation += "%20";
-                formattedLocation += workoutLocation.substring(space+1, workoutLocation.length());
-                sb.append(formattedLocation);
-
-            } else {
-                sb.append(workoutLocation);
-            }
+            sb.append(formatString(workoutLocation));
+//
+//            // if the first character is lowercase, capitalize it
+//            if(workoutLocation.charAt(0) > 96) {
+//                StringBuilder nameSB = new StringBuilder();
+//                int firstLetter = workoutLocation.charAt(0);
+//                firstLetter = firstLetter - 32;
+//                nameSB.append((char) firstLetter);
+//                nameSB.append(workoutLocation.substring(1, workoutLocation.length()));
+//
+//                workoutLocation = nameSB.toString();
+//            }
+//
+//            String formattedLocation = "";
+//
+//            // format the name so that if it contains any spaces it can be added to the table correctly
+//            if(workoutLocation.contains(" ")) {
+//                int space = workoutLocation.indexOf(" ");
+//                formattedLocation = workoutLocation.substring(0, space);
+//                formattedLocation += "%20";
+//                formattedLocation += workoutLocation.substring(space+1, workoutLocation.length());
+//                sb.append(formattedLocation);
+//
+//            } else {
+//                sb.append(workoutLocation);
+//            }
 
             sb.append("&day=");
             sb.append(mDate);
@@ -215,6 +218,35 @@ public class AddWorkoutFragment extends Fragment {
         return sb.toString();
     }
 
+    /**
+     * Helper method to format user input.
+     * Capitalizes and replaces spaces in the string to allow for insertion into the database.
+     *
+     * @param s the String to format.
+     */
+    private String formatString(String s) {
+        // if the first character is lowercase, capitalize it
+        if(s.charAt(0) > 96) {
+            StringBuilder nameSB = new StringBuilder();
+            int firstLetter = s.charAt(0);
+            firstLetter = firstLetter - 32;
+            nameSB.append((char) firstLetter);
+            nameSB.append(s.substring(1, s.length()));
+
+            s = nameSB.toString();
+        }
+
+        // format the name so that if it contains any spaces it can be added to the table correctly
+        if(s.contains(" ")) {
+            String formatted = "";
+            int space = s.indexOf(" ");
+            formatted = s.substring(0, space);
+            formatted += "%20";
+            formatted += s.substring(space+1, s.length());
+            s = formatted;
+        }
+        return s;
+    }
 
     /**
      * Sets the date field to be the specified date.
@@ -223,11 +255,6 @@ public class AddWorkoutFragment extends Fragment {
      */
     public void setDate(int date) {
         mDate = date;
-    }
-
-    public void setStart(int hour, int minute) {
-        mHour = hour;
-        mMinute = minute;
     }
 
     public void setStartTimePicker(TimePickerFragment timePickerFragment) {
@@ -239,7 +266,6 @@ public class AddWorkoutFragment extends Fragment {
         mEndTimePickerFragment = timePickerFragment;
 
     }
-
 
     public void setUserID(String userID) {
         mUserID = userID;
