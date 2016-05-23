@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="shmurphy.tacoma.uw.edu.simplyfitter.AddWorkoutFragment">
+    tools:context="shmurphy.tacoma.uw.edu.simplyfitter.AddWorkoutFragment"
+    android:weightSum="1">
 
     <TextView
         android:layout_width="match_parent"
@@ -11,45 +12,71 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/black"
+        android:layout_gravity="center"
         android:id="@+id/add_workout_date"
         />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/add_workout_name"
+        android:layout_gravity="center"
         android:hint="@string/workout_name_hint" />
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:id="@+id/add_workout_location"
         android:hint="@string/workout_location_hint" />
-    <!--<EditText-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/add_workout_start"-->
-        <!--android:inputType="time"-->
-        <!--android:hint="@string/workout_start_hint" />-->
 
-    <Button
-        android:id="@+id/start_time_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/start_time_dialog"
-        android:onClick="launch"/>
-    <Button
-        android:id="@+id/end_time_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/end_time_dialog"
-        android:onClick="launch"/>
+
+
+        <Button
+            android:id="@+id/start_time_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_time_dialog"
+            android:layout_gravity="center"
+            android:onClick="launch"/>
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:onClick="launch"-->
+            <!--android:id="@+id/start_time_button"-->
+            <!--android:src="@android:drawable/ic_lock_idle_alarm"-->
+            <!--/>-->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:id="@+id/start_time" />
+
+        <Button
+            android:id="@+id/end_time_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/end_time_dialog"
+            android:layout_gravity="center"
+            android:onClick="launch" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:id="@+id/end_time" />
 
 
     <Button
         android:layout_width= "wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/add_workout_button"
-        android:layout_gravity="right"
+        android:layout_gravity="center"
         android:text="@string/add_workout_button"
         android:onClick="addWorkout" />
 

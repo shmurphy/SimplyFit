@@ -25,6 +25,9 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     public int mHour;
     public int mMinute;
 
+    public String mType;
+
+    public AddWorkoutFragment mAddWorkoutFragment;
     public TimePickerFragment() {
         // Required empty public constructor
 
@@ -39,10 +42,22 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
                 .show();
         mHour = hourOfDay;
         mMinute = minute;
-        Log.d("timepicker", Integer.toString(mHour));
-        Log.d("timepicker", Integer.toString(mMinute));
 
+//        Log.d("timepicker", Integer.toString(mHour));
+//        Log.d("timepicker", Integer.toString(mMinute));
 
+        mAddWorkoutFragment.setTime(mType, mHour, mMinute);
+
+    }
+
+    // added this to have a reference to the add workout fragment.
+    // this way we can set the time text views as soon as the time is picked by the user.
+    public void setAddWorkoutFragment(AddWorkoutFragment addWorkoutFragment) {
+        mAddWorkoutFragment = addWorkoutFragment;
+    }
+
+    public void setType(String t) {
+        mType = t;
     }
 
     @Override

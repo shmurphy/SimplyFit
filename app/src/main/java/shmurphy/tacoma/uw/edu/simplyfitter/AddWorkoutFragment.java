@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 
 /**
  * Fragment to add new workouts. Accesses each of the EditText elements from the .xml file.
@@ -29,11 +31,9 @@ public class AddWorkoutFragment extends Fragment {
     /** All of the EditText elements from the fragment_add_workout.xml file */
     private EditText mNameEditText;
     private EditText mLocationEditText;
-    private EditText mStartTimeEditText;
-    private EditText mEndTimeEditText;
     private TextView mDateTextView;
-    private Button mStartButton;
-    private Button mEndButton;
+    private TextView mStartTextView;
+    private TextView mEndTextView;
 
 
     private int mDate; // used to keep track of the current date this workout will be added to
@@ -74,17 +74,13 @@ public class AddWorkoutFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_add_workout, container, false);
 
-
-        mStartButton = (Button) v.findViewById(R.id.start_time_button);
-        mEndButton = (Button) v.findViewById(R.id.end_time_button);
-
-
         // access all of the EditText elements from the layout file
         mNameEditText = (EditText) v.findViewById(R.id.add_workout_name);
         mLocationEditText = (EditText) v.findViewById(R.id.add_workout_location);
-//        mStartTimeEditText = (EditText) v.findViewById(R.id.add_workout_start);
-//        mEndTimeEditText = (EditText) v.findViewById(R.id.add_workout_end);
         mDateTextView = (TextView) v.findViewById(R.id.add_workout_date);
+
+        mStartTextView = (TextView) v.findViewById(R.id.start_time);
+        mEndTextView = (TextView) v.findViewById(R.id.end_time);
 
         // Set the date TextView to display the date we are adding to
         mDateTextView.setText("New Workout for May " + mDate + ", 2016");
@@ -206,7 +202,6 @@ public class AddWorkoutFragment extends Fragment {
 
     public void setStartTimePicker(TimePickerFragment timePickerFragment) {
         mStartTimePickerFragment = timePickerFragment;
-
     }
 
     public void setEndTimePickerFragment(TimePickerFragment timePickerFragment) {
@@ -216,6 +211,26 @@ public class AddWorkoutFragment extends Fragment {
 
     public void setUserID(String userID) {
         mUserID = userID;
+    }
+
+    public void setTime(String type, int hour, int minute) {
+        String hourString = Integer.toString(hour);
+        String minuteString = Integer.toString(minute);
+
+        String newString = minuteString;
+
+        if(minuteString.length() == 1) {
+            newString = "0";
+            newString += minuteString;
+        }
+
+
+
+        if(type.equals("Start")) {
+            mStartTextView.setText(hourString + ":" + newString);
+        } else {
+            mEndTextView.setText(hourString + ":" + newString);
+        }
     }
 
 }

@@ -177,11 +177,6 @@ ExerciseListFragment.OnListFragmentInteractionListener {
                 .replace(R.id.fragment_container, exerciseListFragment)
                 .addToBackStack(null)
                 .commit();
-//        ExerciseOptionFragment exerciseOptionFragment = new ExerciseOptionFragment();
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.fragment_container, exerciseOptionFragment)
-//                .addToBackStack(null)
-//                .commit();
 
     }
 
@@ -355,9 +350,6 @@ ExerciseListFragment.OnListFragmentInteractionListener {
          */
         @Override
         protected void onPostExecute(String result) {
-            // Something wrong with the network or the URL.
-//             Log.d("EXERCISE", result);
-
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 String exerciseStatus = (String) jsonObject.get("result");
@@ -380,24 +372,26 @@ ExerciseListFragment.OnListFragmentInteractionListener {
     }
 
 
-    public void setmUserID(String userID) {
-        mUserID = userID;
-    }
+//    public void setmUserID(String userID) {
+//        mUserID = userID;
+//    }
 
 
     public void launch(View v) {
         TimePickerFragment fragment = null;
-
         if (v.getId() == R.id.start_time_button) {
             fragment = new TimePickerFragment();
             mAddWorkoutFragment.setStartTimePicker(fragment);
+            fragment.setAddWorkoutFragment(mAddWorkoutFragment);
+            fragment.setType("Start");
         } else if (v.getId() == R.id.end_time_button) {
             fragment = new TimePickerFragment();
             mAddWorkoutFragment.setEndTimePickerFragment(fragment);
+            fragment.setAddWorkoutFragment(mAddWorkoutFragment);
+            fragment.setType("End");
         }
         if (fragment != null)
             fragment.show(getSupportFragmentManager(), "launch");
-
     }
 
 }
