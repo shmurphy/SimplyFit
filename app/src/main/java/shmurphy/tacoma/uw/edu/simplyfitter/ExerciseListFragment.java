@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Exercise;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.WeightSet;
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -52,16 +53,29 @@ public class ExerciseListFragment extends Fragment {
     private int mColumnCount = 1;
 
     private int mWorkoutID;
+    private String mWorkoutName;
 
     List<Exercise> mExerciseList = new ArrayList<Exercise>(30);
 
     private OnListFragmentInteractionListener mListener;
+    private DeleteExerciseListener mDeleteExerciseListener;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public ExerciseListFragment() {
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     */
+    public interface DeleteExerciseListener {
+        public void deleteExercise(String url);
     }
 
     @Override
@@ -74,8 +88,11 @@ public class ExerciseListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        getActivity().setTitle(mWorkoutName + " Exercises");
+
+        Log.d("exerciselist", getActivity().getTitle().toString());
+
         View view = inflater.inflate(R.layout.fragment_exercise_list, container, false);
-        getActivity().setTitle("Exercises");
 
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -85,6 +102,9 @@ public class ExerciseListFragment extends Fragment {
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
+
+            mDeleteExerciseListener = (DeleteExerciseListener) context;
+
         }
 
         // hide the add workout floating action button
@@ -222,7 +242,7 @@ public class ExerciseListFragment extends Fragment {
             }
             // Everything is good, show the list of workouts.
             if (!mExerciseList.isEmpty()) {
-                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
+                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener, mDeleteExerciseListener));
             }
         }
     }
@@ -338,13 +358,15 @@ public class ExerciseListFragment extends Fragment {
             }
             // Everything is good, show the list of exercises.
             if (!mExerciseList.isEmpty()) {
-                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
+                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener, mDeleteExerciseListener));
             }
         }
     }
 
-    public void setMWorkoutID(int theWorkoutID) {
-        mWorkoutID = theWorkoutID;
+    public void setMWorkout(Workout theWorkout) {
+
+        mWorkoutID = theWorkout.mID;
+        mWorkoutName = theWorkout.mName + " Workout";
     }
 }
 

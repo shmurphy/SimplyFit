@@ -46,6 +46,13 @@ public class Exercise implements Serializable {
 //        mWorkoutID = workoutID;
     }
 
+    public void delete(List<Exercise> exercises, int position) {
+        Log.d("Workout", "Deleting " + exercises.get(position).mName);
+
+        exercises.remove(exercises.get(position));
+
+    }
+
 
     /**
      * Parses the json string, returns an error message if unsuccessful.

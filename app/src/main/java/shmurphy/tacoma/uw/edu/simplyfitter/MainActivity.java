@@ -33,6 +33,7 @@ import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 public class MainActivity extends AppCompatActivity implements CalendarListFragment.OnListFragmentInteractionListener,
 WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWorkoutListener,
         AddAerobicFragment.AddAerobicListener, AddWeightsFragment.AddWeightsListener, WorkoutListFragment.DeleteWorkoutListener,
+        ExerciseListFragment.DeleteExerciseListener,
 ExerciseListFragment.OnListFragmentInteractionListener {
 
     private int mDate;   // used to keep track of the date we're on
@@ -168,7 +169,8 @@ ExerciseListFragment.OnListFragmentInteractionListener {
     public void onListFragmentInteraction(Workout item) {
         mWorkoutID = item.mID;
         ExerciseListFragment exerciseListFragment = new ExerciseListFragment();
-        exerciseListFragment.setMWorkoutID(item.mID);
+        exerciseListFragment.setMWorkout(item);
+//        exerciseListFragment.setMWorkout
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, exerciseListFragment)
                 .addToBackStack(null)
@@ -211,6 +213,18 @@ ExerciseListFragment.OnListFragmentInteractionListener {
     @Override
     public void deleteWorkout(String url) {
         DeleteWorkoutTask task = new DeleteWorkoutTask();
+        task.execute(new String[]{url.toString()});
+        getSupportFragmentManager().popBackStackImmediate();
+    }
+
+    /**
+     * From WorkoutListFragment.
+     *
+     * @param url
+     */
+    @Override
+    public void deleteExercise(String url) {
+        DeleteExerciseTask task = new DeleteExerciseTask();
         task.execute(new String[]{url.toString()});
         getSupportFragmentManager().popBackStackImmediate();
     }
@@ -364,6 +378,72 @@ ExerciseListFragment.OnListFragmentInteractionListener {
                 String status = (String) jsonObject.get("result");
                 if (status.equals("success")) {
                     Toast.makeText(getApplicationContext(), "Workout deleted!"
+                            , Toast.LENGTH_LONG)
+                            .show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Failed to delete: "
+                                    + jsonObject.get("error")
+                            , Toast.LENGTH_LONG)
+                            .show();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getApplicationContext(), "Something wrong with the data" +
+                        e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    /**
+     * Add the new workout to our database table.
+     */
+    private class DeleteExerciseTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            for (String url : urls) {
+                try {
+                    URL urlObject = new URL(url);
+                    urlConnection = (HttpURLConnection) urlObject.openConnection();
+                    InputStream content = urlConnection.getInputStream();
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+                } catch (Exception e) {
+                    response = "Unable to delete exercise, Reason: "
+                            + e.getMessage();
+                } finally {
+                    if (urlConnection != null) {
+                        urlConnection.disconnect();
+                    }
+                }
+            }
+            return response;
+        }
+
+        /**
+         * It checks to see if there was a problem with the URL(Network) which is when an
+         * exception is caught. It tries to call the parse Method and checks to see if it was successful.
+         * If not, it displays the exception.
+         *
+         * @param result
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            // Something wrong with the network or the URL.
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                String status = (String) jsonObject.get("result");
+                if (status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), "Exercise deleted!"
                             , Toast.LENGTH_LONG)
                             .show();
                 } else {
