@@ -57,7 +57,7 @@ public class Exercise implements Serializable {
      */
     public static String parseExerciseJSON(String type, String exerciseJSON, List<Workout> workoutList) {
         String reason = null;
-        if (exerciseJSON != null) {
+        if (exerciseJSON != null && exerciseJSON.length() > 0) { // add > 0 to display even when no exercises yet
 
             try {
                 JSONArray arr = new JSONArray(exerciseJSON);
