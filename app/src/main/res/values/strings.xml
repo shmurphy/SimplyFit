@@ -34,7 +34,7 @@
 
     <string-array name="exercises_array">
         <item>Aerobics</item>
-        <item>Anaerobic</item>
+        <item>Strength</item>
         <item>Flexibility</item>
     </string-array>
 

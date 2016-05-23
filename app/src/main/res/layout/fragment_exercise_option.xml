@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="            Aerobic = runs, walks, swims, etc \n
-            Anaerobic = squats, bench press, etc\n
+            Strength = squats, bench press, etc\n
             Flexibility = yoga, stretching, etc"
             android:id="@+id/textView2"
             android:textAlignment="center"
