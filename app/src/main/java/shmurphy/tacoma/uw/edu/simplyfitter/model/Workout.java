@@ -44,6 +44,13 @@ public class Workout {
 //        mUserID = userID;
     }
 
+    public void delete(List<Workout> workouts, int position) {
+        Log.d("Workout", "Deleting " + workouts.get(position).mName);
+
+        workouts.remove(workouts.get(position));
+
+    }
+
     /**
      * Returns a String representation of the Workout.
      *

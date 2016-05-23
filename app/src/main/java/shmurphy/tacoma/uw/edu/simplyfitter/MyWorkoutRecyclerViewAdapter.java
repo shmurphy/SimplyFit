@@ -2,12 +2,14 @@
 
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -23,10 +25,19 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
 
     private final List<Workout> mWorkouts;      // list of workouts for the day
     private final OnListFragmentInteractionListener mListener;
+    private WorkoutListFragment.DeleteWorkoutListener mDeleteWorkoutListener;
 
-    public MyWorkoutRecyclerViewAdapter(List<Workout> items, OnListFragmentInteractionListener listener) {
+    /** Used to build the add workout URL for the addWorkout.php file */
+    private final static String WORKOUT_DELETE_URL
+            = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/deleteWorkout.php?";
+
+
+    public MyWorkoutRecyclerViewAdapter(List<Workout> items, OnListFragmentInteractionListener listener,
+                                        WorkoutListFragment.DeleteWorkoutListener deleteListener) {
         mWorkouts = items;
         mListener = listener;
+        mDeleteWorkoutListener = deleteListener;
+
     }
 
     @Override
@@ -40,7 +51,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
     /**
      * This is where we set the text of all of the TextView elements.
      */
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mWorkouts.get(position);
         holder.mNameView.setText(mWorkouts.get(position).mName);
         holder.mLocationView.setText("Location: " + mWorkouts.get(position).mLocation);
@@ -69,6 +80,24 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
                 }
             }
         });
+
+        FloatingActionButton deleteButton = (FloatingActionButton)
+                holder.mView.findViewById(R.id.delete_workout_button);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("workoutrecycler", "Delete " + holder.mItem.mName);
+
+                mDeleteWorkoutListener.deleteWorkout(buildDeleteWorkoutURL(v, position));
+
+
+
+
+                holder.mItem.delete(mWorkouts, position); // delete from the list
+
+            }
+        });
+
     }
 
     @Override
@@ -99,5 +128,34 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         public String toString() {
             return super.toString() + " '" + mLocationView.getText() + "'";
         }
+    }
+
+    /**
+     * Used to build the URL String for the PHP file.
+     *
+     * @param v the View
+     * @param position the position of the item we are deleting
+     * @return a String of the URL
+     */
+    private String buildDeleteWorkoutURL(View v, int position) {
+        StringBuilder sb = new StringBuilder(WORKOUT_DELETE_URL);
+
+        int id = mWorkouts.get(position).mID;
+
+        try {
+            sb.append("id=");
+            sb.append(id);
+
+
+            Log.i("DeleteWorkout ", sb.toString());
+
+
+        }
+        catch(Exception e) {
+            Toast.makeText(v.getContext(),
+                    "Something wrong with the url" + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
+        return sb.toString();
     }
 }

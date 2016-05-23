@@ -222,7 +222,7 @@ public class AddWorkoutFragment extends Fragment {
         }
 
         if(hour == 0) {
-            hour = 12;
+
         }
 
         String hourString = Integer.toString(hour);
