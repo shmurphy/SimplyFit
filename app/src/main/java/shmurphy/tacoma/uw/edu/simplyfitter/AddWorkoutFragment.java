@@ -214,6 +214,17 @@ public class AddWorkoutFragment extends Fragment {
     }
 
     public void setTime(String type, int hour, int minute) {
+
+        boolean pm = false;
+        if(hour >= 12) {        // pm
+            hour -= 12;
+            pm = true;
+        }
+
+        if(hour == 0) {
+            hour = 12;
+        }
+
         String hourString = Integer.toString(hour);
         String minuteString = Integer.toString(minute);
 
@@ -224,12 +235,18 @@ public class AddWorkoutFragment extends Fragment {
             newString += minuteString;
         }
 
+        String textView = hourString + ":" + newString;
+        if(pm) {
+            textView += " PM";
+        } else {
+            textView += " AM";
+        }
 
 
         if(type.equals("Start")) {
-            mStartTextView.setText(hourString + ":" + newString);
+            mStartTextView.setText(textView);
         } else {
-            mEndTextView.setText(hourString + ":" + newString);
+            mEndTextView.setText(textView);
         }
     }
 

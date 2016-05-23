@@ -36,15 +36,11 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        // Do something with the time chosen by the user
-        Toast.makeText(getActivity(), "You picked " + hourOfDay + ":" + minute
-                , Toast.LENGTH_LONG)
-                .show();
+//        Toast.makeText(getActivity(), "You picked " + hourOfDay + ":" + minute
+//                , Toast.LENGTH_LONG)
+//                .show();
         mHour = hourOfDay;
         mMinute = minute;
-
-//        Log.d("timepicker", Integer.toString(mHour));
-//        Log.d("timepicker", Integer.toString(mMinute));
 
         mAddWorkoutFragment.setTime(mType, mHour, mMinute);
 
