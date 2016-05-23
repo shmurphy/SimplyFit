@@ -27,8 +27,9 @@
         android:id="@+id/workout_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|right"
+        android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/fab_margin"
+        android:tint="@color/white"
         android:src="@android:drawable/ic_input_add" />
 
     <android.support.design.widget.FloatingActionButton
