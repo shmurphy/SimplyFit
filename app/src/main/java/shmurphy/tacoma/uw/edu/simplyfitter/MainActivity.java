@@ -199,16 +199,17 @@ ExerciseListFragment.OnListFragmentInteractionListener {
      */
     @Override
     public void addWorkout(String url, String deleteURL) {
-
+        // if we are editing a workout, the deleteURL will not be null.
+        // when editing workout info, we delete the old one, then add a new one with the new info.
         if(deleteURL != null) {deleteWorkout(deleteURL);}
+
         AddWorkoutTask task = new AddWorkoutTask();
         task.execute(new String[]{url.toString()});
-          // Takes you back to the previous fragment by popping the current fragment out.
-          getSupportFragmentManager().popBackStackImmediate();
+        getSupportFragmentManager().popBackStackImmediate();
     }
 
     /**
-     * From WorkoutListFragment.
+     * WorkoutListFragment.DeleteWorkoutListener
      *
      * @param url
      */
@@ -220,12 +221,16 @@ ExerciseListFragment.OnListFragmentInteractionListener {
     }
 
     /**
-     * From WorkoutListFragment.
+     * WorkoutListFragment.EditWorkoutListener
      *
+     * To edit a workout, we first launch a new add workout fragment.
+     * We set the fields to the same information as the workout we are editing.
+     * The deleteURL comes from the WorkoutRecyclerView. We build the delete URL with the information
+     * from whichever workout we are editing. We delete the workout right before adding the "new"
+     * one with updated info to the database.
      */
     @Override
     public void editWorkout(Workout workout, String deleteURL) {
-        Log.d("Editing ", workout.mName);
         mAddWorkoutFragment = new AddWorkoutFragment();
         mAddWorkoutFragment.setWorkoutID(workout.mID);
         mAddWorkoutFragment.setDate(mDate);
