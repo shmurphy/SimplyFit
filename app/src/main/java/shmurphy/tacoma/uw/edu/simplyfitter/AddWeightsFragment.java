@@ -57,8 +57,7 @@ public class AddWeightsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        getActivity().setTitle("Add a New Workout");
-
+        getActivity().setTitle("Add a Strength Exercise");
 
         View v = inflater.inflate(R.layout.fragment_add_weights, container, false);
 
@@ -72,8 +71,8 @@ public class AddWeightsFragment extends Fragment {
         mWeight2 = (EditText) v.findViewById(R.id.weights_weight_2);
         mWeight3 = (EditText) v.findViewById(R.id.weights_weight_3);
 
-        TextView exerciseNameTextView = (TextView) v.findViewById(R.id.exercise_name);
-        exerciseNameTextView.setText("New Strength Exercise");
+//        TextView exerciseNameTextView = (TextView) v.findViewById(R.id.exercise_name);
+//        exerciseNameTextView.setText("New Strength Exercise");
 
         // TODO need to get sets from the edit texts
 
