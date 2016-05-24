@@ -36,12 +36,16 @@ public class AddWorkoutFragment extends Fragment {
     private TextView mEndTextView;
 
 
+    public boolean mAdded = false;
     private int mDate; // used to keep track of the current date this workout will be added to
 
     private String mUserID;
 
+    public String mDeleteURL;
     public int mHour;
     public int mMinute;
+
+    public int mWorkoutID;
 
     public TimePickerFragment mStartTimePickerFragment;
     public TimePickerFragment mEndTimePickerFragment;
@@ -62,7 +66,7 @@ public class AddWorkoutFragment extends Fragment {
      * activity.
      */
     public interface AddWorkoutListener {
-        public void addWorkout(String url);
+        public void addWorkout(String url, String deleteURL);
     }
 
     @Override
@@ -101,7 +105,8 @@ public class AddWorkoutFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String url = buildWorkoutURL(v);
-                mListener.addWorkout(url);
+                mAdded = true;
+                mListener.addWorkout(url, mDeleteURL);
             }
         });
         return v;
@@ -150,6 +155,11 @@ public class AddWorkoutFragment extends Fragment {
 
             sb.append("&userID=");
             sb.append(mUserID);
+
+            if(mWorkoutID > 0) {
+                sb.append("&id=");
+                sb.append(mWorkoutID);
+            }
 
             Log.i("AddWorkoutFragment", sb.toString());
         }
@@ -248,6 +258,14 @@ public class AddWorkoutFragment extends Fragment {
         } else {
             mEndTextView.setText(textView);
         }
+    }
+
+    public void setWorkoutID(int workoutID) {
+        mWorkoutID = workoutID;
+    }
+
+    public void setMDeleteURL(String url) {
+        mDeleteURL = url;
     }
 
 }

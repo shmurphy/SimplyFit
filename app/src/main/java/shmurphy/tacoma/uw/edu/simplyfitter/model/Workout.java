@@ -24,6 +24,7 @@ public class Workout {
 
     public static String mUserID;
     public int mID;
+    public static int mDay;
 
     public ArrayList<Exercise> mExercises = new ArrayList<>();
 
@@ -77,6 +78,8 @@ public class Workout {
 
                     // constructs a new calendar day using the information stored in the databse
                     CalendarDay calendarDay = new CalendarDay(obj.getInt(CalendarDay.DAY));
+
+                    mDay = calendarDay.mDay;
 
                     String username = obj.getString(CalendarDay.USER_ID);
 

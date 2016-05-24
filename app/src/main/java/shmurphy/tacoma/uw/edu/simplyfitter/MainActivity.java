@@ -33,7 +33,7 @@ import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 public class MainActivity extends AppCompatActivity implements CalendarListFragment.OnListFragmentInteractionListener,
 WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWorkoutListener,
         AddAerobicFragment.AddAerobicListener, AddWeightsFragment.AddWeightsListener, WorkoutListFragment.DeleteWorkoutListener,
-        ExerciseListFragment.DeleteExerciseListener,
+        ExerciseListFragment.DeleteExerciseListener, WorkoutListFragment.EditWorkoutListener,
 ExerciseListFragment.OnListFragmentInteractionListener {
 
     private int mDate;   // used to keep track of the date we're on
@@ -198,7 +198,9 @@ ExerciseListFragment.OnListFragmentInteractionListener {
      * @param url
      */
     @Override
-    public void addWorkout(String url) {
+    public void addWorkout(String url, String deleteURL) {
+
+        if(deleteURL != null) {deleteWorkout(deleteURL);}
         AddWorkoutTask task = new AddWorkoutTask();
         task.execute(new String[]{url.toString()});
           // Takes you back to the previous fragment by popping the current fragment out.
@@ -215,6 +217,24 @@ ExerciseListFragment.OnListFragmentInteractionListener {
         DeleteWorkoutTask task = new DeleteWorkoutTask();
         task.execute(new String[]{url.toString()});
         getSupportFragmentManager().popBackStackImmediate();
+    }
+
+    /**
+     * From WorkoutListFragment.
+     *
+     */
+    @Override
+    public void editWorkout(Workout workout, String deleteURL) {
+        Log.d("Editing ", workout.mName);
+        mAddWorkoutFragment = new AddWorkoutFragment();
+        mAddWorkoutFragment.setWorkoutID(workout.mID);
+        mAddWorkoutFragment.setDate(mDate);
+        mAddWorkoutFragment.setUserID(mUserID);
+        mAddWorkoutFragment.setMDeleteURL(deleteURL);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, mAddWorkoutFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     /**

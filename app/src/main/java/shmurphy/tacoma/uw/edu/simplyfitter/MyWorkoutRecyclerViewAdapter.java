@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import shmurphy.tacoma.uw.edu.simplyfitter.WorkoutListFragment.OnListFragmentInteractionListener;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
@@ -26,6 +24,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
     private final List<Workout> mWorkouts;      // list of workouts for the day
     private final OnListFragmentInteractionListener mListener;
     private WorkoutListFragment.DeleteWorkoutListener mDeleteWorkoutListener;
+    private WorkoutListFragment.EditWorkoutListener mEditWorkoutListener;
 
     /** Used to build the add workout URL for the addWorkout.php file */
     private final static String WORKOUT_DELETE_URL
@@ -33,10 +32,12 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
 
 
     public MyWorkoutRecyclerViewAdapter(List<Workout> items, OnListFragmentInteractionListener listener,
-                                        WorkoutListFragment.DeleteWorkoutListener deleteListener) {
+                                        WorkoutListFragment.DeleteWorkoutListener deleteListener,
+                                        WorkoutListFragment.EditWorkoutListener editListener) {
         mWorkouts = items;
         mListener = listener;
         mDeleteWorkoutListener = deleteListener;
+        mEditWorkoutListener = editListener;
 
     }
 
@@ -56,7 +57,6 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         holder.mNameView.setText(mWorkouts.get(position).mName);
         holder.mLocationView.setText("Location: " + mWorkouts.get(position).mLocation);
         holder.mTimeView.setText("Time: " + mWorkouts.get(position).mStart + " to " + mWorkouts.get(position).mEnd);
-//        holder.mExerciseView.setText(mWorkouts.get(position).mExercises.toString());
 
         if(mWorkouts.get(position).mExercises.size() > 0) {
             StringBuilder exerciseSB = new StringBuilder();
@@ -67,8 +67,6 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
             }
             holder.mExerciseView.setText(exerciseSB.toString());
         }
-
-
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,18 +80,30 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         });
 
         FloatingActionButton deleteButton = (FloatingActionButton)
-                holder.mView.findViewById(R.id.delete_workout_button);
+                holder.mView.findViewById(R.id.delete_workout_fab);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("workoutrecycler", "Delete " + holder.mItem.mName);
-
+//                Log.d("workoutrecycler", "Delete " + holder.mItem.mName);
                 mDeleteWorkoutListener.deleteWorkout(buildDeleteWorkoutURL(v, position));
+                holder.mItem.delete(mWorkouts, position); // delete from the list TODO check if we even need this
+            }
+        });
 
+        FloatingActionButton editButton = (FloatingActionButton)
+                holder.mView.findViewById(R.id.edit_workout_fab);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                holder.mItem.delete(mWorkouts, position); // delete from the list
+                // delete workout, add new workout with new info and old ID
+//                int workoutID = mWorkouts.get(position).mID;
 
+                String deleteWorkoutURL = buildDeleteWorkoutURL(v, position);
 
+                mEditWorkoutListener.editWorkout(holder.mItem, deleteWorkoutURL);
 
-                holder.mItem.delete(mWorkouts, position); // delete from the list
+//                mDeleteWorkoutListener.deleteWorkout(buildDeleteWorkoutURL(v, position));
 
             }
         });

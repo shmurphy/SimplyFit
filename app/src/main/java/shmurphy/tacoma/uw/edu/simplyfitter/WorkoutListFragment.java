@@ -57,7 +57,7 @@ public class WorkoutListFragment extends Fragment  {
     public ArrayList<Workout> mWorkouts = new ArrayList<>();
 
     private DeleteWorkoutListener mDeleteWorkoutListener;
-
+    private EditWorkoutListener mEditWorkoutListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -65,16 +65,6 @@ public class WorkoutListFragment extends Fragment  {
      */
     public WorkoutListFragment() {
     }
-
-//    /**
-//     * This interface must be implemented by activities that contain this
-//     * fragment to allow an interaction in this fragment to be communicated
-//     * to the activity and potentially other fragments contained in that
-//     * activity.
-//     */
-//    public interface DeleteWorkoutListener {
-//        public void deleteWorkout(String url);
-//    }
 
     /**
      * Sets the day field so the workout list will be associated with one specific day.
@@ -119,7 +109,7 @@ public class WorkoutListFragment extends Fragment  {
             }
 
             mDeleteWorkoutListener = (DeleteWorkoutListener) context;
-
+            mEditWorkoutListener = (EditWorkoutListener) context;
         }
 
         DownloadWorkoutsTask task = new DownloadWorkoutsTask();
@@ -129,19 +119,6 @@ public class WorkoutListFragment extends Fragment  {
         FloatingActionButton floatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.workout_fab);
         floatingActionButton.show();
-
-
-//        FloatingActionButton deleteButton = (FloatingActionButton)
-//                view.findViewById(R.id.delete_workout_button);
-//        deleteButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String url = buildDeleteWorkoutURL(view);
-//
-//                mDeleteWorkoutListener.deleteWorkout();
-//            }
-//        });
-
 
         mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(getContext()));
 
@@ -184,6 +161,16 @@ public class WorkoutListFragment extends Fragment  {
      */
     public interface DeleteWorkoutListener {
         public void deleteWorkout(String url);
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     */
+    public interface EditWorkoutListener {
+        public void editWorkout(Workout workout, String deleteURL);
     }
 
     /**
@@ -345,7 +332,6 @@ public class WorkoutListFragment extends Fragment  {
             }
 
             result = Exercise.parseExerciseJSON("weight", result, mWorkouts);
-//            Log.d("WorkoutListFragment", "weight " + mWorkouts.get(0).mExercises.toString());
 
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -356,16 +342,10 @@ public class WorkoutListFragment extends Fragment  {
                         .show();
                 return;
             }
-            // Everything is good, show the list of workouts.
-//            if (!mExerciseList.isEmpty()) {
-//                DownloadSetsTask setsTask = new DownloadSetsTask(); // downloads all sets
-//                setsTask.execute(new String[]{SETS_URL});
-//
-////                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
-//            }
 
             if (!mWorkouts.isEmpty()) {
-                mRecyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(mWorkouts, mListener, mDeleteWorkoutListener));
+                mRecyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(mWorkouts, mListener,
+                        mDeleteWorkoutListener, mEditWorkoutListener));
             }
         }
     }
