@@ -31,15 +31,17 @@ import shmurphy.tacoma.uw.edu.simplyfitter.model.Exercise;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
 public class MainActivity extends AppCompatActivity implements CalendarListFragment.OnListFragmentInteractionListener,
-WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWorkoutListener,
+        WorkoutListFragment.OnListFragmentInteractionListener, AddWorkoutFragment.AddWorkoutListener,
         AddAerobicFragment.AddAerobicListener, AddWeightsFragment.AddWeightsListener, WorkoutListFragment.DeleteWorkoutListener,
         ExerciseListFragment.DeleteExerciseListener, WorkoutListFragment.EditWorkoutListener,
-ExerciseListFragment.OnListFragmentInteractionListener {
+        ExerciseListFragment.EditExerciseListener,
+        ExerciseListFragment.OnListFragmentInteractionListener {
 
     private int mDate;   // used to keep track of the date we're on
     private String mUserID;
     private int mWorkoutID;
     private int mExerciseID;
+    private boolean mEditMode = false;
 
     public AddWorkoutFragment mAddWorkoutFragment;
 
@@ -82,6 +84,7 @@ ExerciseListFragment.OnListFragmentInteractionListener {
             public void onClick(View view) {
                 ExerciseOptionFragment exerciseOptionFragment = new ExerciseOptionFragment();
                 exerciseOptionFragment.setWorkoutID(mWorkoutID);
+                mEditMode = false;
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, exerciseOptionFragment)
                         .addToBackStack(null)
@@ -258,6 +261,53 @@ ExerciseListFragment.OnListFragmentInteractionListener {
     }
 
     /**
+     * From ExerciseListFragment
+     */
+    @Override
+    public void editExercise(Exercise exercise, String deleteURL) {
+        mEditMode = true;
+        if(exercise.mType.equals("Aerobic")) {
+            Log.d("Main", "Editing an aerobic");
+            AddAerobicFragment addAerobicFragment = new AddAerobicFragment();
+            addAerobicFragment.setWorkoutID(mWorkoutID);
+            addAerobicFragment.setmType("Aerobic");
+            addAerobicFragment.setMDeleteURL(deleteURL);
+            addAerobicFragment.setMEditingMode(true);
+            addAerobicFragment.setPreviousExercise(exercise);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, addAerobicFragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else if (exercise.mType.equals("Flexibility")) {
+            Log.d("Main", "Editing a flex");
+
+            AddAerobicFragment addFlexibilityFragment = new AddAerobicFragment();
+            addFlexibilityFragment.setWorkoutID(mWorkoutID);
+            addFlexibilityFragment.setmType("Flexibility");
+            addFlexibilityFragment.setMDeleteURL(deleteURL);
+            addFlexibilityFragment.setMEditingMode(true);
+            addFlexibilityFragment.setPreviousExercise(exercise);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, addFlexibilityFragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else if(exercise.mType.equals("Weight")) {
+            Log.d("Main", "Editing a strength");
+
+            AddWeightsFragment addWeightsFragment = new AddWeightsFragment();
+            addWeightsFragment.setWorkoutID(mWorkoutID);
+            addWeightsFragment.setmDeleteURL(deleteURL);
+            addWeightsFragment.setMEditingMode(true);
+            addWeightsFragment.setPreviousExercise(exercise);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, addWeightsFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+
+    /**
      * From AddAerobicFragment
      * This is called when the add exercise button is pushed on the AddExerciseFragment.
      * It executes the AddExerciseTask to add the new exercise and then returns back to the
@@ -265,12 +315,18 @@ ExerciseListFragment.OnListFragmentInteractionListener {
      * @param url
      */
     @Override
-    public void addAerobicExercise(String url) {
+    public void addAerobicExercise(String url, String deleteURL) {
+        if(deleteURL != null) {
+            deleteExercise(deleteURL);
+        }
+
+
         AddExerciseTask task = new AddExerciseTask();
         task.execute(new String[]{url.toString()});
-        // Takes you back to the previous fragment by popping the current fragment out.
+//         Takes you back to the previous fragment by popping the current fragment out.
         getSupportFragmentManager().popBackStackImmediate();
         getSupportFragmentManager().popBackStackImmediate(); // back to the exercise list fragment
+
     }
 
     /**
@@ -281,7 +337,9 @@ ExerciseListFragment.OnListFragmentInteractionListener {
      * @param url
      */
     @Override
-    public void addWeightsExercise(String url) {
+    public void addWeightsExercise(String url, String deleteURL) {
+        if(deleteURL != null) {deleteExercise(deleteURL);}
+
         AddExerciseTask task = new AddExerciseTask();
         task.execute(new String[]{url.toString()});
         // Takes you back to the previous fragment by popping the current fragment out.

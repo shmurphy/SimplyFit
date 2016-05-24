@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Exercise;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,11 +32,17 @@ public class AddAerobicFragment extends Fragment {
     private EditText mHoursEditText;
     private EditText mMinutesEditText;
 
+    public boolean mEditingMode;
+    public boolean mAdded = false;
+
     public String mType; // either aerobic or flexibility, because these use the same fragment
 
     private AddAerobicListener mListener;
 
     public int mWorkoutID;
+    public String mDeleteURL;
+    public Exercise mPreviousExercise;
+
 //    public String mDay;
 
     public AddAerobicFragment() {
@@ -48,7 +56,7 @@ public class AddAerobicFragment extends Fragment {
      * activity.
      */
     public interface AddAerobicListener {
-        public void addAerobicExercise(String url);
+        public void addAerobicExercise(String url, String deleteURL);
     }
 
     @Override
@@ -63,7 +71,6 @@ public class AddAerobicFragment extends Fragment {
         TextView mAndTextView = (TextView) v.findViewById(R.id.aerobic_and_text);
         TextView nameTextView = (TextView) v.findViewById(R.id.exercise_name);
 
-//        getActivity().setTitle("New " + mType + " Exercise");
         if(mType.equals("Flexibility")) {
             getActivity().setTitle("Add a Flexibility Exercise");
             mHoursEditText.setVisibility(View.GONE);        // hide the time text views
@@ -72,6 +79,14 @@ public class AddAerobicFragment extends Fragment {
             mAndTextView.setVisibility(View.GONE);
         } else if(mType.equals("Aerobic")) {
             getActivity().setTitle("Add an Aerobic Exercise");
+        }
+
+        if(mEditingMode) {
+            mNameEditText.setText(mPreviousExercise.mName);
+            if(mType.equals("Aerobic")) {
+                mHoursEditText.setText(Integer.toString(mPreviousExercise.mHours));
+                mMinutesEditText.setText(Integer.toString(mPreviousExercise.mMinutes));
+            }
         }
 
 
@@ -94,7 +109,8 @@ public class AddAerobicFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String url = buildExerciseURL(v);
-                mListener.addAerobicExercise(url);
+                mAdded = true;
+                mListener.addAerobicExercise(url, mDeleteURL);
             }
         });
 
@@ -191,6 +207,19 @@ public class AddAerobicFragment extends Fragment {
             s = formatted;
         }
         return s;
+    }
+
+    public void setMDeleteURL(String url) {
+        mDeleteURL = url;
+    }
+
+    public void setMEditingMode(boolean editing) {
+        mEditingMode = editing;
+    }
+
+    public void setPreviousExercise(Exercise exercise) {
+        Log.d("AddAerobicFragment", exercise.mName);
+        mPreviousExercise = exercise;
     }
 
 }

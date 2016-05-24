@@ -25,15 +25,18 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
     private final List<Exercise> mExercises;
     private final OnListFragmentInteractionListener mListener;
     private ExerciseListFragment.DeleteExerciseListener mDeleteExerciseListener;
+    private ExerciseListFragment.EditExerciseListener mEditExerciseListener;
 
     private final static String EXERCISE_DELETE_URL
             = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/deleteExercise.php?";
 
     public MyExerciseRecyclerViewAdapter(List<Exercise> items, OnListFragmentInteractionListener listener,
-                                         ExerciseListFragment.DeleteExerciseListener deleteListener) {
+                                         ExerciseListFragment.DeleteExerciseListener deleteListener,
+                                         ExerciseListFragment.EditExerciseListener editExerciseListener) {
         mExercises = items;
         mListener = listener;
         mDeleteExerciseListener = deleteListener;
+        mEditExerciseListener = editExerciseListener;
     }
 
     @Override
@@ -81,18 +84,24 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("exerciserecycler", "Delete " + holder.mExercise.mName);
+//                Log.d("exerciserecycler", "Delete " + holder.mExercise.mName);
 
                 mDeleteExerciseListener.deleteExercise(buildDeleteExerciseURL(v, position));
-
-
-
-
                 holder.mExercise.delete(mExercises, position); // delete from the list
-
             }
         });
 
+
+        FloatingActionButton editButton = (FloatingActionButton)
+                holder.mView.findViewById(R.id.edit_exercise_fab);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String deleteExerciseURL = buildDeleteExerciseURL(v, position);
+                Log.d("Editing ", holder.mExercise.mType);
+                mEditExerciseListener.editExercise(holder.mExercise, deleteExerciseURL);
+            }
+        });
 
     }
 

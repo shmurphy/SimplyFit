@@ -59,6 +59,7 @@ public class ExerciseListFragment extends Fragment {
 
     private OnListFragmentInteractionListener mListener;
     private DeleteExerciseListener mDeleteExerciseListener;
+    private EditExerciseListener mEditExerciseListener;
 
 
     /**
@@ -76,6 +77,16 @@ public class ExerciseListFragment extends Fragment {
      */
     public interface DeleteExerciseListener {
         public void deleteExercise(String url);
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     */
+    public interface EditExerciseListener {
+        public void editExercise(Exercise exercise, String deleteURL);
     }
 
     @Override
@@ -104,7 +115,7 @@ public class ExerciseListFragment extends Fragment {
             }
 
             mDeleteExerciseListener = (DeleteExerciseListener) context;
-
+            mEditExerciseListener = (EditExerciseListener) context;
         }
 
         // hide the add workout floating action button
@@ -242,7 +253,8 @@ public class ExerciseListFragment extends Fragment {
             }
             // Everything is good, show the list of workouts.
             if (!mExerciseList.isEmpty()) {
-                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener, mDeleteExerciseListener));
+                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener,
+                        mDeleteExerciseListener, mEditExerciseListener));
             }
         }
     }
@@ -358,7 +370,8 @@ public class ExerciseListFragment extends Fragment {
             }
             // Everything is good, show the list of exercises.
             if (!mExerciseList.isEmpty()) {
-                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener, mDeleteExerciseListener));
+                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener,
+                        mDeleteExerciseListener, mEditExerciseListener));
             }
         }
     }

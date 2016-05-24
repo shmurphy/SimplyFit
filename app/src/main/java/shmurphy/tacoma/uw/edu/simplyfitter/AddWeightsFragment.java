@@ -11,8 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Exercise;
 
 
 /**
@@ -36,7 +37,10 @@ public class AddWeightsFragment extends Fragment {
 
     private AddWeightsListener mListener;
 
+    public String mDeleteURL;
     public int mWorkoutID;
+    public boolean mEditingMode;
+    public Exercise mPreviousExercise;
 
     public AddWeightsFragment() {
         // Required empty public constructor
@@ -49,7 +53,7 @@ public class AddWeightsFragment extends Fragment {
      * activity.
      */
     public interface AddWeightsListener {
-        public void addWeightsExercise(String url);
+        public void addWeightsExercise(String url, String deleteURL);
     }
 
     @Override
@@ -71,10 +75,41 @@ public class AddWeightsFragment extends Fragment {
         mWeight2 = (EditText) v.findViewById(R.id.weights_weight_2);
         mWeight3 = (EditText) v.findViewById(R.id.weights_weight_3);
 
-//        TextView exerciseNameTextView = (TextView) v.findViewById(R.id.exercise_name);
-//        exerciseNameTextView.setText("New Strength Exercise");
+        // check each set to make sure there are values from the previous exercise.
+        // do this because it's not necessary to have multiple sets or weight for each set.
+        if(mEditingMode) {
+            mNameEditText.setText(mPreviousExercise.mName);
 
-        // TODO need to get sets from the edit texts
+            fillReps(0, mReps1);
+            fillReps(1, mReps2);
+            fillReps(2, mReps3);
+
+            fillWeights(0, mWeight1);
+            fillWeights(1, mWeight2);
+            fillWeights(2, mWeight3);
+
+            // set first set
+//            mReps1.setText(Integer.toString(mPreviousExercise.mWeightSets.get(0).mReps));
+//            if(mPreviousExercise.mWeightSets.get(0).mWeight > 0) {
+//                mWeight1.setText(Integer.toString(mPreviousExercise.mWeightSets.get(0).mWeight));
+//            }
+//
+//            // set second set
+//            if(mPreviousExercise.mWeightSets.get(1).mReps > 0) {
+//                mReps2.setText(Integer.toString(mPreviousExercise.mWeightSets.get(1).mReps));
+//            }
+//            if(mPreviousExercise.mWeightSets.get(1).mWeight > 0) {
+//                mWeight2.setText(Integer.toString(mPreviousExercise.mWeightSets.get(1).mWeight));
+//            }
+//
+//            // set third set
+//            if(mPreviousExercise.mWeightSets.get(2).mReps > 0) {
+//                mReps3.setText(Integer.toString(mPreviousExercise.mWeightSets.get(2).mReps));
+//            }
+//            if(mPreviousExercise.mWeightSets.get(2).mWeight > 0) {
+//                mWeight3.setText(Integer.toString(mPreviousExercise.mWeightSets.get(2).mWeight));
+//            }
+        }
 
         // hide the add workout floating action button
         FloatingActionButton floatingActionButton = (FloatingActionButton)
@@ -92,11 +127,26 @@ public class AddWeightsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String url = buildExerciseURL(v);
-                mListener.addWeightsExercise(url);
+
+                mListener.addWeightsExercise(url, mDeleteURL);
             }
         });
 
         return v;
+    }
+
+    private void fillReps(int setNum, EditText editText) {
+        if(mPreviousExercise.mWeightSets.size() > setNum &&
+                mPreviousExercise.mWeightSets.get(setNum).mReps > 0 ) {
+            editText.setText(Integer.toString(mPreviousExercise.mWeightSets.get(setNum).mReps));
+        }
+    }
+
+    private void fillWeights(int setNum, EditText editText) {
+        if(mPreviousExercise.mWeightSets.size() > setNum &&
+                mPreviousExercise.mWeightSets.get(setNum).mWeight > 0) {
+            editText.setText(Integer.toString(mPreviousExercise.mWeightSets.get(setNum).mWeight));
+        }
     }
 
     @Override
@@ -202,5 +252,17 @@ public class AddWeightsFragment extends Fragment {
             s = formatted;
         }
         return s;
+    }
+
+    public void setmDeleteURL(String deleteURL) {
+        mDeleteURL = deleteURL;
+    }
+
+    public void setMEditingMode(boolean editing) {
+        mEditingMode = editing;
+    }
+
+    public void setPreviousExercise(Exercise exercise) {
+        mPreviousExercise = exercise;
     }
 }
