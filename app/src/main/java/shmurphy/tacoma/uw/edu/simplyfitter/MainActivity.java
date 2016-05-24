@@ -67,6 +67,7 @@ ExerciseListFragment.OnListFragmentInteractionListener {
                 mAddWorkoutFragment = new AddWorkoutFragment();
                 mAddWorkoutFragment.setDate(mDate);
                 mAddWorkoutFragment.setUserID(mUserID);
+                mAddWorkoutFragment.setMEditingMode(false);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, mAddWorkoutFragment)
                         .addToBackStack(null)
@@ -236,6 +237,8 @@ ExerciseListFragment.OnListFragmentInteractionListener {
         mAddWorkoutFragment.setDate(mDate);
         mAddWorkoutFragment.setUserID(mUserID);
         mAddWorkoutFragment.setMDeleteURL(deleteURL);
+        mAddWorkoutFragment.setMEditingMode(true);
+        mAddWorkoutFragment.setPreviousWorkout(workout);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, mAddWorkoutFragment)
                 .addToBackStack(null)

@@ -84,7 +84,6 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Log.d("workoutrecycler", "Delete " + holder.mItem.mName);
                 mDeleteWorkoutListener.deleteWorkout(buildDeleteWorkoutURL(v, position));
                 holder.mItem.delete(mWorkouts, position); // delete from the list TODO check if we even need this
             }
@@ -95,16 +94,8 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                holder.mItem.delete(mWorkouts, position); // delete from the list
-                // delete workout, add new workout with new info and old ID
-//                int workoutID = mWorkouts.get(position).mID;
-
                 String deleteWorkoutURL = buildDeleteWorkoutURL(v, position);
-
                 mEditWorkoutListener.editWorkout(holder.mItem, deleteWorkoutURL);
-
-//                mDeleteWorkoutListener.deleteWorkout(buildDeleteWorkoutURL(v, position));
-
             }
         });
 

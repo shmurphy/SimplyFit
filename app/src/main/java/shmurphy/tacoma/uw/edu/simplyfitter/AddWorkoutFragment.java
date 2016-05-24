@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
+
 
 /**
  * Fragment to add new workouts. Accesses each of the EditText elements from the .xml file.
@@ -36,19 +38,23 @@ public class AddWorkoutFragment extends Fragment {
     private TextView mEndTextView;
 
 
+    private int mHour;
+    private int mMinute;
     public boolean mAdded = false;
     private int mDate; // used to keep track of the current date this workout will be added to
 
     private String mUserID;
 
     public String mDeleteURL;
-    public int mHour;
-    public int mMinute;
 
     public int mWorkoutID;
 
+    public Workout mPreviousWorkout;
+
     public TimePickerFragment mStartTimePickerFragment;
     public TimePickerFragment mEndTimePickerFragment;
+
+    public boolean mEditingMode;
 
     private AddWorkoutListener mListener;
 
@@ -82,12 +88,22 @@ public class AddWorkoutFragment extends Fragment {
         mNameEditText = (EditText) v.findViewById(R.id.add_workout_name);
         mLocationEditText = (EditText) v.findViewById(R.id.add_workout_location);
         mDateTextView = (TextView) v.findViewById(R.id.add_workout_date);
-
         mStartTextView = (TextView) v.findViewById(R.id.start_time);
         mEndTextView = (TextView) v.findViewById(R.id.end_time);
-
         // Set the date TextView to display the date we are adding to
-        mDateTextView.setText("New Workout for May " + mDate + ", 2016");
+        mDateTextView.setText("May " + mDate + ", 2016");
+
+        getActivity().setTitle("Add New Workout");
+
+        if(mEditingMode) {
+            mNameEditText.setText(mPreviousWorkout.mName);
+            mLocationEditText.setText(mPreviousWorkout.mLocation);
+            mStartTextView.setText(mPreviousWorkout.mStart);
+            mEndTextView.setText(mPreviousWorkout.mEnd);
+            getActivity().setTitle("Edit " + mPreviousWorkout.mName + " Workout");
+
+        }
+
 
         // hide the add workout floating action button
         FloatingActionButton floatingActionButton = (FloatingActionButton)
@@ -136,15 +152,39 @@ public class AddWorkoutFragment extends Fragment {
             sb.append("name=");
             sb.append(formatString(workoutName));
 
-            sb.append("&start=");
-            sb.append(mStartTimePickerFragment.getmHour());
-            sb.append(":");
-            sb.append(mStartTimePickerFragment.getmMinute());
+            if(mEditingMode) {  // editing
+                if(mStartTimePickerFragment == null) {  // user didn't change start time, use last one
+                    sb.append("&start=");
+                    int space = mPreviousWorkout.mStart.indexOf(" ");
+                    sb.append(mPreviousWorkout.mStart.substring(0, space));
+                } else {    // user launched start time picker
+                    sb.append("&start=");
+                    sb.append(mStartTimePickerFragment.getmHour());
+                    sb.append(":");
+                    sb.append(mStartTimePickerFragment.getmMinute());
+                }
 
-            sb.append("&end=");
-            sb.append(mEndTimePickerFragment.getmHour());
-            sb.append(":");
-            sb.append(mEndTimePickerFragment.getmMinute());
+                if(mEndTimePickerFragment == null) {    // user didn't change end time, use last one
+                    sb.append("&end=");
+                    int space = mPreviousWorkout.mEnd.indexOf(" ");
+                    sb.append(mPreviousWorkout.mEnd.substring(0, space));
+                } else {   // user launched the end time picker
+                    sb.append("&end=");
+                    sb.append(mEndTimePickerFragment.getmHour());
+                    sb.append(":");
+                    sb.append(mEndTimePickerFragment.getmMinute());
+                }
+            } else {    // not editing
+                sb.append("&start=");
+                sb.append(mStartTimePickerFragment.getmHour());
+                sb.append(":");
+                sb.append(mStartTimePickerFragment.getmMinute());
+
+                sb.append("&end=");
+                sb.append(mEndTimePickerFragment.getmHour());
+                sb.append(":");
+                sb.append(mEndTimePickerFragment.getmMinute());
+            }
 
             String workoutLocation = mLocationEditText.getText().toString();
             sb.append("&location=");
@@ -224,7 +264,6 @@ public class AddWorkoutFragment extends Fragment {
     }
 
     public void setTime(String type, int hour, int minute) {
-
         boolean pm = false;
         if(hour >= 12) {        // pm
             hour -= 12;
@@ -266,6 +305,14 @@ public class AddWorkoutFragment extends Fragment {
 
     public void setMDeleteURL(String url) {
         mDeleteURL = url;
+    }
+
+    public void setMEditingMode(boolean editing) {
+        mEditingMode = editing;
+    }
+
+    public void setPreviousWorkout(Workout workout) {
+        mPreviousWorkout = workout;
     }
 
 }
