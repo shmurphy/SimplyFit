@@ -59,6 +59,7 @@ public class AddWeightsFragment extends Fragment {
 
         getActivity().setTitle("Add a New Workout");
 
+
         View v = inflater.inflate(R.layout.fragment_add_weights, container, false);
 
         mNameEditText = (EditText) v.findViewById(R.id.add_weights_name);
@@ -72,7 +73,7 @@ public class AddWeightsFragment extends Fragment {
         mWeight3 = (EditText) v.findViewById(R.id.weights_weight_3);
 
         TextView exerciseNameTextView = (TextView) v.findViewById(R.id.exercise_name);
-        exerciseNameTextView.setText("New Anaerobic Exercise");
+        exerciseNameTextView.setText("New Strength Exercise");
 
         // TODO need to get sets from the edit texts
 
