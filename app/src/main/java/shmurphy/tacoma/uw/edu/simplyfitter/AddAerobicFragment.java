@@ -63,7 +63,7 @@ public class AddAerobicFragment extends Fragment {
         TextView mAndTextView = (TextView) v.findViewById(R.id.aerobic_and_text);
         TextView nameTextView = (TextView) v.findViewById(R.id.exercise_name);
 
-        nameTextView.setText("New " + mType + " Exercise");
+        getActivity().setTitle("New " + mType + " Exercise");
         if(mType.equals("Flexibility")) {
             getActivity().setTitle("Add a Flexibility Exercise");
             mHoursEditText.setVisibility(View.GONE);        // hide the time text views

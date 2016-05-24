@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
+        android:text="@string/exercise_name"
         android:id="@+id/exercise_name"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal" />
@@ -21,12 +22,14 @@
         android:layout_height="wrap_content"
         android:hint="@string/exercise_name_hint"
         android:textAlignment="center"
+        android:paddingTop="30dp"
         android:id="@+id/add_weights_name" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Set 1"
+        android:paddingTop="30dp"
         android:textSize="30sp"
         android:textStyle="bold"
         android:id="@+id/weights_set_1"
