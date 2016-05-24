@@ -62,7 +62,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
             StringBuilder exerciseSB = new StringBuilder();
             exerciseSB.append(mWorkouts.get(position).mExercises.get(0).toString());
             for(int i = 1; i < mWorkouts.get(position).mExercises.size(); i++) {
-                exerciseSB.append(", ");
+                exerciseSB.append(System.getProperty("line.separator"));
                 exerciseSB.append(mWorkouts.get(position).mExercises.get(i));
             }
             holder.mExerciseView.setText(exerciseSB.toString());
@@ -112,7 +112,6 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         public final TextView mLocationView;    // location of the workout
         public final TextView mTimeView;        // time of the workout
         public final TextView mExerciseView;
-//        public final TextView mExerciseTitleView;
         public Workout mItem;
 
         public ViewHolder(View view) {
@@ -122,7 +121,6 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
             mLocationView = (TextView) view.findViewById(R.id.workout_location);
             mTimeView = (TextView) view.findViewById(R.id.workout_time);
             mExerciseView = (TextView) view.findViewById(R.id.workout_exercises);
-//            mExerciseTitleView = (TextView) view.findViewById(R.id.workout_fragment_exercise_title);
         }
 
         @Override
@@ -146,11 +144,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         try {
             sb.append("id=");
             sb.append(id);
-
-
             Log.i("DeleteWorkout ", sb.toString());
-
-
         }
         catch(Exception e) {
             Toast.makeText(v.getContext(),

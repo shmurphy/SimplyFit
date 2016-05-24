@@ -324,7 +324,9 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
         AddExerciseTask task = new AddExerciseTask();
         task.execute(new String[]{url.toString()});
 //         Takes you back to the previous fragment by popping the current fragment out.
-        getSupportFragmentManager().popBackStackImmediate();
+        if(!mEditMode) {
+            getSupportFragmentManager().popBackStackImmediate();
+        }
         getSupportFragmentManager().popBackStackImmediate(); // back to the exercise list fragment
 
     }

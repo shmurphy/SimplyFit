@@ -55,7 +55,6 @@
                     android:tint="@color/white"
                     android:src="@android:drawable/ic_menu_edit"
                     />
-
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/delete_workout_fab"
                     android:layout_width="wrap_content"

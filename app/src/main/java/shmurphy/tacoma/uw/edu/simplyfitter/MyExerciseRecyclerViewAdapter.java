@@ -54,13 +54,13 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
 
         if(holder.mExercise.getmType().equals("Weight")) {
             StringBuilder setSB = new StringBuilder();
+            setSB.append("Sets - \n");
             if(holder.mExercise.mWeightSets.size() > 0) {
-                setSB.append("SET 1: ");
+                setSB.append("1: ");
                 setSB.append(holder.mExercise.mWeightSets.get(0).toString());
             }
             for(int i = 1; i < holder.mExercise.mWeightSets.size(); i++) {
                 setSB.append(System.getProperty("line.separator"));
-                setSB.append("SET ");
                 setSB.append(i + 1);
                 setSB.append(": ");
                 setSB.append(holder.mExercise.mWeightSets.get(i).toString());

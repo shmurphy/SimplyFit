@@ -66,7 +66,11 @@ public class WeightSet {
 
     @Override
     public String toString() {
-        return "Reps: " + mReps + " Weight: " + mWeight;
+        if(mWeight > 0) {
+            return mReps + " reps - " + mWeight + " lbs";
+        } else {
+            return mReps + " reps - body weight";
+        }
     }
 
 }
