@@ -6,6 +6,9 @@
     android:id="@+id/login_fragment"
     tools:context="shmurphy.tacoma.uw.edu.simplyfitter.authenticate.LoginFragment">
 
+
+
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

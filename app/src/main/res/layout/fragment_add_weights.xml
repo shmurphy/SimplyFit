@@ -23,6 +23,7 @@
         android:hint="@string/exercise_name_hint"
         android:textAlignment="center"
         android:paddingTop="30dp"
+        android:inputType="text"
         android:id="@+id/add_weights_name" />
 
     <TextView
@@ -49,6 +50,7 @@
             android:id="@+id/weights_reps_1"
             android:layout_gravity="center|left"
             android:textAlignment="center"
+            android:inputType="number"
             android:hint="Reps" />
 
         <TextView
@@ -64,6 +66,7 @@
             android:id="@+id/weights_weight_1"
             android:hint="Weight"
             android:textAlignment="center"
+            android:inputType="number"
             android:layout_gravity="right|center_vertical" />
 
     </LinearLayout>
@@ -91,6 +94,7 @@
             android:id="@+id/weights_reps_2"
             android:layout_gravity="center|left"
             android:textAlignment="center"
+            android:inputType="number"
             android:hint="Reps" />
 
         <TextView
@@ -105,6 +109,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/weights_weight_2"
             android:hint="Weight"
+            android:inputType="number"
             android:textAlignment="center"
             android:layout_gravity="right|center_vertical" />
 
@@ -133,6 +138,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/weights_reps_3"
             android:textAlignment="center"
+            android:inputType="number"
             android:layout_gravity="center|left"
             android:hint="Reps" />
 
@@ -149,6 +155,7 @@
             android:id="@+id/weights_weight_3"
             android:hint="Weight"
             android:textAlignment="center"
+            android:inputType="number"
             android:layout_gravity="right|center_vertical" />
 
 

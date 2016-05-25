@@ -87,28 +87,7 @@ public class AddWeightsFragment extends Fragment {
             fillWeights(0, mWeight1);
             fillWeights(1, mWeight2);
             fillWeights(2, mWeight3);
-
-            // set first set
-//            mReps1.setText(Integer.toString(mPreviousExercise.mWeightSets.get(0).mReps));
-//            if(mPreviousExercise.mWeightSets.get(0).mWeight > 0) {
-//                mWeight1.setText(Integer.toString(mPreviousExercise.mWeightSets.get(0).mWeight));
-//            }
-//
-//            // set second set
-//            if(mPreviousExercise.mWeightSets.get(1).mReps > 0) {
-//                mReps2.setText(Integer.toString(mPreviousExercise.mWeightSets.get(1).mReps));
-//            }
-//            if(mPreviousExercise.mWeightSets.get(1).mWeight > 0) {
-//                mWeight2.setText(Integer.toString(mPreviousExercise.mWeightSets.get(1).mWeight));
-//            }
-//
-//            // set third set
-//            if(mPreviousExercise.mWeightSets.get(2).mReps > 0) {
-//                mReps3.setText(Integer.toString(mPreviousExercise.mWeightSets.get(2).mReps));
-//            }
-//            if(mPreviousExercise.mWeightSets.get(2).mWeight > 0) {
-//                mWeight3.setText(Integer.toString(mPreviousExercise.mWeightSets.get(2).mWeight));
-//            }
+            
         }
 
         // hide the add workout floating action button
