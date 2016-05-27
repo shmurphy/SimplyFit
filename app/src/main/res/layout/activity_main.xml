@@ -29,7 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|right"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_input_add" />
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/colorPrimary"
+        android:tint="@color/colorAccent"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_exercise_fab"
@@ -37,6 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_input_add" />
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/colorPrimary"
+        android:tint="@color/colorAccent"/>
 
 </android.support.design.widget.CoordinatorLayout>
