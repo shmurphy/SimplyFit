@@ -1,6 +1,7 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Exercise;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.WeightSet;
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -51,16 +53,40 @@ public class ExerciseListFragment extends Fragment {
     private int mColumnCount = 1;
 
     private int mWorkoutID;
+    private String mWorkoutName;
 
     List<Exercise> mExerciseList = new ArrayList<Exercise>(30);
 
     private OnListFragmentInteractionListener mListener;
+    private DeleteExerciseListener mDeleteExerciseListener;
+    private EditExerciseListener mEditExerciseListener;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public ExerciseListFragment() {
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     */
+    public interface DeleteExerciseListener {
+        public void deleteExercise(String url);
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     */
+    public interface EditExerciseListener {
+        public void editExercise(Exercise exercise, String deleteURL);
     }
 
     @Override
@@ -72,7 +98,10 @@ public class ExerciseListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getActivity().setTitle("Exercises");
+
+        getActivity().setTitle(mWorkoutName + " Exercises");
+
+        Log.d("exerciselist", getActivity().getTitle().toString());
 
         View view = inflater.inflate(R.layout.fragment_exercise_list, container, false);
 
@@ -84,6 +113,9 @@ public class ExerciseListFragment extends Fragment {
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
+
+            mDeleteExerciseListener = (DeleteExerciseListener) context;
+            mEditExerciseListener = (EditExerciseListener) context;
         }
 
         // hide the add workout floating action button
@@ -205,7 +237,12 @@ public class ExerciseListFragment extends Fragment {
                 return;
             }
 
+//            Log.d("ExerciseListFragment", "Before " + mExerciseList.toString());
+
+            mExerciseList.clear();
             result = Exercise.parseExerciseJSONForList("aerobic", result, mExerciseList, mWorkoutID);
+
+//            Log.d("ExerciseListFragment", "After " + mExerciseList.toString());
 
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -218,7 +255,8 @@ public class ExerciseListFragment extends Fragment {
             }
             // Everything is good, show the list of workouts.
             if (!mExerciseList.isEmpty()) {
-                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
+                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener,
+                        mDeleteExerciseListener, mEditExerciseListener));
             }
         }
     }
@@ -334,13 +372,16 @@ public class ExerciseListFragment extends Fragment {
             }
             // Everything is good, show the list of exercises.
             if (!mExerciseList.isEmpty()) {
-                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
+                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener,
+                        mDeleteExerciseListener, mEditExerciseListener));
             }
         }
     }
 
-    public void setMWorkoutID(int theWorkoutID) {
-        mWorkoutID = theWorkoutID;
+    public void setMWorkout(Workout theWorkout) {
+
+        mWorkoutID = theWorkout.mID;
+        mWorkoutName = theWorkout.mName + " Workout";
     }
 }
 

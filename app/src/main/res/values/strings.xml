@@ -34,7 +34,13 @@
 
     <string-array name="exercises_array">
         <item>Aerobics</item>
-        <item>Anaerobic</item>
+        <item>Strength</item>
         <item>Flexibility</item>
     </string-array>
+
+    <string name="start_time_dialog">Pick a Start Time</string>
+    <string name="end_time_dialog">Pick an End Time</string>
+
+
+
 </resources>

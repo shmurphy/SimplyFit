@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/password_edittext"
         android:hint="@string/password"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:layout_gravity="top"/>
 
     <Button
@@ -36,7 +36,7 @@
         android:id="@+id/login_button"
         android:text="@string/sign_in"
         android:background="@color/colorPrimary"
-        android:layout_gravity="end"/>
+        android:layout_gravity="end" />
 
     <TextView
         android:layout_width="wrap_content"

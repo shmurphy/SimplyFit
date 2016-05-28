@@ -31,7 +31,7 @@ public class WeightSet {
     public static String parseWeightSetJSON(String weightSetJSON, List<Exercise> exerciseList, int workoutID) {
         String reason = null;
 
-        if (weightSetJSON != null) {
+        if (weightSetJSON != null && weightSetJSON.length() > 0) { // added > 0 to show even when no weights yet
 
             try {
                 JSONArray arr = new JSONArray(weightSetJSON);
@@ -66,7 +66,11 @@ public class WeightSet {
 
     @Override
     public String toString() {
-        return "Reps: " + mReps + " Weight: " + mWeight;
+        if(mWeight > 0) {
+            return mReps + " reps - " + mWeight + " lbs";
+        } else {
+            return mReps + " reps - body weight";
+        }
     }
 
 }

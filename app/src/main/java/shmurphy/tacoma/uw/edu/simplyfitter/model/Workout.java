@@ -2,6 +2,8 @@
 
 package shmurphy.tacoma.uw.edu.simplyfitter.model;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,10 +24,9 @@ public class Workout {
 
     public static String mUserID;
     public int mID;
+    public static int mDay;
 
     public ArrayList<Exercise> mExercises = new ArrayList<>();
-
-// TODO will need a "myExercises" list
 
     /**
      * Creates a new Workout with the specified name, start time, end time, and location.
@@ -42,6 +43,13 @@ public class Workout {
         mLocation = location;
         mID = ID;
 //        mUserID = userID;
+    }
+
+    public void delete(List<Workout> workouts, int position) {
+        Log.d("Workout", "Deleting " + workouts.get(position).mName);
+
+        workouts.remove(workouts.get(position));
+
     }
 
     /**
@@ -62,7 +70,7 @@ public class Workout {
         // added day param to keep track of which day this workout is for
         mUserID = userID;
         String reason = null;
-        if (workoutJSON != null) {
+        if (workoutJSON != null && workoutJSON.length() > 1) {
             try {
                 JSONArray arr = new JSONArray(workoutJSON);
                 for (int i = 0; i < arr.length(); i++) {
@@ -70,6 +78,8 @@ public class Workout {
 
                     // constructs a new calendar day using the information stored in the databse
                     CalendarDay calendarDay = new CalendarDay(obj.getInt(CalendarDay.DAY));
+
+                    mDay = calendarDay.mDay;
 
                     String username = obj.getString(CalendarDay.USER_ID);
 

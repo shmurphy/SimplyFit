@@ -4,6 +4,7 @@ package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,6 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
     private final OnListFragmentInteractionListener mListener;
 
     public MyCalendarDayRecyclerViewAdapter(List<CalendarDay> items, OnListFragmentInteractionListener listener) {
-
         mCalDays = items;
         mListener = listener;
     }
@@ -58,19 +58,19 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
             holder.mIdView.setText(Integer.toString(mCalDays.get(position).getmDay()));
 
             // this if statement checks to see if the calendar day we are setting has a list of
-            // workouts yet. if it does, we display it in the mContentView TextView
+            // workouts yet. if it does, we display it in the mSetsView TextView
             if (mCalDays.get(position).getMyWorkouts().size() > 0) {
                 String text = "";
                 text += mCalDays.get(position).getMyWorkouts().get(0).toString();
 
                 for (int i = 1; i < mCalDays.get(position).getMyWorkouts().size(); i++) {
-                    text += ", ";
+                    text += "\n";
                     text += mCalDays.get(position).getMyWorkouts().get(i).toString();
                 }
                 holder.mContentView.setText(text);
             } else { // there are no workouts logged for this day yet, so we leave it blank
                 holder.mContentView.setText("");
-
+                Log.d("calendaryrecycler", "Workout list is 0");
             }
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -56,6 +56,9 @@ public class WorkoutListFragment extends Fragment  {
 
     public ArrayList<Workout> mWorkouts = new ArrayList<>();
 
+    private DeleteWorkoutListener mDeleteWorkoutListener;
+    private EditWorkoutListener mEditWorkoutListener;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -104,6 +107,9 @@ public class WorkoutListFragment extends Fragment  {
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
+
+            mDeleteWorkoutListener = (DeleteWorkoutListener) context;
+            mEditWorkoutListener = (EditWorkoutListener) context;
         }
 
         DownloadWorkoutsTask task = new DownloadWorkoutsTask();
@@ -148,6 +154,26 @@ public class WorkoutListFragment extends Fragment  {
     }
 
     /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     */
+    public interface DeleteWorkoutListener {
+        public void deleteWorkout(String url);
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     */
+    public interface EditWorkoutListener {
+        public void editWorkout(Workout workout, String deleteURL);
+    }
+
+    /**
      * Downloads the Workouts.
      */
     private class DownloadWorkoutsTask extends AsyncTask<String, Void, String> {
@@ -184,8 +210,8 @@ public class WorkoutListFragment extends Fragment  {
                         .show();
                 return;
             }
-//            List<Workout> workoutList = new ArrayList<Workout>(40);
 
+            mWorkouts.clear();  // neccessary to avoid duplicate workouts
             result = Workout.parseWorkoutJSON(result, mWorkouts, mDay, mUserID);
             // sending the day to the parseJSON so that it can know which day to grab workouts for
 
@@ -195,19 +221,12 @@ public class WorkoutListFragment extends Fragment  {
             DownloadWeightsTask weightsTask = new DownloadWeightsTask(); // downloads all weights
             weightsTask.execute(new String[]{WEIGHTS_URL});
 
-//            Log.d("WorkoutExercises", mWorkouts.get(0).mExercises.toString());
-
             // Something wrong with the JSON returned.
             if (result != null) {
                 Toast.makeText(getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
                         .show();
                 return;
             }
-
-            // Everything is good, show the list of courses.
-//            if (!mWorkouts.isEmpty()) {
-//                mRecyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(mWorkouts, mListener));
-//            }
         }
 
     }
@@ -250,7 +269,9 @@ public class WorkoutListFragment extends Fragment  {
                 return;
             }
 
-
+            for(int j = 0; j < mWorkouts.size(); j++) {     // clear the exercises
+                mWorkouts.get(j).mExercises.clear();        // necessary to avoid duplicate data bug
+            }
 
             result = Exercise.parseExerciseJSON("aerobic", result, mWorkouts);
 
@@ -311,7 +332,6 @@ public class WorkoutListFragment extends Fragment  {
             }
 
             result = Exercise.parseExerciseJSON("weight", result, mWorkouts);
-//            Log.d("WorkoutListFragment", "weight " + mWorkouts.get(0).mExercises.toString());
 
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -322,16 +342,10 @@ public class WorkoutListFragment extends Fragment  {
                         .show();
                 return;
             }
-            // Everything is good, show the list of workouts.
-//            if (!mExerciseList.isEmpty()) {
-//                DownloadSetsTask setsTask = new DownloadSetsTask(); // downloads all sets
-//                setsTask.execute(new String[]{SETS_URL});
-//
-////                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
-//            }
 
             if (!mWorkouts.isEmpty()) {
-                mRecyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(mWorkouts, mListener));
+                mRecyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(mWorkouts, mListener,
+                        mDeleteWorkoutListener, mEditWorkoutListener));
             }
         }
     }
@@ -392,4 +406,6 @@ public class WorkoutListFragment extends Fragment  {
 //            }
         }
     }
+
+
 }

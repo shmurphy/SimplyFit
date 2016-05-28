@@ -16,6 +16,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
+
 
 /**
  * Fragment to add new workouts. Accesses each of the EditText elements from the .xml file.
@@ -29,13 +33,28 @@ public class AddWorkoutFragment extends Fragment {
     /** All of the EditText elements from the fragment_add_workout.xml file */
     private EditText mNameEditText;
     private EditText mLocationEditText;
-    private EditText mStartTimeEditText;
-    private EditText mEndTimeEditText;
     private TextView mDateTextView;
+    private TextView mStartTextView;
+    private TextView mEndTextView;
 
+
+    private int mHour;
+    private int mMinute;
+    public boolean mAdded = false;
     private int mDate; // used to keep track of the current date this workout will be added to
 
     private String mUserID;
+
+    public String mDeleteURL;
+
+    public int mWorkoutID;
+
+    public Workout mPreviousWorkout;
+
+    public TimePickerFragment mStartTimePickerFragment;
+    public TimePickerFragment mEndTimePickerFragment;
+
+    public boolean mEditingMode;
 
     private AddWorkoutListener mListener;
 
@@ -53,7 +72,7 @@ public class AddWorkoutFragment extends Fragment {
      * activity.
      */
     public interface AddWorkoutListener {
-        public void addWorkout(String url);
+        public void addWorkout(String url, String deleteURL);
     }
 
     @Override
@@ -68,12 +87,23 @@ public class AddWorkoutFragment extends Fragment {
         // access all of the EditText elements from the layout file
         mNameEditText = (EditText) v.findViewById(R.id.add_workout_name);
         mLocationEditText = (EditText) v.findViewById(R.id.add_workout_location);
-        mStartTimeEditText = (EditText) v.findViewById(R.id.add_workout_start);
-        mEndTimeEditText = (EditText) v.findViewById(R.id.add_workout_end);
         mDateTextView = (TextView) v.findViewById(R.id.add_workout_date);
-
+        mStartTextView = (TextView) v.findViewById(R.id.start_time);
+        mEndTextView = (TextView) v.findViewById(R.id.end_time);
         // Set the date TextView to display the date we are adding to
-        mDateTextView.setText("New Workout for May " + mDate + ", 2016");
+        mDateTextView.setText("May " + mDate + ", 2016");
+
+        getActivity().setTitle("Add New Workout");
+
+        if(mEditingMode) {
+            mNameEditText.setText(mPreviousWorkout.mName);
+            mLocationEditText.setText(mPreviousWorkout.mLocation);
+            mStartTextView.setText(mPreviousWorkout.mStart);
+            mEndTextView.setText(mPreviousWorkout.mEnd);
+            getActivity().setTitle("Edit " + mPreviousWorkout.mName + " Workout");
+
+        }
+
 
         // hide the add workout floating action button
         FloatingActionButton floatingActionButton = (FloatingActionButton)
@@ -91,7 +121,8 @@ public class AddWorkoutFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String url = buildWorkoutURL(v);
-                mListener.addWorkout(url);
+                mAdded = true;
+                mListener.addWorkout(url, mDeleteURL);
             }
         });
         return v;
@@ -118,42 +149,46 @@ public class AddWorkoutFragment extends Fragment {
         StringBuilder sb = new StringBuilder(WORKOUT_ADD_URL);
         try {
             String workoutName = mNameEditText.getText().toString();
-            StringBuilder nameSB = new StringBuilder();
-            int firstLetter = workoutName.charAt(0);
-            firstLetter = firstLetter - 32;
-            nameSB.append((char) firstLetter);
-            nameSB.append(workoutName.substring(1, workoutName.length()));
-
-//            Log.d("Uppercase", nameSB.toString());
-
-            workoutName = nameSB.toString();
-
-            String formatted = "";
             sb.append("name=");
-            // format the name so that if it contains any spaces it can be added to the table correctly
-            if(workoutName.contains(" ")) {
-                int space = workoutName.indexOf(" ");
-                formatted = workoutName.substring(0, space);
-                formatted += "%20";
-                formatted += workoutName.substring(space+1, workoutName.length());
-                Log.d("AddAerobicFragment", formatted);
-                sb.append(formatted);
+            sb.append(formatString(workoutName));
 
-            } else {
-                sb.append(workoutName);
+            if(mEditingMode) {  // editing
+                if(mStartTimePickerFragment == null) {  // user didn't change start time, use last one
+                    sb.append("&start=");
+                    int space = mPreviousWorkout.mStart.indexOf(" ");
+                    sb.append(mPreviousWorkout.mStart.substring(0, space));
+                } else {    // user launched start time picker
+                    sb.append("&start=");
+                    sb.append(mStartTimePickerFragment.getmHour());
+                    sb.append(":");
+                    sb.append(mStartTimePickerFragment.getmMinute());
+                }
+
+                if(mEndTimePickerFragment == null) {    // user didn't change end time, use last one
+                    sb.append("&end=");
+                    int space = mPreviousWorkout.mEnd.indexOf(" ");
+                    sb.append(mPreviousWorkout.mEnd.substring(0, space));
+                } else {   // user launched the end time picker
+                    sb.append("&end=");
+                    sb.append(mEndTimePickerFragment.getmHour());
+                    sb.append(":");
+                    sb.append(mEndTimePickerFragment.getmMinute());
+                }
+            } else {    // not editing
+                sb.append("&start=");
+                sb.append(mStartTimePickerFragment.getmHour());
+                sb.append(":");
+                sb.append(mStartTimePickerFragment.getmMinute());
+
+                sb.append("&end=");
+                sb.append(mEndTimePickerFragment.getmHour());
+                sb.append(":");
+                sb.append(mEndTimePickerFragment.getmMinute());
             }
-
-            String startTime = mStartTimeEditText.getText().toString();
-            sb.append("&start=");
-            sb.append(startTime);
-
-            String endTime = mEndTimeEditText.getText().toString();
-            sb.append("&end=");
-            sb.append(endTime);
 
             String workoutLocation = mLocationEditText.getText().toString();
             sb.append("&location=");
-            sb.append(workoutLocation);
+            sb.append(formatString(workoutLocation));
 
             sb.append("&day=");
             sb.append(mDate);
@@ -161,7 +196,10 @@ public class AddWorkoutFragment extends Fragment {
             sb.append("&userID=");
             sb.append(mUserID);
 
-
+            if(mWorkoutID > 0) {
+                sb.append("&id=");
+                sb.append(mWorkoutID);
+            }
 
             Log.i("AddWorkoutFragment", sb.toString());
         }
@@ -173,6 +211,35 @@ public class AddWorkoutFragment extends Fragment {
         return sb.toString();
     }
 
+    /**
+     * Helper method to format user input.
+     * Capitalizes and replaces spaces in the string to allow for insertion into the database.
+     *
+     * @param s the String to format.
+     */
+    private String formatString(String s) {
+        // if the first character is lowercase, capitalize it
+        if(s.charAt(0) > 96) {
+            StringBuilder nameSB = new StringBuilder();
+            int firstLetter = s.charAt(0);
+            firstLetter = firstLetter - 32;
+            nameSB.append((char) firstLetter);
+            nameSB.append(s.substring(1, s.length()));
+
+            s = nameSB.toString();
+        }
+
+        // format the name so that if it contains any spaces it can be added to the table correctly
+        if(s.contains(" ")) {
+            String formatted = "";
+            int space = s.indexOf(" ");
+            formatted = s.substring(0, space);
+            formatted += "%20";
+            formatted += s.substring(space+1, s.length());
+            s = formatted;
+        }
+        return s;
+    }
 
     /**
      * Sets the date field to be the specified date.
@@ -183,8 +250,69 @@ public class AddWorkoutFragment extends Fragment {
         mDate = date;
     }
 
+    public void setStartTimePicker(TimePickerFragment timePickerFragment) {
+        mStartTimePickerFragment = timePickerFragment;
+    }
+
+    public void setEndTimePickerFragment(TimePickerFragment timePickerFragment) {
+        mEndTimePickerFragment = timePickerFragment;
+
+    }
+
     public void setUserID(String userID) {
         mUserID = userID;
+    }
+
+    public void setTime(String type, int hour, int minute) {
+        boolean pm = false;
+        if(hour >= 12) {        // pm
+            hour -= 12;
+            pm = true;
+        }
+
+        if(hour == 0) {
+
+        }
+
+        String hourString = Integer.toString(hour);
+        String minuteString = Integer.toString(minute);
+
+        String newString = minuteString;
+
+        if(minuteString.length() == 1) {
+            newString = "0";
+            newString += minuteString;
+        }
+
+        String textView = hourString + ":" + newString;
+        if(pm) {
+            textView += " PM";
+        } else {
+            textView += " AM";
+        }
+
+
+        if(type.equals("Start")) {
+            mStartTextView.setText(textView);
+        } else {
+            mEndTextView.setText(textView);
+        }
+    }
+
+    public void setWorkoutID(int workoutID) {
+        mWorkoutID = workoutID;
+    }
+
+    public void setMDeleteURL(String url) {
+        mDeleteURL = url;
+    }
+
+    public void setMEditingMode(boolean editing) {
+        mEditingMode = editing;
+    }
+
+    public void setPreviousWorkout(Workout workout) {
+        mPreviousWorkout = workout;
     }
 
 }

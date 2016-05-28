@@ -1,12 +1,13 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
-import android.support.v7.widget.PopupMenu;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Exercise;
 
@@ -21,33 +22,51 @@ import java.util.List;
  */
 public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerciseRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Exercise> mValues;
+    private final List<Exercise> mExercises;
     private final OnListFragmentInteractionListener mListener;
+    private ExerciseListFragment.DeleteExerciseListener mDeleteExerciseListener;
+    private ExerciseListFragment.EditExerciseListener mEditExerciseListener;
 
-    public MyExerciseRecyclerViewAdapter(List<Exercise> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    private final static String EXERCISE_DELETE_URL
+            = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/deleteExercise.php?";
+
+    public MyExerciseRecyclerViewAdapter(List<Exercise> items, OnListFragmentInteractionListener listener,
+                                         ExerciseListFragment.DeleteExerciseListener deleteListener,
+                                         ExerciseListFragment.EditExerciseListener editExerciseListener) {
+        mExercises = items;
         mListener = listener;
+        mDeleteExerciseListener = deleteListener;
+        mEditExerciseListener = editExerciseListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_exercise, parent, false);
+
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        holder.mExercise = mExercises.get(position);
+        holder.mNameView.setText(mExercises.get(position).mName);
 
-//        Log.d("debug holders", mValues.get(position).mName);
-
-        holder.mIdView.setText(mValues.get(position).mName);
-
-        if(holder.mItem.getmType().equals("Weight")) {
-            holder.mContentView.setText(holder.mItem.mWeightSets.toString());
+        if(holder.mExercise.getmType().equals("Weight")) {
+            StringBuilder setSB = new StringBuilder();
+            setSB.append("Sets - \n");
+            if(holder.mExercise.mWeightSets.size() > 0) {
+                setSB.append("1: ");
+                setSB.append(holder.mExercise.mWeightSets.get(0).toString());
+            }
+            for(int i = 1; i < holder.mExercise.mWeightSets.size(); i++) {
+                setSB.append(System.getProperty("line.separator"));
+                setSB.append(i + 1);
+                setSB.append(": ");
+                setSB.append(holder.mExercise.mWeightSets.get(i).toString());
+            }
+            holder.mSetsView.setText(setSB.toString());
         }
-//        holder.mContentView.setText(mValues.get(position).mHours);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,33 +74,90 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentInteraction(holder.mExercise);
                 }
             }
         });
+
+        FloatingActionButton deleteButton = (FloatingActionButton)
+                holder.mView.findViewById(R.id.delete_exercise_button);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Log.d("exerciserecycler", "Delete " + holder.mExercise.mName);
+
+                mDeleteExerciseListener.deleteExercise(buildDeleteExerciseURL(v, position));
+                holder.mExercise.delete(mExercises, position); // delete from the list
+            }
+        });
+
+
+        FloatingActionButton editButton = (FloatingActionButton)
+                holder.mView.findViewById(R.id.edit_exercise_fab);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String deleteExerciseURL = buildDeleteExerciseURL(v, position);
+                Log.d("Editing ", holder.mExercise.mType);
+                mEditExerciseListener.editExercise(holder.mExercise, deleteExerciseURL);
+            }
+        });
+
+    }
+
+    /**
+     * Used to build the URL String for the PHP file.
+     *
+     * @param v the View
+     * @param position the position of the item we are deleting
+     * @return a String of the URL
+     */
+    private String buildDeleteExerciseURL(View v, int position) {
+        StringBuilder sb = new StringBuilder(EXERCISE_DELETE_URL);
+
+        int id = mExercises.get(position).mID;
+        String type = mExercises.get(position).mType;
+
+        try {
+            sb.append("id=");
+            sb.append(id);
+
+            sb.append("&type=");
+            sb.append(type);
+
+            Log.i("DeleteWorkout ", sb.toString());
+
+
+        }
+        catch(Exception e) {
+            Toast.makeText(v.getContext(),
+                    "Something wrong with the url" + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
+        return sb.toString();
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mExercises.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public Exercise mItem;
+        public final TextView mNameView;
+        public final TextView mSetsView;
+        public Exercise mExercise;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mNameView = (TextView) view.findViewById(R.id.exercise_fragment_name);
+            mSetsView = (TextView) view.findViewById(R.id.exercise_fragment_sets);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mSetsView.getText() + "'";
         }
     }
 }

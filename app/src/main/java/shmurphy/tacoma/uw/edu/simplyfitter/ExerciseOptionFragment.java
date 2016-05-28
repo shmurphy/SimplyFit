@@ -46,7 +46,7 @@ public class ExerciseOptionFragment extends Fragment implements AdapterView.OnIt
 
         ArrayList<String> list = new ArrayList<>();
         list.add("Aerobic");
-        list.add("Anaerobic");
+        list.add("Strength");
         list.add("Flexibility");
 
         Spinner spinner = (Spinner) view.findViewById(R.id.exercise_spinner);
@@ -65,7 +65,7 @@ public class ExerciseOptionFragment extends Fragment implements AdapterView.OnIt
             @Override
             public void onClick(View v) {
                 // launch add exercise fragment with the type from the spinner
-//            Log.d("spinner!", mItem);
+//            Log.d("spinner!", mExercise);
             if(mItem.equals("Aerobic")) {
                 AddAerobicFragment addExerciseFragment = new AddAerobicFragment();
                 addExerciseFragment.setWorkoutID(mWorkoutID);
@@ -74,7 +74,7 @@ public class ExerciseOptionFragment extends Fragment implements AdapterView.OnIt
                         .replace(R.id.fragment_container, addExerciseFragment)
                         .addToBackStack(null)
                         .commit();
-            } else if(mItem.equals("Anaerobic")) {
+            } else if(mItem.equals("Strength")) {
                 AddWeightsFragment addWeightsFragment = new AddWeightsFragment();
                 addWeightsFragment.setWorkoutID(mWorkoutID);
                 getActivity().getSupportFragmentManager().beginTransaction()

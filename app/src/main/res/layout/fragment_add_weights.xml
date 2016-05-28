@@ -11,8 +11,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/exercise_name"
         android:textSize="30sp"
+        android:text="@string/exercise_name"
         android:id="@+id/exercise_name"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal" />
@@ -21,35 +21,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/exercise_name_hint"
+        android:textAlignment="center"
+        android:paddingTop="30dp"
+        android:inputType="text"
         android:id="@+id/add_weights_name" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Set 1"
+        android:paddingTop="20dp"
         android:textSize="30sp"
         android:textStyle="bold"
         android:id="@+id/weights_set_1"
         android:layout_gravity="center_horizontal" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.10">
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_weight="0.10"
+        >
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/weights_reps_1"
             android:layout_gravity="center|left"
+            android:textAlignment="center"
+            android:inputType="number"
             android:hint="Reps" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/weights_weight_1"
-            android:hint="Weight"
-            android:layout_gravity="right|center_vertical" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +60,16 @@
             android:id="@+id/weights_by_1"
             android:layout_gravity="center" />
 
-    </FrameLayout>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weights_weight_1"
+            android:hint="Weight"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:layout_gravity="right|center_vertical" />
+
+    </LinearLayout>
 
 
     <TextView
@@ -66,28 +77,25 @@
         android:layout_height="wrap_content"
         android:text="Set 2"
         android:textSize="30sp"
+        android:paddingTop="20dp"
         android:textStyle="bold"
         android:id="@+id/weights_set_2"
         android:layout_gravity="center_horizontal" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.10">
+        android:orientation="horizontal"
+        android:layout_gravity="center">
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/weights_reps_2"
             android:layout_gravity="center|left"
+            android:textAlignment="center"
+            android:inputType="number"
             android:hint="Reps" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/weights_weight_2"
-            android:hint="Weight"
-            android:layout_gravity="right|center_vertical" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -96,7 +104,18 @@
             android:id="@+id/weights_by_2"
             android:layout_gravity="center" />
 
-    </FrameLayout>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weights_weight_2"
+            android:hint="Weight"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:layout_gravity="right|center_vertical" />
+
+
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -105,26 +124,23 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:id="@+id/weights_set_3"
+        android:paddingTop="20dp"
         android:layout_gravity="center_horizontal" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.10">
+        android:orientation="horizontal"
+        android:layout_gravity="center">
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/weights_reps_3"
+            android:textAlignment="center"
+            android:inputType="number"
             android:layout_gravity="center|left"
             android:hint="Reps" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/weights_weight_3"
-            android:hint="Weight"
-            android:layout_gravity="right|center_vertical" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -133,15 +149,28 @@
             android:id="@+id/weights_by_3"
             android:layout_gravity="center" />
 
-    </FrameLayout>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weights_weight_3"
+            android:hint="Weight"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:layout_gravity="right|center_vertical" />
+
+
+
+    </LinearLayout>
 
 
     <Button
         android:layout_width= "wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/add_weights_button"
-        android:layout_gravity="right"
+        android:layout_gravity="center"
         android:text="@string/add_exercise_button"
+        android:textSize="20sp"
+        android:textAllCaps="false"
         android:onClick="addAerobicExercise" />
 
 </LinearLayout>

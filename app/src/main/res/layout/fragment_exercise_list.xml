@@ -10,4 +10,6 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="shmurphy.tacoma.uw.edu.simplyfitter.ExerciseListFragment"
-    tools:listitem="@layout/fragment_exercise" />
+    tools:listitem="@layout/fragment_exercise"
+
+    />
