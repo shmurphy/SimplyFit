@@ -29,7 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/fab_margin"
-        android:tint="@color/white"
+        app:backgroundTint="@color/colorPrimary"
+        android:tint="@color/colorAccent"
         android:src="@android:drawable/ic_input_add" />
 
     <android.support.design.widget.FloatingActionButton
@@ -38,8 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/fab_margin"
-        android:tint="@color/white"
         android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/colorPrimary"
+        android:tint="@color/colorAccent"
          />
 
     <!--<android.support.design.widget.FloatingActionButton-->

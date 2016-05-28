@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="3469cb457f10f74c28cbc05f069b6c894f6cbdd0">
+        <dex dex="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-23.2.1_b4a39f5e5f2c44da0895ed7e5c74cb06fcfba237\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="e3885783ff8926ed9e2fdcd16816c2e1e73e7aee">
+        <dex dex="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-23.2.1_aa2c8f8663ea27c18240b0428ed9513fbbb467f7\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\exploded-aar\com.android.support\design\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="72961d8b453b46e277702f18de9d210bc019e36e">
+        <dex dex="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-23.2.1_8e528e1ab28e86dcad2f708bfec50493cfbe6c92\classes.dex" />
+    </item>
+    <item
+        jar="D:\AndroidSDK\extras\android\m2repository\com\android\support\support-annotations\23.2.1\support-annotations-23.2.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ccb693bc0774fcb637246f7360de25b4af7df318">
+        <dex dex="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.2.1_903a9efc1cec80954a90223e886992e19c936609\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="e4d0cbb0b999604b349062f0214a0a228a7fd151">
+        <dex dex="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.2.1_8996ee68250a48b83bbdb2319034f87259fb366f\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\libs\internal_impl-23.2.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="607a3d0b8013b4ccbfeb0b7cb293351994e021fb">
+        <dex dex="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.2.1_6afe3c8dd06d7141c3e4f00f5fbc3ecade4d5ad9\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="4a527bca26786d5ca49a6705c33215176b367aa3">
+        <dex dex="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_a537014eac4f2f7276488b0d075ffe75d2ba9269\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="39d52f5e75228165040e554fb0a29790a4561b70">
+        <dex dex="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_7b66484b65597ad32e2d338b2cdca358a3b5560a\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="3be474b1b21b31cf2fa93fe6bd641ae108d96452">
+        <dex dex="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.2.1_108efefaf0b62b6192cec27fb2a613757ab40fde\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="673d77a5bbddd766037f088e775df525c46407f0">
+        <dex dex="C:\Users\Gehennom\Documents\GitHub\SimplyFit\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-23.2.1_f8b321df68f3bd75d26acf3e3c1fd0dc0d247ef2\classes.dex" />
+    </item>
+
+</items>

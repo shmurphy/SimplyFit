@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/add_user_button"
         android:text="@string/add_user_register"
-        android:background="@color/teal"
+        android:background="@color/colorPrimary"
         android:layout_gravity="bottom|center"/>
 
 </LinearLayout>

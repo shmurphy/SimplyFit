@@ -15,7 +15,8 @@
         android:textSize="30sp"
         android:id="@+id/exercise_name"
         android:textStyle="bold"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -33,7 +34,8 @@
         android:textStyle="bold"
         android:paddingTop="30dp"
         android:id="@+id/exercise_duration_text"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -72,6 +74,7 @@
         android:id="@+id/add_aerobic_button"
         android:layout_gravity="center"
         android:text="@string/add_exercise_button"
+        android:backgroundTint="@color/colorPrimary"
         android:textAllCaps="false"
         android:onClick="addAerobicExercise" />
 

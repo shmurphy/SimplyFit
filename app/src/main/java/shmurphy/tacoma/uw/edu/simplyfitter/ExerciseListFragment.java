@@ -166,6 +166,8 @@ public class ExerciseListFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(getContext()));
+
         return view;
     }
 
