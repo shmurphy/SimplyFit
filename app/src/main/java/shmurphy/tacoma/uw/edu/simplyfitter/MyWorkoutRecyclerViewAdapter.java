@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.StringBuilderPrinter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.WorkoutListFragment.OnListFragmentInteractionListener;
+import shmurphy.tacoma.uw.edu.simplyfitter.model.Exercise;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
 import java.util.List;
@@ -34,7 +36,6 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
     /** Used to build the add workout URL for the addWorkout.php file */
     private final static String WORKOUT_DELETE_URL
             = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/deleteWorkout.php?";
-
 
     public MyWorkoutRecyclerViewAdapter(List<Workout> items, OnListFragmentInteractionListener listener,
                                         WorkoutListFragment.DeleteWorkoutListener deleteListener,
@@ -63,15 +64,27 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         holder.mLocationView.setText("Location: " + mWorkouts.get(position).mLocation);
         holder.mTimeView.setText("Time: " + mWorkouts.get(position).mStart + " to " + mWorkouts.get(position).mEnd);
 
+
+        final StringBuilder shareWorkoutDetails = new StringBuilder("");
+        shareWorkoutDetails.append("Check out my " + holder.mItem.mName + " workout from May " + holder.mItem.mDay + "! \n\n");
+        shareWorkoutDetails.append("Exercises - \n");
+
+        if(holder.mItem.mExercises.size() == 0 ){
+            shareWorkoutDetails.append("I haven't logged any exercises for this workout. :( \n");
+        }
         if(mWorkouts.get(position).mExercises.size() > 0) {
             StringBuilder exerciseSB = new StringBuilder();
             exerciseSB.append(mWorkouts.get(position).mExercises.get(0).toString());
+            addDetails(shareWorkoutDetails, mWorkouts.get(position).mExercises.get(0));
             for(int i = 1; i < mWorkouts.get(position).mExercises.size(); i++) {
                 exerciseSB.append(System.getProperty("line.separator"));
                 exerciseSB.append(mWorkouts.get(position).mExercises.get(i));
+                addDetails(shareWorkoutDetails, mWorkouts.get(position).mExercises.get(i));
             }
             holder.mExerciseView.setText(exerciseSB.toString());
         }
+
+        shareWorkoutDetails.append("\nI logged my workout using the new SimplyFit app.\nTry it today!");
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,11 +125,14 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
             public void onClick(View v) {
                 // start the twitter thing
                 Intent share = new Intent(Intent.ACTION_SEND);
-                if(initShareIntent("twi", share)) {
+                if(initShareIntent("twi", share, shareWorkoutDetails.toString())) {
                     mActivity.startActivity(Intent.createChooser(share, "Share your workout on Twitter!"));
                 }
             }
         });
+
+
+
 
         FloatingActionButton emailButton = (FloatingActionButton)
                 holder.mView.findViewById(R.id.email_fab);
@@ -124,7 +140,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
             @Override
             public void onClick(View v) {
                 Intent share = new Intent(Intent.ACTION_SEND);
-                if(initShareIntent("mail", share)) {
+                if(initShareIntent("mail", share, shareWorkoutDetails.toString())) {
                     mActivity.startActivity(Intent.createChooser(share, "Email your workout to a friend!"));
                 }
             }
@@ -132,12 +148,22 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
 
     }
 
+    private void addDetails(StringBuilder sb, Exercise exercise) {
+        if(exercise.getmType().equals("Aerobic") && (exercise.getmHours() > 0 || exercise.getmMinutes() > 0)) { // aerobic
+            sb.append("Aerobic: " + exercise.mName + "\n");
+        } else if (exercise.getmType().equals("Weight")) {
+            sb.append("Strength: " + exercise.mName + "\n");
+        } else {
+            sb.append("Flexibility: " + exercise.mName + "\n");
+        }
+    }
+
     /**
      * From StackOverFlow.
      * http://stackoverflow.com/a/9229654
      * @param type
      */
-    private boolean initShareIntent(String type, Intent share) {
+    private boolean initShareIntent(String type, Intent share, String workoutString) {
         boolean found = false;
         share.setType("text/plain");
 
@@ -147,7 +173,9 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
             for (ResolveInfo info : resInfo) {
                 if (info.activityInfo.packageName.toLowerCase().contains(type) ||
                         info.activityInfo.name.toLowerCase().contains(type)) {
-                    share.putExtra(Intent.EXTRA_TEXT, "Sharing my workout from today!");
+//                    share.putExtra(Intent.EXTRA_TEXT, sb.toString());
+//                    share.putExtra(Intent.EXTRA_TEXT, "")
+                    share.putExtra(Intent.EXTRA_TEXT, workoutString);
                     share.setPackage(info.activityInfo.packageName);
                     found = true;
                     break;
