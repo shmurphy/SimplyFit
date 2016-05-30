@@ -1,6 +1,9 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -344,8 +348,11 @@ public class WorkoutListFragment extends Fragment  {
             }
 
             if (!mWorkouts.isEmpty()) {
-                mRecyclerView.setAdapter(new MyWorkoutRecyclerViewAdapter(mWorkouts, mListener,
-                        mDeleteWorkoutListener, mEditWorkoutListener));
+                MyWorkoutRecyclerViewAdapter workoutRecyclerViewAdapter = new MyWorkoutRecyclerViewAdapter(mWorkouts, mListener,
+                        mDeleteWorkoutListener, mEditWorkoutListener);
+                workoutRecyclerViewAdapter.setActivity(getActivity());
+                mRecyclerView.setAdapter(workoutRecyclerViewAdapter);
+
             }
         }
     }

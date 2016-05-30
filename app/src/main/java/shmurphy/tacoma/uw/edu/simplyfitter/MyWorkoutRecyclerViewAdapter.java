@@ -2,7 +2,11 @@
 
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +29,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
     private final OnListFragmentInteractionListener mListener;
     private WorkoutListFragment.DeleteWorkoutListener mDeleteWorkoutListener;
     private WorkoutListFragment.EditWorkoutListener mEditWorkoutListener;
+    private Activity mActivity; // MainActivity
 
     /** Used to build the add workout URL for the addWorkout.php file */
     private final static String WORKOUT_DELETE_URL
@@ -99,6 +104,54 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
             }
         });
 
+        FloatingActionButton twitterButton = (FloatingActionButton)
+                holder.mView.findViewById(R.id.twitter_fab);
+        twitterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // start the twitter thing
+                initShareIntent("twi");
+            }
+        });
+
+        FloatingActionButton emailButton = (FloatingActionButton)
+                holder.mView.findViewById(R.id.email_fab);
+        emailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initShareIntent("mail");
+            }
+        });
+
+    }
+
+    /**
+     * From StackOverFlow.
+     * http://stackoverflow.com/a/9229654
+     * @param type
+     */
+    private void initShareIntent(String type) {
+        boolean found = false;
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+
+        // gets the list of intents that can be loaded.
+        List<ResolveInfo> resInfo = mActivity.getPackageManager().queryIntentActivities(share, 0);
+        if (!resInfo.isEmpty()){
+            for (ResolveInfo info : resInfo) {
+                if (info.activityInfo.packageName.toLowerCase().contains(type) ||
+                        info.activityInfo.name.toLowerCase().contains(type) ) {
+                    share.putExtra(Intent.EXTRA_TEXT, "Sharing my workout from today!");
+                    share.setPackage(info.activityInfo.packageName);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+                return;
+
+            mActivity.startActivity(Intent.createChooser(share, "Share a workout on Twitter!"));
+        }
     }
 
     @Override
@@ -152,5 +205,9 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
                     .show();
         }
         return sb.toString();
+    }
+
+    public void setActivity(FragmentActivity activity) {
+        mActivity = activity;
     }
 }

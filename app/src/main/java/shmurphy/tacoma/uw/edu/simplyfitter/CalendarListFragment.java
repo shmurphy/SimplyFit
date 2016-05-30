@@ -89,6 +89,8 @@ public class CalendarListFragment extends Fragment {
                 getActivity().findViewById(R.id.add_exercise_fab);
         exerciseFloatingActionButton.hide();
 
+
+
         // check for connection
         ConnectivityManager connMgr = (ConnectivityManager)
                 getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
