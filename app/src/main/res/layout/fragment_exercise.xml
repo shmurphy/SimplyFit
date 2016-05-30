@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/exercise_fragment_name"
@@ -15,7 +14,7 @@
         android:textAlignment="center"
         android:textColor="@color/teal"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:layout_gravity="left|top" />
+        android:layout_gravity="center|top" />
 
     <TextView
         android:id="@+id/exercise_fragment_sets"
@@ -23,12 +22,14 @@
         android:layout_height="match_parent"
         android:layout_margin="@dimen/text_margin"
         android:textSize="20sp"
+        android:layout_gravity="center"
         android:textAppearance="?attr/textAppearanceListItem"
          />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="wrap_content">
 
         <android.support.design.widget.FloatingActionButton
