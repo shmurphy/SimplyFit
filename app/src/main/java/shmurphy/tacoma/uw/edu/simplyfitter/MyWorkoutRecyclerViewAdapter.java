@@ -66,7 +66,8 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
 
 
         final StringBuilder shareWorkoutDetails = new StringBuilder("");
-        shareWorkoutDetails.append("Check out my " + holder.mItem.mName + " workout from May " + holder.mItem.mDay + "! \n\n");
+        shareWorkoutDetails.append("Check out my " + holder.mItem.mName + " workout from May " + holder.mItem.mDay + "! \n");
+        shareWorkoutDetails.append("The location of my workout was " + holder.mItem.mLocation + "\n\n");
         shareWorkoutDetails.append("Exercises - \n");
 
         if(holder.mItem.mExercises.size() == 0 ){
