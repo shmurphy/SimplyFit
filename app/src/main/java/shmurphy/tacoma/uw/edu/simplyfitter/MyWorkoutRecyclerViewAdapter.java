@@ -104,13 +104,17 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
             }
         });
 
+
         FloatingActionButton twitterButton = (FloatingActionButton)
                 holder.mView.findViewById(R.id.twitter_fab);
         twitterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // start the twitter thing
-                initShareIntent("twi");
+                Intent share = new Intent(Intent.ACTION_SEND);
+                if(initShareIntent("twi", share)) {
+                    mActivity.startActivity(Intent.createChooser(share, "Share your workout on Twitter!"));
+                }
             }
         });
 
@@ -119,7 +123,10 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initShareIntent("mail");
+                Intent share = new Intent(Intent.ACTION_SEND);
+                if(initShareIntent("mail", share)) {
+                    mActivity.startActivity(Intent.createChooser(share, "Email your workout to a friend!"));
+                }
             }
         });
 
@@ -130,9 +137,8 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
      * http://stackoverflow.com/a/9229654
      * @param type
      */
-    private void initShareIntent(String type) {
+    private boolean initShareIntent(String type, Intent share) {
         boolean found = false;
-        Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
 
         // gets the list of intents that can be loaded.
@@ -140,18 +146,15 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         if (!resInfo.isEmpty()){
             for (ResolveInfo info : resInfo) {
                 if (info.activityInfo.packageName.toLowerCase().contains(type) ||
-                        info.activityInfo.name.toLowerCase().contains(type) ) {
+                        info.activityInfo.name.toLowerCase().contains(type)) {
                     share.putExtra(Intent.EXTRA_TEXT, "Sharing my workout from today!");
                     share.setPackage(info.activityInfo.packageName);
                     found = true;
                     break;
                 }
             }
-            if (!found)
-                return;
-
-            mActivity.startActivity(Intent.createChooser(share, "Share a workout on Twitter!"));
         }
+        return found;
     }
 
     @Override
