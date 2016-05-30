@@ -198,7 +198,7 @@ public class AddAerobicFragment extends Fragment {
         }
 
         // format the name so that if it contains any spaces it can be added to the table correctly
-        if(s.contains(" ")) {
+        while(s.contains(" ")) {
             String formatted = "";
             int space = s.indexOf(" ");
             formatted = s.substring(0, space);

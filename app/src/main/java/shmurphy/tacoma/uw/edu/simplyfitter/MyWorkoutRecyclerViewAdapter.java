@@ -64,10 +64,9 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         holder.mLocationView.setText("Location: " + mWorkouts.get(position).mLocation);
         holder.mTimeView.setText("Time: " + mWorkouts.get(position).mStart + " to " + mWorkouts.get(position).mEnd);
 
-
         final StringBuilder shareWorkoutDetails = new StringBuilder("");
         shareWorkoutDetails.append("Check out my " + holder.mItem.mName + " workout from May " + holder.mItem.mDay + "! \n");
-        shareWorkoutDetails.append("The location of my workout was " + holder.mItem.mLocation + "\n\n");
+        shareWorkoutDetails.append("The location of my workout was " + holder.mItem.mLocation + ".\n\n");
         shareWorkoutDetails.append("Exercises - \n");
 
         if(holder.mItem.mExercises.size() == 0 ){
