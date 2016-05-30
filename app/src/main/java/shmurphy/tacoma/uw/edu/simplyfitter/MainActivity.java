@@ -221,8 +221,14 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
     public void deleteWorkout(String url) {
         DeleteWorkoutTask task = new DeleteWorkoutTask();
         task.execute(new String[]{url.toString()});
-//        getSupportFragmentManager().popBackStackImmediate();
+        getSupportFragmentManager().popBackStackImmediate();
         // TODO - refresh this fragment instead of popping
+
+//        getSupportFragmentManager().beginTransaction()
+//                .add(R.id.fragment_container, new WorkoutListFragment())
+//                .commit();
+
+
     }
 
     /**
