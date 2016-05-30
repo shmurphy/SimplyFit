@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -120,9 +121,9 @@ public class WorkoutListFragment extends Fragment  {
         task.execute(new String[]{WORKOUT_URL});
 
         // show the add workout button
-        FloatingActionButton floatingActionButton = (FloatingActionButton)
+        Button floatingActionButton = (Button)
                 getActivity().findViewById(R.id.workout_fab);
-        floatingActionButton.show();
+        floatingActionButton.setVisibility(View.VISIBLE);
 
         mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(getContext()));
 

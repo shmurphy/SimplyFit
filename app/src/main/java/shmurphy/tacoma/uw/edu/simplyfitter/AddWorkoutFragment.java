@@ -106,9 +106,9 @@ public class AddWorkoutFragment extends Fragment {
 
 
         // hide the add workout floating action button
-        FloatingActionButton floatingActionButton = (FloatingActionButton)
+        Button floatingActionButton = (Button)
                 getActivity().findViewById(R.id.workout_fab);
-        floatingActionButton.hide();
+        floatingActionButton.setVisibility(View.GONE);
 
         // hide the add exercise floating action button
         FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)

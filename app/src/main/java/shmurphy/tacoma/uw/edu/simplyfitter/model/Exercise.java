@@ -23,12 +23,14 @@ public class Exercise implements Serializable {
     public static int mWorkoutID;
     public int mHours, mMinutes;
     public int mID;
+    public boolean mYoga;
     public Workout mWorkout;
 
     public ArrayList<WeightSet> mWeightSets = new ArrayList<>();
 
+
     public static final String DAY = "day", EXERCISE_NAME = "name", EXERCISE_HOURS = "hours",
-            EXERCISE_MINUTES = "minutes", EXERCISE_WORKOUT_ID = "workoutID";
+            EXERCISE_MINUTES = "minutes", EXERCISE_WORKOUT_ID = "workoutID", EXERCISE_YOGA = "yoga";
 
     // constructor for Weights workout
     public Exercise(String type, String name, String workoutID) {
@@ -65,7 +67,6 @@ public class Exercise implements Serializable {
     public static String parseExerciseJSON(String type, String exerciseJSON, List<Workout> workoutList) {
         String reason = null;
         if (exerciseJSON != null && exerciseJSON.length() > 0) { // add > 0 to display even when no exercises yet
-
             try {
                 JSONArray arr = new JSONArray(exerciseJSON);
                 Exercise exercise = null;
@@ -109,6 +110,7 @@ public class Exercise implements Serializable {
         String reason = null;
 //        exerciseList.clear();       // clear the exercise list to prevent duplicate items
         mWorkoutID = workoutID;
+        int yoga;
 
         if (exerciseJSON != null && exerciseJSON.length() > 0) { // add > 0 to display even when no exercises yet
 
@@ -121,6 +123,8 @@ public class Exercise implements Serializable {
                         exercise = new Exercise("Aerobic", obj.getString(Exercise.EXERCISE_NAME),
                                 obj.getInt(Exercise.EXERCISE_HOURS), obj.getInt(Exercise.EXERCISE_MINUTES),
                                 obj.getString(Exercise.EXERCISE_WORKOUT_ID));
+                        yoga = obj.getInt(Exercise.EXERCISE_YOGA);
+                        exercise.setMYoga(yoga);
                     } else if (type.equals("weight")) {
                         exercise = new Exercise("Weight", obj.getString(Exercise.EXERCISE_NAME),
                                 obj.getString(Exercise.EXERCISE_WORKOUT_ID));
@@ -193,6 +197,14 @@ public class Exercise implements Serializable {
 
     public String toString() {
         return mName;
+    }
+
+    public void setMYoga(int yoga) {
+        if(yoga == 0) {
+            mYoga = false;
+        } else {
+            mYoga = true;
+        }
     }
 
 }

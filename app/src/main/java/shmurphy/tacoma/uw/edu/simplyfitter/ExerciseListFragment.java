@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.model.Exercise;
@@ -119,9 +120,9 @@ public class ExerciseListFragment extends Fragment {
         }
 
         // hide the add workout floating action button
-        FloatingActionButton floatingActionButton = (FloatingActionButton)
+        Button floatingActionButton = (Button)
                 getActivity().findViewById(R.id.workout_fab);
-        floatingActionButton.hide();
+        floatingActionButton.setVisibility(View.GONE);
 
         // show the exercise floating action button
         FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)

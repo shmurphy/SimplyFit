@@ -68,6 +68,14 @@
 
     </FrameLayout>
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Yoga pose?"
+        android:id="@+id/checkBox_yoga"
+        android:layout_gravity="center_horizontal"
+        android:checked="false" />
+
     <Button
         android:layout_width= "wrap_content"
         android:layout_height="wrap_content"

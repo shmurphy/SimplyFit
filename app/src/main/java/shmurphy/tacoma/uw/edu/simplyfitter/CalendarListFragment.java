@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
@@ -80,9 +81,9 @@ public class CalendarListFragment extends Fragment {
         }
 
         // hide the add workout floating action button
-        FloatingActionButton workoutFloatingActionButton = (FloatingActionButton)
+        Button workoutFloatingActionButton = (Button)
                 getActivity().findViewById(R.id.workout_fab);
-        workoutFloatingActionButton.hide();
+        workoutFloatingActionButton.setVisibility(View.GONE);
 
         // hide the add exercise floating action button
         FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)

@@ -35,9 +35,9 @@ public class ExerciseOptionFragment extends Fragment implements AdapterView.OnIt
         View view = inflater.inflate(R.layout.fragment_exercise_option, container, false);
 
         // hide the add workout fab
-        FloatingActionButton floatingActionButton = (FloatingActionButton)
+        Button floatingActionButton = (Button)
                 getActivity().findViewById(R.id.workout_fab);
-        floatingActionButton.hide();
+        floatingActionButton.setVisibility(View.GONE);
 
         // hide the add exercise floating action button
         FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)

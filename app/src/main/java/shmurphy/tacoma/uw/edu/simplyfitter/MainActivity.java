@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
 
         // add workout button. on click starts the add workout fragment
         // we send the mDate field to the fragment so it knows which day we're adding a workout to
-        FloatingActionButton workoutFAB = (FloatingActionButton) findViewById(R.id.workout_fab);
+        Button workoutFAB = (Button) findViewById(R.id.workout_fab);
         workoutFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
     private final OnListFragmentInteractionListener mListener;
     private ExerciseListFragment.DeleteExerciseListener mDeleteExerciseListener;
     private ExerciseListFragment.EditExerciseListener mEditExerciseListener;
+    private CheckBox mYogaBox;
 
     private final static String EXERCISE_DELETE_URL
             = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/deleteExercise.php?";
@@ -66,6 +68,27 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
                 setSB.append(holder.mExercise.mWeightSets.get(i).toString());
             }
             holder.mSetsView.setText(setSB.toString());
+        } else {
+            StringBuilder aerobicDetails = new StringBuilder();
+
+            if(holder.mExercise.mHours == 0 && holder.mExercise.mMinutes == 0) {
+//                aerobicDetails.append("Flexibility");
+                if(holder.mExercise.mYoga) {
+                    aerobicDetails.append("Yoga Pose");
+                } else {
+                    aerobicDetails.append("Stretch");
+
+//                    holder.mSetsView.setVisibility(View.GONE);
+                }
+            } else {
+                if(holder.mExercise.mHours > 0) {
+                    aerobicDetails.append(holder.mExercise.mHours + " hours and ");
+                }
+                aerobicDetails.append(holder.mExercise.mMinutes + " minutes");
+            }
+
+            holder.mSetsView.setText(aerobicDetails.toString());
+
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -84,8 +107,6 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Log.d("exerciserecycler", "Delete " + holder.mExercise.mName);
-
                 mDeleteExerciseListener.deleteExercise(buildDeleteExerciseURL(v, position));
                 holder.mExercise.delete(mExercises, position); // delete from the list
             }
@@ -126,8 +147,6 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
             sb.append(type);
 
             Log.i("DeleteWorkout ", sb.toString());
-
-
         }
         catch(Exception e) {
             Toast.makeText(v.getContext(),

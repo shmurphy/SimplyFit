@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +39,8 @@ public class AddAerobicFragment extends Fragment {
     public String mType; // either aerobic or flexibility, because these use the same fragment
 
     private AddAerobicListener mListener;
-
+    public boolean mYoga = false;
+    public CheckBox mYogaBox;
     public int mWorkoutID;
     public String mDeleteURL;
     public Exercise mPreviousExercise;
@@ -70,6 +72,7 @@ public class AddAerobicFragment extends Fragment {
         TextView mDurationTextView = (TextView) v.findViewById(R.id.exercise_duration_text);
         TextView mAndTextView = (TextView) v.findViewById(R.id.aerobic_and_text);
         TextView nameTextView = (TextView) v.findViewById(R.id.exercise_name);
+        mYogaBox = (CheckBox) v.findViewById(R.id.checkBox_yoga);
 
         if(mType.equals("Flexibility")) {
             getActivity().setTitle("Add a Flexibility Exercise");
@@ -77,8 +80,10 @@ public class AddAerobicFragment extends Fragment {
             mMinutesEditText.setVisibility(View.GONE);
             mDurationTextView.setVisibility(View.GONE);
             mAndTextView.setVisibility(View.GONE);
+
         } else if(mType.equals("Aerobic")) {
             getActivity().setTitle("Add an Aerobic Exercise");
+            mYogaBox.setVisibility(View.GONE);
         }
 
         if(mEditingMode) {
@@ -90,12 +95,10 @@ public class AddAerobicFragment extends Fragment {
         }
 
 
-
-
         // hide the add workout floating action button
-        FloatingActionButton floatingActionButton = (FloatingActionButton)
+        Button floatingActionButton = (Button)
                 getActivity().findViewById(R.id.workout_fab);
-        floatingActionButton.hide();
+        floatingActionButton.setVisibility(View.GONE);
 
         // hide the add exercise floating action button
         FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
@@ -160,6 +163,13 @@ public class AddAerobicFragment extends Fragment {
 
             sb.append("&type=");
             sb.append(mType);
+
+            sb.append("&yoga=");
+            if(mYogaBox.isChecked()) {
+                sb.append("T");
+            } else {
+                sb.append("F");
+            }
 
             Log.i("AddAerobicFragment", sb.toString());
         }

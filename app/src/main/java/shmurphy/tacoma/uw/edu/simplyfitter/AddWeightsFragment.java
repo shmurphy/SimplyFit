@@ -87,13 +87,13 @@ public class AddWeightsFragment extends Fragment {
             fillWeights(0, mWeight1);
             fillWeights(1, mWeight2);
             fillWeights(2, mWeight3);
-            
+
         }
 
         // hide the add workout floating action button
-        FloatingActionButton floatingActionButton = (FloatingActionButton)
+        Button floatingActionButton = (Button)
                 getActivity().findViewById(R.id.workout_fab);
-        floatingActionButton.hide();
+        floatingActionButton.setVisibility(View.GONE);
 
         // hide the add exercise floating action button
         FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
