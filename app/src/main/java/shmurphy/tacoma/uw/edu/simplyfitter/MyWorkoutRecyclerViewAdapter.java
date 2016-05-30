@@ -65,9 +65,13 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         holder.mTimeView.setText("Time: " + mWorkouts.get(position).mStart + " to " + mWorkouts.get(position).mEnd);
 
         final StringBuilder shareWorkoutDetails = new StringBuilder("");
-        shareWorkoutDetails.append("Check out my " + holder.mItem.mName + " workout from May " + holder.mItem.mDay + "! \n");
-        shareWorkoutDetails.append("The location of my workout was " + holder.mItem.mLocation + ".\n\n");
-        shareWorkoutDetails.append("Exercises - \n");
+//        shareWorkoutDetails.append("Check out my " + holder.mItem.mName + " workout from May " +
+//                holder.mItem.mDay + " at " + holder.mItem.mLocation+ "!\n");
+        shareWorkoutDetails.append("Check out my " + holder.mItem.mName + " workout from May " +
+                holder.mItem.mDay + "!\n");
+//        shareWorkoutDetails.append("logged using the new SimplyFit app!\n");
+//        shareWorkoutDetails.append("The location of my workout was " + holder.mItem.mLocation + ".\n\n");
+        shareWorkoutDetails.append("Exercises - ");
 
         if(holder.mItem.mExercises.size() == 0 ){
             shareWorkoutDetails.append("I haven't logged any exercises for this workout. :( \n");
@@ -75,17 +79,20 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
         if(mWorkouts.get(position).mExercises.size() > 0) {
             StringBuilder exerciseSB = new StringBuilder();
             exerciseSB.append(mWorkouts.get(position).mExercises.get(0).toString());
-            addDetails(shareWorkoutDetails, mWorkouts.get(position).mExercises.get(0));
+            shareWorkoutDetails.append(mWorkouts.get(position).mExercises.get(0).mName);
+//            addDetails(shareWorkoutDetails, mWorkouts.get(position).mExercises.get(0));
             for(int i = 1; i < mWorkouts.get(position).mExercises.size(); i++) {
                 exerciseSB.append(System.getProperty("line.separator"));
+                shareWorkoutDetails.append(", ");
                 exerciseSB.append(mWorkouts.get(position).mExercises.get(i));
-                addDetails(shareWorkoutDetails, mWorkouts.get(position).mExercises.get(i));
+//                addDetails(shareWorkoutDetails, mWorkouts.get(position).mExercises.get(i));
+                shareWorkoutDetails.append(mWorkouts.get(position).mExercises.get(i).mName);
+
             }
             holder.mExerciseView.setText(exerciseSB.toString());
         }
 
-        shareWorkoutDetails.append("\nI logged my workout using the new SimplyFit app.\nTry it today!");
-
+        shareWorkoutDetails.append("I logged my workout using the new SimplyFit app. Try it today!");
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {   // here we will implement an exercise fragment list to be invoked
@@ -148,15 +155,15 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
 
     }
 
-    private void addDetails(StringBuilder sb, Exercise exercise) {
-        if(exercise.getmType().equals("Aerobic") && (exercise.getmHours() > 0 || exercise.getmMinutes() > 0)) { // aerobic
-            sb.append("Aerobic: " + exercise.mName + "\n");
-        } else if (exercise.getmType().equals("Weight")) {
-            sb.append("Strength: " + exercise.mName + "\n");
-        } else {
-            sb.append("Flexibility: " + exercise.mName + "\n");
-        }
-    }
+//    private void addDetails(StringBuilder sb, Exercise exercise) {
+//        if(exercise.getmType().equals("Aerobic") && (exercise.getmHours() > 0 || exercise.getmMinutes() > 0)) { // aerobic
+//            sb.append("Aerobic: " + exercise.mName + "\n");
+//        } else if (exercise.getmType().equals("Weight")) {
+//            sb.append("Strength: " + exercise.mName + "\n");
+//        } else {
+//            sb.append("Flexibility: " + exercise.mName + "\n");
+//        }
+//    }
 
     /**
      * From StackOverFlow.
