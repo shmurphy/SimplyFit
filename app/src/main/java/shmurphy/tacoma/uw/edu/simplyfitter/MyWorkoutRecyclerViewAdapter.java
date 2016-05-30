@@ -68,8 +68,8 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
 //        shareWorkoutDetails.append("Check out my " + holder.mItem.mName + " workout from May " +
 //                holder.mItem.mDay + " at " + holder.mItem.mLocation+ "!\n");
         shareWorkoutDetails.append("Check out my " + holder.mItem.mName + " workout from May " +
-                holder.mItem.mDay + "!\n");
-//        shareWorkoutDetails.append("logged using the new SimplyFit app!\n");
+                holder.mItem.mDay + " at " + holder.mItem.mLocation + ", ");
+        shareWorkoutDetails.append("logged using the #SimplyFit app!\n");
 //        shareWorkoutDetails.append("The location of my workout was " + holder.mItem.mLocation + ".\n\n");
         shareWorkoutDetails.append("Exercises - ");
 
@@ -92,7 +92,7 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
             holder.mExerciseView.setText(exerciseSB.toString());
         }
 
-        shareWorkoutDetails.append("I logged my workout using the new SimplyFit app. Try it today!");
+//        shareWorkoutDetails.append("I used the new SimplyFit app. Try it today!");
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {   // here we will implement an exercise fragment list to be invoked
