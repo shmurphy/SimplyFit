@@ -2,12 +2,15 @@
 
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -25,6 +29,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.authenticate.SignInActivity;
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
@@ -36,9 +41,12 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
         AddAerobicFragment.AddAerobicListener, AddWeightsFragment.AddWeightsListener, WorkoutListFragment.DeleteWorkoutListener,
         ExerciseListFragment.DeleteExerciseListener, WorkoutListFragment.EditWorkoutListener,
         ExerciseListFragment.EditExerciseListener,
-        ExerciseListFragment.OnListFragmentInteractionListener {
+        ExerciseListFragment.OnListFragmentInteractionListener, EnterDateFragment.EnterDateFragmentListener {
 
-    private int mDate;   // used to keep track of the date we're on
+    private int mDate;   // used to keep track of the day of the month we're on
+    private int mMonth = 5;
+    private int mYear = 2016;
+
     private String mUserID;
     private int mWorkoutID;
     private int mExerciseID;
@@ -53,6 +61,12 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // start off by setting the date to the current date
+        Calendar c = Calendar.getInstance();
+        mMonth = c.get(Calendar.MONTH) + 1;
+        mYear = c.get(Calendar.YEAR);
+
+//        setTitle("Your " + mMonth + " " + mYear + " Workouts");
 
         // get the username from the user that just logged in.
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
@@ -68,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
             @Override
             public void onClick(View view) {
                 mAddWorkoutFragment = new AddWorkoutFragment();
-                mAddWorkoutFragment.setDate(mDate);
+                mAddWorkoutFragment.setDate(mDate, mMonth, mYear);
                 mAddWorkoutFragment.setUserID(mUserID);
                 mAddWorkoutFragment.setMEditingMode(false);
                 getSupportFragmentManager().beginTransaction()
@@ -93,15 +107,18 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
             }
         });
 
+
         // if we've already logged in, start the calendar list fragment
         if (savedInstanceState == null ||
                 getSupportFragmentManager().findFragmentById(R.id.calendarlist_fragment) == null) {
 
             CalendarListFragment calendarListFragment = new CalendarListFragment();
             calendarListFragment.setmUserID(mUserID);
+            calendarListFragment.setDate(mMonth, mYear);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, calendarListFragment)
                     .commit();
+
         }
 
 
@@ -157,10 +174,15 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
         WorkoutListFragment workoutListFragment = new WorkoutListFragment();
         workoutListFragment.setDay(mDate);
         workoutListFragment.setmUserID(mUserID);
+        workoutListFragment.setDate(mMonth, mYear);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, workoutListFragment)
                 .addToBackStack(null)
                 .commit();
+
+        Button floatingActionButton = (Button)
+                findViewById(R.id.workout_fab);
+        floatingActionButton.setVisibility(View.VISIBLE);
 
     }
 
@@ -245,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
     public void editWorkout(Workout workout, String deleteURL) {
         mAddWorkoutFragment = new AddWorkoutFragment();
         mAddWorkoutFragment.setWorkoutID(workout.mID);
-        mAddWorkoutFragment.setDate(mDate);
+        mAddWorkoutFragment.setDate(mDate, mMonth, mYear);
         mAddWorkoutFragment.setUserID(mUserID);
         mAddWorkoutFragment.setMDeleteURL(deleteURL);
         mAddWorkoutFragment.setMEditingMode(true);
@@ -622,7 +644,22 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
     }
 
     public void launch(View v) {
+        EditText yearEditText = (EditText) v.findViewById(R.id.year);
+        EditText monthEditText = (EditText) v.findViewById(R.id.month);
+        if (yearEditText == null) {
+            Log.d("main-year", "null");
+        } else {
+            Log.d("main-year", "NOT NULL");
+        }
+        if (monthEditText == null) {
+            Log.d("main-month", "null");
+        } else {
+            Log.d("main-month", "NOT NULL");
+        }
+
         TimePickerFragment fragment = null;
+        DatePickerFragment dateFragment = null;
+        EnterDateFragment enterDateFragment = null;
         if (v.getId() == R.id.start_time_button) {
             fragment = new TimePickerFragment();
             mAddWorkoutFragment.setStartTimePicker(fragment);
@@ -633,9 +670,48 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
             mAddWorkoutFragment.setEndTimePickerFragment(fragment);
             fragment.setAddWorkoutFragment(mAddWorkoutFragment);
             fragment.setType("End");
+        } else if (v.getId() == R.id.choose_date_button) {
+            enterDateFragment = new EnterDateFragment();
         }
-        if (fragment != null)
+
+//        else if(v.getId() == R.id.date_button) {
+//            Log.d("debug calendar", "Calendar button!");
+//            dateFragment = new DatePickerFragment();
+//        }
+
+        if (fragment != null) {
             fragment.show(getSupportFragmentManager(), "launch");
+        }
+        if (dateFragment != null) {
+            dateFragment.show(getSupportFragmentManager(), "launch");
+        }
+        if(enterDateFragment != null) {
+            enterDateFragment.show(getSupportFragmentManager(), "launch");
+        }
     }
 
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        // User pressed OK, so we need to grab the values from the
+        // dialog's fields and apply them to the Views in the Main
+        // Activity
+        Dialog dialogView = dialog.getDialog();
+        EditText year = (EditText) dialogView.findViewById(R.id.year);
+        EditText month = (EditText) dialogView.findViewById(R.id.month);
+
+        mYear = Integer.parseInt(year.getText().toString());
+        mMonth = Integer.parseInt(month.getText().toString());
+
+        Log.d("main", "NEW YEAR " + Integer.toString(mYear));
+        Log.d("main", "NEW MONTH " + Integer.toString(mMonth));
+
+        CalendarListFragment calendarListFragment = new CalendarListFragment();
+        calendarListFragment.setmUserID(mUserID);
+        calendarListFragment.setDate(mMonth, mYear);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, calendarListFragment)
+                .commit();
+
+        // start a new calendar fragment with this date.
+    }
 }

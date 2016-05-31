@@ -37,6 +37,8 @@ public class AddWorkoutFragment extends Fragment {
     private TextView mStartTextView;
     private TextView mEndTextView;
 
+    private int mCurrentYear;
+    private int mCurrentMonth;
 
     private int mHour;
     private int mMinute;
@@ -196,6 +198,12 @@ public class AddWorkoutFragment extends Fragment {
             sb.append("&userID=");
             sb.append(mUserID);
 
+            sb.append("&month=");
+            sb.append(mCurrentMonth);
+
+            sb.append("&year=");
+            sb.append(mCurrentYear);
+
             if(mWorkoutID > 0) {
                 sb.append("&id=");
                 sb.append(mWorkoutID);
@@ -241,15 +249,6 @@ public class AddWorkoutFragment extends Fragment {
 
 
         return s;
-    }
-
-    /**
-     * Sets the date field to be the specified date.
-     *
-     * @param date
-     */
-    public void setDate(int date) {
-        mDate = date;
     }
 
     public void setStartTimePicker(TimePickerFragment timePickerFragment) {
@@ -317,4 +316,9 @@ public class AddWorkoutFragment extends Fragment {
         mPreviousWorkout = workout;
     }
 
+    public void setDate(int day, int month, int year) {
+        mDate = day;
+        mCurrentMonth = month;
+        mCurrentYear = year;
+    }
 }

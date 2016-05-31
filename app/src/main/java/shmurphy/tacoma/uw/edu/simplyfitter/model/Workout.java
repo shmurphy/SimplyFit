@@ -25,6 +25,8 @@ public class Workout {
     public static String mUserID;
     public int mID;
     public static int mDay;
+    public int mMonth;
+    public int mYear;
 
     public ArrayList<Exercise> mExercises = new ArrayList<>();
 
@@ -36,7 +38,7 @@ public class Workout {
      * @param end the end time of the workout
      * @param location the location of the workout
      */
-    public Workout(String name, String start, String end, String location, String userID, int ID) {
+    public Workout(String name, String start, String end, String location, String userID, int ID, int month, int year) {
         mName = name;
         mStart = start;
         mEnd = end;
@@ -66,7 +68,8 @@ public class Workout {
      * Returns workout list if success.
      * @param workoutJSON  * @return reason or null if successful.
      */
-    public static String parseWorkoutJSON(String workoutJSON, List<Workout> workoutList, int day, String userID) {
+    public static String parseWorkoutJSON(String workoutJSON, List<Workout> workoutList, int day, String userID,
+                                          int month, int year) {
         // added day param to keep track of which day this workout is for
         mUserID = userID;
         String reason = null;
@@ -77,19 +80,29 @@ public class Workout {
                     JSONObject obj = arr.getJSONObject(i);
 
                     // constructs a new calendar day using the information stored in the databse
-                    CalendarDay calendarDay = new CalendarDay(obj.getInt(CalendarDay.DAY));
+                    CalendarDay calendarDay = new CalendarDay(obj.getInt(CalendarDay.DAY), obj.getInt(CalendarDay.MONTH),
+                            obj.getInt(CalendarDay.YEAR));
 
                     mDay = calendarDay.mDay;
 
                     String username = obj.getString(CalendarDay.USER_ID);
 
+//                    Log.d("DebugWorkout", "year param: " + Integer.toString(year));
+//                    Log.d("DebugWorkout", "year obj: " + obj.getString(CalendarDay.YEAR));
+//
+//                    Log.d("DebugWorkout", "month param: " + Integer.toString(month));
+//                    Log.d("DebugWorkout", "month obj: " + obj.getString(CalendarDay.MONTH));
+
+
                     // constructs a new workout using the information from the database
                     Workout workout = new Workout(obj.getString(CalendarDay.WORKOUT_NAME),
                             obj.getString(CalendarDay.WORKOUT_START), obj.getString(CalendarDay.WORKOUT_END),
                             obj.getString(CalendarDay.WORKOUT_LOCATION), obj.getString(CalendarDay.USER_ID),
-                            obj.getInt(WORKOUT_ID));
-                    if(calendarDay.mDay == (day) && mUserID.equals(username)) {
-                        workoutList.add(workout);
+                            obj.getInt(WORKOUT_ID), obj.getInt(CalendarDay.MONTH), obj.getInt(CalendarDay.YEAR));
+                    if(year == calendarDay.mYear && month == calendarDay.mMonth) {  // make sure the right date
+                        if (calendarDay.mDay == (day) && mUserID.equals(username)) {
+                            workoutList.add(workout);
+                        }
                     }
                 }
             } catch (JSONException e) {

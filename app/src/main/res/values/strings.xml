@@ -41,6 +41,11 @@
     <string name="start_time_dialog">Pick a Start Time</string>
     <string name="end_time_dialog">Pick an End Time</string>
 
+    <string name="year">Enter year</string>
+    <string name="month">Enter month</string>
+    <string name="choosedate">Go To Date</string>
+    <string name="launch_custom_dialog">Choose a date and year</string>
 
+    <string name="cancel">Cancel</string>
 
 </resources>

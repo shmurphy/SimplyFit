@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import shmurphy.tacoma.uw.edu.simplyfitter.model.CalendarDay;
-import shmurphy.tacoma.uw.edu.simplyfitter.model.Workout;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -29,7 +28,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * A fragment representing a list of Calendar Days.
@@ -46,6 +44,12 @@ public class CalendarListFragment extends Fragment {
     private int mColumnCount = 1;
 
     private String mUserID;
+
+    private int mCurrentMonth;
+    private int mCurrentYear;
+
+    private String[] mMonths = {"", "January", "February", "March", "April", "May", "June", "July", "August",
+            "September", "October", "November", "December"};
 
     private OnListFragmentInteractionListener mListener;
 
@@ -66,7 +70,7 @@ public class CalendarListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        getActivity().setTitle("Workouts for May 2016");
+        getActivity().setTitle("Your " + mMonths[mCurrentMonth] + " " + mCurrentYear + " Workouts");
 
         View view = inflater.inflate(R.layout.fragment_calendarday_list, container, false);
 
@@ -90,6 +94,8 @@ public class CalendarListFragment extends Fragment {
                 getActivity().findViewById(R.id.add_exercise_fab);
         exerciseFloatingActionButton.hide();
 
+        Button chooseDateButton = (Button) getActivity().findViewById(R.id.choose_date_button);
+        chooseDateButton.setVisibility(View.VISIBLE);
 
 
         // check for connection
@@ -204,13 +210,22 @@ public class CalendarListFragment extends Fragment {
                         .show();
                 return;
             }
+
+//            Calendar c = Calendar.getInstance();
+//            int month = c.get(Calendar.MONTH) + 1;
+//            int year = c.get(Calendar.YEAR);
+
+//            Log.d("MONTH", Integer.toString(month));
+//            Log.d("YEAR", Integer.toString(year));
+
+
             List<CalendarDay> dateList = new ArrayList<CalendarDay>(31);
             for(int i = 0; i < 32; i++) {
-                dateList.add(new CalendarDay(i));
+                dateList.add(new CalendarDay(i, mCurrentMonth, mCurrentYear));  // set each day, with the current month and year
             }
 
 //            Log.d("CalendarListFragment", result);
-            result = CalendarDay.parseWorkoutJSON(result, dateList, mUserID);
+            result = CalendarDay.parseWorkoutJSON(result, dateList, mUserID, mCurrentMonth, mCurrentYear);
 
             // Something wrong with the JSON returned.
             if (result != null) {
@@ -228,5 +243,10 @@ public class CalendarListFragment extends Fragment {
                 mRecyclerView.setAdapter(new MyCalendarDayRecyclerViewAdapter(dateList, mListener));
             }
         }
+    }
+
+    public void setDate(int month, int year) {
+        mCurrentMonth = month;
+        mCurrentYear = year;
     }
 }

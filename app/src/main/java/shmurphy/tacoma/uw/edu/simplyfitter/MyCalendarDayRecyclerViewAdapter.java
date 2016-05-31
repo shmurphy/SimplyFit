@@ -70,7 +70,6 @@ public class MyCalendarDayRecyclerViewAdapter extends RecyclerView.Adapter<MyCal
                 holder.mContentView.setText(text);
             } else { // there are no workouts logged for this day yet, so we leave it blank
                 holder.mContentView.setText("");
-                Log.d("calendaryrecycler", "Workout list is 0");
             }
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

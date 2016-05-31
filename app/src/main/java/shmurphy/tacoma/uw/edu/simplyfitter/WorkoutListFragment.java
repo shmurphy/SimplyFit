@@ -58,6 +58,11 @@ public class WorkoutListFragment extends Fragment  {
 
     public int mDay; // used to keep track of the current day
     public String mUserID;
+    public int mCurrentMonth;
+    public int mCurrentYear;
+
+    private String[] mMonths = {"", "January", "February", "March", "April", "May", "June", "July", "August",
+            "September", "October", "November", "December"};
 
     public ArrayList<Workout> mWorkouts = new ArrayList<>();
 
@@ -93,7 +98,7 @@ public class WorkoutListFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        getActivity().setTitle("Workouts for May " + mDay + ", 2016");
+        getActivity().setTitle("Workouts for " + mMonths[mCurrentMonth] + " " + mDay + ", " + mCurrentYear);
 
 
         View view = inflater.inflate(R.layout.fragment_workout_list, container, false);
@@ -102,6 +107,9 @@ public class WorkoutListFragment extends Fragment  {
         FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
                 getActivity().findViewById(R.id.add_exercise_fab);
         exerciseFloatingActionButton.hide();
+
+        Button chooseDateButton = (Button) getActivity().findViewById(R.id.choose_date_button);
+        chooseDateButton.setVisibility(View.GONE);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -217,7 +225,7 @@ public class WorkoutListFragment extends Fragment  {
             }
 
             mWorkouts.clear();  // neccessary to avoid duplicate workouts
-            result = Workout.parseWorkoutJSON(result, mWorkouts, mDay, mUserID);
+            result = Workout.parseWorkoutJSON(result, mWorkouts, mDay, mUserID, mCurrentMonth, mCurrentYear);
             // sending the day to the parseJSON so that it can know which day to grab workouts for
 
             DownloadAerobicsTask task = new DownloadAerobicsTask(); // downloads all aerobics
@@ -415,5 +423,9 @@ public class WorkoutListFragment extends Fragment  {
         }
     }
 
+    public void setDate(int month, int year) {
+        mCurrentMonth = month;
+        mCurrentYear = year;
+    }
 
 }

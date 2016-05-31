@@ -21,4 +21,20 @@
         android:layout_margin="@dimen/fab_margin"
         android:text="New Workout"
         android:id="@+id/workout_fab"/>
+
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:layout_width="73dp"-->
+        <!--android:layout_height="74dp"-->
+        <!--android:src="@android:drawable/ic_menu_my_calendar"-->
+        <!--android:layout_gravity="top|right"-->
+        <!--android:id="@+id/date_button"/>-->
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:layout_margin="@dimen/fab_margin"
+        android:text="Choose Date"
+        android:id="@+id/choose_date_button"
+        android:onClick="launch"/>
 </FrameLayout>
