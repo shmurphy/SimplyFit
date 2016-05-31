@@ -19,11 +19,6 @@ import android.widget.EditText;
  * A simple {@link Fragment} subclass.
  */
 public class EnterDateFragment extends DialogFragment {
-
-    EditText mYear;
-    EditText mMonth;
-    public boolean isDone = false;
-
     AlertDialog.Builder mBuilder;
     public EnterDateFragment() {
 
@@ -69,30 +64,13 @@ public class EnterDateFragment extends DialogFragment {
                         listener.onDialogPositiveClick(EnterDateFragment.this);
                     }
                 })
+                .setTitle("Enter the month and year you would like to view")
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dismiss();
                     }
                 });
 
-
         return mBuilder.create();
     }
-
-//    @Override
-//    public void onDialogPositiveClick(DialogFragment dialog) {
-//        // User pressed OK, so we need to grab the values from the
-//        // dialog's fields and apply them to the Views in the Main
-//        // Activity
-//
-//        // Start with the payment amount
-//        Dialog dialogView = dialog.getDialog();
-//        EditText paymentEt = (EditText) dialogView.findViewById(R.id.edittext_payment);
-//    }
-
-    public void setEditTexts(EditText year, EditText month) {
-        mYear = year;
-        mMonth = month;
-    }
-
 }
