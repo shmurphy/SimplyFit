@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
         });
 
         // add exercise button. on click starts the add exercise fragment
-        FloatingActionButton exerciseFAB = (FloatingActionButton) findViewById(R.id.add_exercise_fab);
-        exerciseFAB.setOnClickListener(new View.OnClickListener() {
+        Button exerciseButton = (Button) findViewById(R.id.add_exercise_fab);
+        exerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ExerciseOptionFragment exerciseOptionFragment = new ExerciseOptionFragment();

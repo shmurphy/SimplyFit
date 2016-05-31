@@ -104,9 +104,9 @@ public class WorkoutListFragment extends Fragment  {
         View view = inflater.inflate(R.layout.fragment_workout_list, container, false);
 
         // hide the add exercise floating action button
-        FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
+        Button exerciseFloatingActionButton = (Button)
                 getActivity().findViewById(R.id.add_exercise_fab);
-        exerciseFloatingActionButton.hide();
+        exerciseFloatingActionButton.setVisibility(View.GONE);
 
         Button chooseDateButton = (Button) getActivity().findViewById(R.id.choose_date_button);
         chooseDateButton.setVisibility(View.GONE);

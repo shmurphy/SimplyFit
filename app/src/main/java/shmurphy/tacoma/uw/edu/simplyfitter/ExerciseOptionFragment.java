@@ -40,9 +40,9 @@ public class ExerciseOptionFragment extends Fragment implements AdapterView.OnIt
         floatingActionButton.setVisibility(View.GONE);
 
         // hide the add exercise floating action button
-        FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
+        Button exerciseFloatingActionButton = (Button)
                 getActivity().findViewById(R.id.add_exercise_fab);
-        exerciseFloatingActionButton.hide();
+        exerciseFloatingActionButton.setVisibility(View.GONE);
 
         ArrayList<String> list = new ArrayList<>();
         list.add("Aerobic");

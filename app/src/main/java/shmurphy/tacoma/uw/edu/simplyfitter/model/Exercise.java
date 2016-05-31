@@ -110,12 +110,15 @@ public class Exercise implements Serializable {
         String reason = null;
 //        exerciseList.clear();       // clear the exercise list to prevent duplicate items
         mWorkoutID = workoutID;
-        int yoga;
+//        boolean yoga;
+
+//        Log.d("Exercise", exerciseJSON);
 
         if (exerciseJSON != null && exerciseJSON.length() > 0) { // add > 0 to display even when no exercises yet
 
             try {
                 JSONArray arr = new JSONArray(exerciseJSON);
+
                 Exercise exercise = null;
                 for (int i = 0; i < arr.length(); i++) {
                     JSONObject obj = arr.getJSONObject(i);
@@ -123,7 +126,9 @@ public class Exercise implements Serializable {
                         exercise = new Exercise("Aerobic", obj.getString(Exercise.EXERCISE_NAME),
                                 obj.getInt(Exercise.EXERCISE_HOURS), obj.getInt(Exercise.EXERCISE_MINUTES),
                                 obj.getString(Exercise.EXERCISE_WORKOUT_ID));
-                        yoga = obj.getInt(Exercise.EXERCISE_YOGA);
+                        String yoga = obj.getString(Exercise.EXERCISE_YOGA);
+                        Log.d("Exercise", "Yoga- " + yoga);
+
                         exercise.setMYoga(yoga);
                     } else if (type.equals("weight")) {
                         exercise = new Exercise("Weight", obj.getString(Exercise.EXERCISE_NAME),
@@ -199,12 +204,20 @@ public class Exercise implements Serializable {
         return mName;
     }
 
-    public void setMYoga(int yoga) {
-        if(yoga == 0) {
+    public void setMYoga(String yoga) {
+//        if(yoga == 0) {
+//            mYoga = false;
+//        } else {
+//            mYoga = true;
+//        }
+        if(yoga.equals("0")) {
             mYoga = false;
-        } else {
+        } else if (yoga.equals("1")) {
             mYoga = true;
+        } else {
+            Log.d("Exercise", "YOGA ERROR - NULL");
         }
+//        mYoga = yoga;
     }
 
 }

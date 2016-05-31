@@ -90,9 +90,9 @@ public class CalendarListFragment extends Fragment {
         workoutFloatingActionButton.setVisibility(View.GONE);
 
         // hide the add exercise floating action button
-        FloatingActionButton exerciseFloatingActionButton = (FloatingActionButton)
+        Button exerciseFloatingActionButton = (Button)
                 getActivity().findViewById(R.id.add_exercise_fab);
-        exerciseFloatingActionButton.hide();
+        exerciseFloatingActionButton.setVisibility(View.GONE);
 
         Button chooseDateButton = (Button) getActivity().findViewById(R.id.choose_date_button);
         chooseDateButton.setVisibility(View.VISIBLE);
