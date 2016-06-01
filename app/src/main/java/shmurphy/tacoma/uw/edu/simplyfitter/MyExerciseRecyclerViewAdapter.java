@@ -1,5 +1,7 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -106,9 +108,27 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
                 holder.mView.findViewById(R.id.delete_exercise_button);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                mDeleteExerciseListener.deleteExercise(buildDeleteExerciseURL(v, position));
-                holder.mExercise.delete(mExercises, position); // delete from the list
+            public void onClick(final View v) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
+                alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+//                        Log.i(TAG, "User hit positive");
+//                        makeToast("yes");
+                        mDeleteExerciseListener.deleteExercise(buildDeleteExerciseURL(v, position));
+                        holder.mExercise.delete(mExercises, position); // delete from the list
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+//                        Log.i(TAG, "User hit negative");
+//                        makeToast("no");
+                    }
+                }).setMessage("Are you sure you want to delete?");
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
+//                mDeleteExerciseListener.deleteExercise(buildDeleteExerciseURL(v, position));
+//                holder.mExercise.delete(mExercises, position); // delete from the list
             }
         });
 
