@@ -98,6 +98,11 @@ public class AddWorkoutFragment extends Fragment {
         getActivity().setTitle("Add New Workout");
 
         if(mEditingMode) {
+
+            Button addButton = (Button) v.findViewById(R.id.add_workout_button);
+            addButton.setText("Update Workout");
+
+
             mNameEditText.setText(mPreviousWorkout.mName);
             mLocationEditText.setText(mPreviousWorkout.mLocation);
             mStartTextView.setText(mPreviousWorkout.mStart);

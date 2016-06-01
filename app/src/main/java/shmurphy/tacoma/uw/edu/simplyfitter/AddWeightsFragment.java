@@ -79,6 +79,8 @@ public class AddWeightsFragment extends Fragment {
         // do this because it's not necessary to have multiple sets or weight for each set.
         if(mEditingMode) {
             mNameEditText.setText(mPreviousExercise.mName);
+            Button addButton = (Button) v.findViewById(R.id.add_weights_button);
+            addButton.setText("Update Exercise");
 
             fillReps(0, mReps1);
             fillReps(1, mReps2);
