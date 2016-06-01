@@ -359,7 +359,12 @@ public class ExerciseListFragment extends Fragment {
                 return;
             }
 
+            for(int i = 0; i < mExerciseList.size(); i++) {
+                mExerciseList.get(i).mWeightSets.clear(); // clear them to avoid duplicates
+            }
+
             // send the exercise list to add the sets to each weight exercise
+
             result = WeightSet.parseWeightSetJSON(result, mExerciseList, mWorkoutID);
 
             // Something wrong with the JSON returned.

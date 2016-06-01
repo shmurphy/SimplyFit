@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
     private int mWorkoutID;
     private int mExerciseID;
     private boolean mEditMode = false;
+    private Workout mWorkout;
 
     public AddWorkoutFragment mAddWorkoutFragment;
 
@@ -194,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
      */
     @Override
     public void onListFragmentInteraction(Workout item) {
+        mWorkout = item;
         mWorkoutID = item.mID;
         ExerciseListFragment exerciseListFragment = new ExerciseListFragment();
         exerciseListFragment.setMWorkout(item);
@@ -298,6 +300,15 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
         DeleteExerciseTask task = new DeleteExerciseTask();
         task.execute(new String[]{url.toString()});
         getSupportFragmentManager().popBackStackImmediate();
+        // TODO - refresh this fragment instead of popping
+
+        ExerciseListFragment exerciseListFragment = new ExerciseListFragment();
+        exerciseListFragment.setMWorkout(mWorkout);
+//        exerciseListFragment.setMWorkout
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, exerciseListFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     /**
@@ -385,8 +396,10 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
         AddExerciseTask task = new AddExerciseTask();
         task.execute(new String[]{url.toString()});
         // Takes you back to the previous fragment by popping the current fragment out.
-        getSupportFragmentManager().popBackStackImmediate();
-        getSupportFragmentManager().popBackStackImmediate();
+        if(!mEditMode) {
+            getSupportFragmentManager().popBackStackImmediate();
+        }
+        getSupportFragmentManager().popBackStackImmediate(); // back to the exercise list fragment
     }
 
     /**

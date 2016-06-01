@@ -51,6 +51,8 @@ public class WeightSet {
                         if(exerciseList.get(j).getmID() == objWeightsID) {
 //                            Log.d("WeightSet", "Exercise Weights ID " + exerciseList.get(j).getmName() + " id: " + exerciseList.get(j).getmID());
 //                            Log.d("WeightSet", "WeightSet Weights ID " + objWeightsID);
+                            Log.d("WeightSet", "Sets- " + exerciseList.get(j).mWeightSets.toString());
+                            Log.d("WeightSet", "Set added " + set.toString());
                             exerciseList.get(j).mWeightSets.add(set);    // add the set to the exercise's list of sets
                         }
                     }
