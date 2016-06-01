@@ -87,7 +87,15 @@ public class AddAerobicFragment extends Fragment {
         }
 
         if(mEditingMode) {
+
+            Log.d("Editing", mType);
+            if(mType.equals("Flexibility")) {
+                Log.d("AddAerobicFragment", "Editing flexibility");
+
+            }
             mNameEditText.setText(mPreviousExercise.mName);
+            Button addButton = (Button) v.findViewById(R.id.add_aerobic_button);
+            addButton.setText("Update Exercise");
             if(mType.equals("Aerobic")) {
                 mHoursEditText.setText(Integer.toString(mPreviousExercise.mHours));
                 mMinutesEditText.setText(Integer.toString(mPreviousExercise.mMinutes));

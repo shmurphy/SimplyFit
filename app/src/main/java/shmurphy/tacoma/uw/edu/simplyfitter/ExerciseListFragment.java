@@ -127,7 +127,7 @@ public class ExerciseListFragment extends Fragment {
         // hide the add exercise floating action button
         Button exerciseFloatingActionButton = (Button)
                 getActivity().findViewById(R.id.add_exercise_fab);
-        exerciseFloatingActionButton.setVisibility(View.GONE);
+        exerciseFloatingActionButton.setVisibility(View.VISIBLE);
 
         // check for connection
         ConnectivityManager connMgr = (ConnectivityManager)

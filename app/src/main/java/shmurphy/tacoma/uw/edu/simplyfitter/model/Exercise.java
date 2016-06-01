@@ -30,7 +30,8 @@ public class Exercise implements Serializable {
 
 
     public static final String DAY = "day", EXERCISE_NAME = "name", EXERCISE_HOURS = "hours",
-            EXERCISE_MINUTES = "minutes", EXERCISE_WORKOUT_ID = "workoutID", EXERCISE_YOGA = "yoga";
+            EXERCISE_MINUTES = "minutes", EXERCISE_WORKOUT_ID = "workoutID", EXERCISE_YOGA = "yoga",
+            EXERCISE_TYPE = "type";
 
     // constructor for Weights workout
     public Exercise(String type, String name, String workoutID) {
@@ -76,6 +77,9 @@ public class Exercise implements Serializable {
                         exercise = new Exercise("Aerobic", obj.getString(Exercise.EXERCISE_NAME),
                                 obj.getInt(Exercise.EXERCISE_HOURS), obj.getInt(Exercise.EXERCISE_MINUTES),
                                 obj.getString(Exercise.EXERCISE_WORKOUT_ID));
+
+                        exercise.mType = obj.getString(Exercise.EXERCISE_TYPE);
+
                     } else if (type.equals("weight")) {
                         exercise = new Exercise("Weight", obj.getString(Exercise.EXERCISE_NAME),
                                 obj.getString(Exercise.EXERCISE_WORKOUT_ID));
@@ -127,8 +131,8 @@ public class Exercise implements Serializable {
                                 obj.getInt(Exercise.EXERCISE_HOURS), obj.getInt(Exercise.EXERCISE_MINUTES),
                                 obj.getString(Exercise.EXERCISE_WORKOUT_ID));
                         String yoga = obj.getString(Exercise.EXERCISE_YOGA);
-                        Log.d("Exercise", "Yoga- " + yoga);
 
+                        exercise.mType = obj.getString(Exercise.EXERCISE_TYPE);
                         exercise.setMYoga(yoga);
                     } else if (type.equals("weight")) {
                         exercise = new Exercise("Weight", obj.getString(Exercise.EXERCISE_NAME),
