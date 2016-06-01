@@ -247,8 +247,18 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
         getSupportFragmentManager().popBackStackImmediate();
         // TODO - refresh this fragment instead of popping
 
+
+        WorkoutListFragment workoutListFragment = new WorkoutListFragment();
+        workoutListFragment.setDay(mDate);
+        workoutListFragment.setmUserID(mUserID);
+        workoutListFragment.setDate(mMonth, mYear);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, workoutListFragment)
+                .addToBackStack(null)
+                .commit();
+
 //        getSupportFragmentManager().beginTransaction()
-//                .add(R.id.fragment_container, new WorkoutListFragment())
+//                .replace(R.id.fragment_container, new WorkoutListFragment())
 //                .commit();
 
 

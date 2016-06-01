@@ -74,13 +74,10 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
             StringBuilder aerobicDetails = new StringBuilder();
 
             if(holder.mExercise.mHours == 0 && holder.mExercise.mMinutes == 0) {
-//                aerobicDetails.append("Flexibility");
                 if(holder.mExercise.mYoga) {
                     aerobicDetails.append("Yoga Pose");
                 } else {
                     aerobicDetails.append("Stretch");
-
-//                    holder.mSetsView.setVisibility(View.GONE);
                 }
             } else {
                 if(holder.mExercise.mHours > 0) {
@@ -112,23 +109,17 @@ public class MyExerciseRecyclerViewAdapter extends RecyclerView.Adapter<MyExerci
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
                 alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-//                        Log.i(TAG, "User hit positive");
-//                        makeToast("yes");
                         mDeleteExerciseListener.deleteExercise(buildDeleteExerciseURL(v, position));
                         holder.mExercise.delete(mExercises, position); // delete from the list
 
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-//                        Log.i(TAG, "User hit negative");
-//                        makeToast("no");
+
                     }
                 }).setMessage("Are you sure you want to delete?");
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
-
-//                mDeleteExerciseListener.deleteExercise(buildDeleteExerciseURL(v, position));
-//                holder.mExercise.delete(mExercises, position); // delete from the list
             }
         });
 

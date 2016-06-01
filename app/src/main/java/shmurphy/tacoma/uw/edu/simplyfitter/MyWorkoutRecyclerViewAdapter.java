@@ -3,6 +3,8 @@
 package shmurphy.tacoma.uw.edu.simplyfitter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.support.design.widget.FloatingActionButton;
@@ -80,19 +82,16 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
             StringBuilder exerciseSB = new StringBuilder();
             exerciseSB.append(mWorkouts.get(position).mExercises.get(0).toString());
             shareWorkoutDetails.append(mWorkouts.get(position).mExercises.get(0).mName);
-//            addDetails(shareWorkoutDetails, mWorkouts.get(position).mExercises.get(0));
             for(int i = 1; i < mWorkouts.get(position).mExercises.size(); i++) {
                 exerciseSB.append(System.getProperty("line.separator"));
                 shareWorkoutDetails.append(", ");
                 exerciseSB.append(mWorkouts.get(position).mExercises.get(i));
-//                addDetails(shareWorkoutDetails, mWorkouts.get(position).mExercises.get(i));
                 shareWorkoutDetails.append(mWorkouts.get(position).mExercises.get(i).mName);
 
             }
             holder.mExerciseView.setText(exerciseSB.toString());
         }
 
-//        shareWorkoutDetails.append("I used the new SimplyFit app. Try it today!");
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {   // here we will implement an exercise fragment list to be invoked
@@ -108,9 +107,20 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
                 holder.mView.findViewById(R.id.delete_workout_fab);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                mDeleteWorkoutListener.deleteWorkout(buildDeleteWorkoutURL(v, position));
-                holder.mItem.delete(mWorkouts, position); // delete from the list TODO check if we even need this
+            public void onClick(final View v) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
+                alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        mDeleteWorkoutListener.deleteWorkout(buildDeleteWorkoutURL(v, position));
+                        holder.mItem.delete(mWorkouts, position);
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                }).setMessage("Are you sure you want to delete?");
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
 
