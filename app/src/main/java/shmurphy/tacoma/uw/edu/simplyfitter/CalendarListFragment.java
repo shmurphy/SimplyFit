@@ -211,20 +211,13 @@ public class CalendarListFragment extends Fragment {
                 return;
             }
 
-//            Calendar c = Calendar.getInstance();
-//            int month = c.get(Calendar.MONTH) + 1;
-//            int year = c.get(Calendar.YEAR);
-
-//            Log.d("MONTH", Integer.toString(month));
-//            Log.d("YEAR", Integer.toString(year));
-
-
-            List<CalendarDay> dateList = new ArrayList<CalendarDay>(31);
-            for(int i = 0; i < 32; i++) {
+            int numDays = getDays();
+            Log.d("CalendarList", "Days " + numDays);
+            List<CalendarDay> dateList = new ArrayList<CalendarDay>(numDays);
+            for(int i = 0; i < numDays + 1; i++) {
                 dateList.add(new CalendarDay(i, mCurrentMonth, mCurrentYear));  // set each day, with the current month and year
             }
 
-//            Log.d("CalendarListFragment", result);
             result = CalendarDay.parseWorkoutJSON(result, dateList, mUserID, mCurrentMonth, mCurrentYear);
 
             // Something wrong with the JSON returned.
@@ -248,5 +241,49 @@ public class CalendarListFragment extends Fragment {
     public void setDate(int month, int year) {
         mCurrentMonth = month;
         mCurrentYear = year;
+    }
+
+    public int getDays() {
+        int days = 0;
+        switch(mCurrentMonth) {
+            case 1:
+                days = 31;
+                break;
+            case 2:
+                days = 28;
+                break;
+            case 3:
+                days = 31;
+                break;
+            case 4:
+                days = 30;
+                break;
+            case 5:
+                days = 31;
+                break;
+            case 6:
+                days = 30;
+                break;
+            case 7:
+                days = 31;
+                break;
+            case 8:
+                days = 31;
+                break;
+            case 9:
+                days = 30;
+                break;
+            case 10:
+                days = 31;
+                break;
+            case 11:
+                days = 30;
+                break;
+            case 12:
+                days = 31;
+                break;
+        }
+
+        return days;
     }
 }
