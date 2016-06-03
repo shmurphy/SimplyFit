@@ -36,6 +36,7 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_register, container, false);
+        getActivity().setTitle("Simply Fit Register");
 
         final EditText userIdText = (EditText) v.findViewById(R.id.register_userid_edittext);
         final EditText pwdText = (EditText) v.findViewById(R.id.register_password_edittext);

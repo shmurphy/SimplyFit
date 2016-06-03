@@ -35,7 +35,7 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        getActivity().setTitle("Simply Fit");
+        getActivity().setTitle("Simply Fit Login");
         View v =  inflater.inflate(R.layout.fragment_login, container, false);
         final EditText userIdText = (EditText) v.findViewById(R.id.userid_edittext);
         final EditText pwdText = (EditText) v.findViewById(R.id.password_edittext);

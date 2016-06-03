@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/register_password_edittext"
         android:hint="@string/password"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:layout_gravity="top"/>
 
     <Button
