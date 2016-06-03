@@ -165,16 +165,6 @@ public class MyWorkoutRecyclerViewAdapter extends RecyclerView.Adapter<MyWorkout
 
     }
 
-//    private void addDetails(StringBuilder sb, Exercise exercise) {
-//        if(exercise.getmType().equals("Aerobic") && (exercise.getmHours() > 0 || exercise.getmMinutes() > 0)) { // aerobic
-//            sb.append("Aerobic: " + exercise.mName + "\n");
-//        } else if (exercise.getmType().equals("Weight")) {
-//            sb.append("Strength: " + exercise.mName + "\n");
-//        } else {
-//            sb.append("Flexibility: " + exercise.mName + "\n");
-//        }
-//    }
-
     /**
      * From StackOverFlow.
      * http://stackoverflow.com/a/9229654

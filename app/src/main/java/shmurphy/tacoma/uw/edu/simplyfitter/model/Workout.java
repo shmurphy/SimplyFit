@@ -19,15 +19,10 @@ public class Workout {
 
     /** Used to hold the information about the workout */
     public String mName, mStart, mEnd, mLocation;
-
     public static final String WORKOUT_ID = "id";
-
     public static String mUserID;
     public int mID;
     public static int mDay;
-    public int mMonth;
-    public int mYear;
-
     public ArrayList<Exercise> mExercises = new ArrayList<>();
 
     /**
@@ -44,14 +39,11 @@ public class Workout {
         mEnd = end;
         mLocation = location;
         mID = ID;
-//        mUserID = userID;
     }
 
     public void delete(List<Workout> workouts, int position) {
         Log.d("Workout", "Deleting " + workouts.get(position).mName);
-
         workouts.remove(workouts.get(position));
-
     }
 
     /**
@@ -82,25 +74,14 @@ public class Workout {
                     // constructs a new calendar day using the information stored in the databse
                     CalendarDay calendarDay = new CalendarDay(obj.getInt(CalendarDay.DAY), obj.getInt(CalendarDay.MONTH),
                             obj.getInt(CalendarDay.YEAR));
-
                     mDay = calendarDay.mDay;
-
-                    String username = obj.getString(CalendarDay.USER_ID);
-
-//                    Log.d("DebugWorkout", "year param: " + Integer.toString(year));
-//                    Log.d("DebugWorkout", "year obj: " + obj.getString(CalendarDay.YEAR));
-//
-//                    Log.d("DebugWorkout", "month param: " + Integer.toString(month));
-//                    Log.d("DebugWorkout", "month obj: " + obj.getString(CalendarDay.MONTH));
-
-
                     // constructs a new workout using the information from the database
                     Workout workout = new Workout(obj.getString(CalendarDay.WORKOUT_NAME),
                             obj.getString(CalendarDay.WORKOUT_START), obj.getString(CalendarDay.WORKOUT_END),
                             obj.getString(CalendarDay.WORKOUT_LOCATION), obj.getString(CalendarDay.USER_ID),
                             obj.getInt(WORKOUT_ID), obj.getInt(CalendarDay.MONTH), obj.getInt(CalendarDay.YEAR));
                     if(year == calendarDay.mYear && month == calendarDay.mMonth) {  // make sure the right date
-                        if (calendarDay.mDay == (day) && mUserID.equals(username)) {
+                        if (calendarDay.mDay == (day) && mUserID.equals(userID)) {
                             workoutList.add(workout);
                         }
                     }
@@ -110,6 +91,46 @@ public class Workout {
             }
         }
         return reason;
+    }
+
+    public String getmName() {
+        return mName;
+    }
+
+    public String getmStart() {
+        return mStart;
+    }
+
+    public String getmEnd() {
+        return mEnd;
+    }
+
+    public String getmLocation() {
+        return mLocation;
+    }
+
+    public static String getWorkoutId() {
+        return WORKOUT_ID;
+    }
+
+    public static String getmUserID() {
+        return mUserID;
+    }
+
+    public int getmID() {
+        return mID;
+    }
+
+    public static int getmDay() {
+        return mDay;
+    }
+
+    public ArrayList<Exercise> getmExercises() {
+        return mExercises;
+    }
+
+    public void setmDay(int day) {
+        mDay = day;
     }
 
 }

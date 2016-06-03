@@ -45,7 +45,9 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
 
     private int mDate;   // used to keep track of the day of the month we're on
     private int mMonth = 5;
+    private int mCurrentMonth; // the actual real month
     private int mYear = 2016;
+    private int mCurrentYear; // the actual real year
 
     private String mUserID;
     private int mWorkoutID;
@@ -66,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
         Calendar c = Calendar.getInstance();
         mMonth = c.get(Calendar.MONTH) + 1;
         mYear = c.get(Calendar.YEAR);
+
+        mCurrentMonth = c.get(Calendar.MONTH) + 1;
+        mCurrentYear = c.get(Calendar.YEAR);
 
 //        setTitle("Your " + mMonth + " " + mYear + " Workouts");
 
@@ -697,11 +702,6 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
             enterDateFragment = new EnterDateFragment();
         }
 
-//        else if(v.getId() == R.id.date_button) {
-//            Log.d("debug calendar", "Calendar button!");
-//            dateFragment = new DatePickerFragment();
-//        }
-
         if (fragment != null) {
             fragment.show(getSupportFragmentManager(), "launch");
         }
@@ -725,16 +725,26 @@ public class MainActivity extends AppCompatActivity implements CalendarListFragm
         mYear = Integer.parseInt(year.getText().toString());
         mMonth = Integer.parseInt(month.getText().toString());
 
-        Log.d("main", "NEW YEAR " + Integer.toString(mYear));
-        Log.d("main", "NEW MONTH " + Integer.toString(mMonth));
-
-        CalendarListFragment calendarListFragment = new CalendarListFragment();
-        calendarListFragment.setmUserID(mUserID);
-        calendarListFragment.setDate(mMonth, mYear);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, calendarListFragment)
-                .commit();
-
-        // start a new calendar fragment with this date.
+        if(mYear > mCurrentYear || mMonth > mCurrentMonth) {
+            Toast.makeText(getApplicationContext(), "Date cannot be in the future."
+                    , Toast.LENGTH_LONG)
+                    .show();
+        } else if(mMonth > 12 || mMonth < 1) {
+            Toast.makeText(getApplicationContext(), "Enter a valid month."
+                    , Toast.LENGTH_LONG)
+                    .show();
+        } else if (String.valueOf(mYear).length() < 4) {
+            Toast.makeText(getApplicationContext(), "Enter a valid year."
+                    , Toast.LENGTH_LONG)
+                    .show();
+        } else {
+            // start a new calendar fragment with this date.
+            CalendarListFragment calendarListFragment = new CalendarListFragment();
+            calendarListFragment.setmUserID(mUserID);
+            calendarListFragment.setDate(mMonth, mYear);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, calendarListFragment)
+                    .commit();
+        }
     }
 }

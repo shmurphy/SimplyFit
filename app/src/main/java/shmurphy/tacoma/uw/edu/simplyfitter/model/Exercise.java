@@ -24,7 +24,6 @@ public class Exercise implements Serializable {
     public int mHours, mMinutes;
     public int mID;
     public boolean mYoga;
-    public Workout mWorkout;
 
     public ArrayList<WeightSet> mWeightSets = new ArrayList<>();
 
@@ -37,7 +36,6 @@ public class Exercise implements Serializable {
     public Exercise(String type, String name, String workoutID) {
         mType = type;
         mName = name;
-
     }
 
     // constructor for Aerobics workout
@@ -46,14 +44,11 @@ public class Exercise implements Serializable {
         mName = name;
         mHours = hours;
         mMinutes = minutes;
-//        mWorkoutID = workoutID;
     }
 
     public void delete(List<Exercise> exercises, int position) {
-        Log.d("Workout", "Deleting " + exercises.get(position).mName);
-
+//        Log.d("Workout", "Deleting " + exercises.get(position).mName);
         exercises.remove(exercises.get(position));
-
     }
 
 
@@ -112,12 +107,7 @@ public class Exercise implements Serializable {
      */
     public static String parseExerciseJSONForList(String type, String exerciseJSON, List<Exercise> exerciseList, int workoutID) {
         String reason = null;
-//        exerciseList.clear();       // clear the exercise list to prevent duplicate items
         mWorkoutID = workoutID;
-//        boolean yoga;
-
-//        Log.d("Exercise", exerciseJSON);
-
         if (exerciseJSON != null && exerciseJSON.length() > 0) { // add > 0 to display even when no exercises yet
 
             try {
@@ -209,11 +199,6 @@ public class Exercise implements Serializable {
     }
 
     public void setMYoga(String yoga) {
-//        if(yoga == 0) {
-//            mYoga = false;
-//        } else {
-//            mYoga = true;
-//        }
         if(yoga.equals("0")) {
             mYoga = false;
         } else if (yoga.equals("1")) {
@@ -221,7 +206,6 @@ public class Exercise implements Serializable {
         } else {
             Log.d("Exercise", "YOGA ERROR - NULL");
         }
-//        mYoga = yoga;
     }
 
 }

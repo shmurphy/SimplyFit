@@ -87,6 +87,19 @@
 
         </LinearLayout>
 
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_gravity="right|center_vertical">-->
+            <!---->
+        <!--</LinearLayout>-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="View Exercises"-->
+            <!--android:layout_gravity="right|center_vertical" />-->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

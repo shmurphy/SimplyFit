@@ -44,9 +44,6 @@ public class WorkoutListFragment extends Fragment  {
     private static final String WEIGHTS_URL
             = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=weights";
 
-    private static final String SETS_URL
-            = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=weightSet";
-
     /** Used to build the URL for the test.php file */
     private static final String WORKOUT_URL
             = "http://cssgate.insttech.washington.edu/~shmurphy/SimplyFit/test.php?cmd=workouts";
@@ -288,8 +285,6 @@ public class WorkoutListFragment extends Fragment  {
 
             result = Exercise.parseExerciseJSON("aerobic", result, mWorkouts);
 
-//            Log.d("WorkoutListFragment", "Aerobic " + mWorkouts.get(0).mExercises.toString());
-
             // Something wrong with the JSON returned.
             if (result != null) {
 
@@ -299,10 +294,6 @@ public class WorkoutListFragment extends Fragment  {
                         .show();
                 return;
             }
-            // Everything is good, show the list of workouts.
-//            if (!mExerciseList.isEmpty()) {
-//                mRecyclerView.setAdapter(new MyExerciseRecyclerViewAdapter(mExerciseList, mListener));
-//            }
         }
     }
 

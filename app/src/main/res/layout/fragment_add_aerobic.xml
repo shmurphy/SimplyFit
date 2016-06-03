@@ -82,6 +82,7 @@
         android:id="@+id/add_aerobic_button"
         android:layout_gravity="center"
         android:text="@string/add_exercise_button"
+        android:paddingBottom="20dp"
         android:textAllCaps="false"
         android:onClick="addAerobicExercise" />
 
